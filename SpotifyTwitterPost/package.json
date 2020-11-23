@@ -1,0 +1,23 @@
+{
+  "name": "cs-554-lab-1",
+  "version": "1.0.0",
+  "description": "first lab",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "seed": "node ./seed.js"
+  },
+  "author": "Syed Mahvish 10456845",
+  "license": "ISC",
+  "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "axios": "^0.21.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongodb": "^3.6.1",
+    "react-model": "^3.1.4",
+    "uuid": "^8.3.0"
+  }
+}
