@@ -13,39 +13,89 @@ const firebaseApp = firebase.initializeApp({
 
 const database = firebase.database();
 const usersRef = database.ref("/users");
+const postsRef = database.ref("/posts");
+
+// add one child data in a Ref
+async function addData(data, Ref) {
+  const key = await Ref.push().key;
+  await Ref.child(key).set(data);
+  return key;
+}
+
+// update on child data in a Ref
+async function updateData(key, updatedData, Ref) {
+  await Ref.child(key).update(updatedData);
+  return true;
+}
+
+// delete one child data in a Ref
+async function deleteData(key, Ref) {
+  await Ref.child(key).remove();
+  return true;
+}
+
+// get one child data in given Ref
+async function getDataByKey(key, Ref) {
+  let data;
+
+  await Ref.child(key).once("value", function (result) {
+    //console.log(result.val());
+    data = result.val();
+  });
+
+  return data;
+}
+
+// get all data in a Ref
+async function getDataInRef(Ref) {
+  let data;
+  await Ref.once("value", function (result) {
+    data = result.val();
+  });
+
+  return data;
+}
 
 module.exports = {
-  async addNewUser(name, email) {
-    const userId = await usersRef.push().key;
-    await usersRef.child(userId).set({
-      username: name,
-      email: email,
-    });
-    return;
+  async addNewUser(userData) {
+    return await addData(userData, usersRef);
   },
 
-  async updateUserData(userId, name, email) {
-    const newUserData = {
-      username: name,
-      email: email,
-    };
-    await usersRef.child(userId).update(newUserData);
-    return;
+  async updateUserData(userId, updateUserData) {
+    await updateData(userId, updateUserData, usersRef);
+    return this.getUserData(userId);
   },
 
   async deleteUser(userId) {
-    await usersRef.child(userId).remove();
-    return;
+    return await deleteData(userId, usersRef);
   },
 
   async getUserData(userId) {
-    let data;
-    await usersRef.child(userId).on("value", function (snapshot) {
-      console.log("snapshot.val() is", snapshot.val());
+    return await getDataByKey(userId, usersRef);
+  },
 
-      data = snapshot.val();
-      console.log("data is", data);
-    });
-    return data;
+  async getAllUsers() {
+    return await getDataInRef(usersRef);
+  },
+
+  async addNewPost(postData) {
+    return addData(postData, postsRef);
+  },
+
+  async updatePostData(postId, updatePostData) {
+    await updateData(postId, updatePostData, postsRef);
+    return this.getPostData(postId);
+  },
+
+  async deletePost(postId) {
+    return await deleteData(postId, postsRef);
+  },
+
+  async getPostData(postId) {
+    return await getDataByKey(postId, postsRef);
+  },
+
+  async getAllPosts() {
+    return await getDataInRef(postsRef);
   },
 };
