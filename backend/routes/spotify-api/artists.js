@@ -9,6 +9,10 @@
   GET	artists	                          Get Several Artists	              artists
 */
 
+// Example Artist IDs
+// King Gizz: 6XYvaoDGE0VmRt83Jss9Sn
+// Elvis:     43ZHCT0cAZBISjO8DG9PnE
+
 const express = require("express");
 const router = express.Router();
 
@@ -21,9 +25,9 @@ const spotifyApi = require('./authorization');
   Endpoint structure example: localhost:3000/spotify-api/artists/{artistId}
 */
 router.get('/:id', async (req, res) => {
-  const artistId = req.params.id;
+  const artistID = req.params.id;
 
-  spotifyApi.getArtist(artistId).then(
+  spotifyApi.getArtist(artistID).then(
     function (data) {
       res.json(data.body);
     },
@@ -55,7 +59,7 @@ router.get('/:id', async (req, res) => {
   Another example: http://localhost:3000/spotify-api/artists/43ZHCT0cAZBISjO8DG9PnE/albums?country=US for elvis
 */
 router.get('/:id/albums', async (req, res) => {
-  const artistId = req.params.id;
+  const artistID = req.params.id;
   const { limit, offset, country, include_groups } = req.query
 
   let queryParams = {}
@@ -65,7 +69,7 @@ router.get('/:id/albums', async (req, res) => {
   if (country) queryParams.country = country;
   if (include_groups) queryParams.include_groups = include_groups;
 
-  spotifyApi.getArtistAlbums(artistId, queryParams).then(
+  spotifyApi.getArtistAlbums(artistID, queryParams).then(
     function (data) {
       res.json(data.body);
     },
@@ -85,10 +89,10 @@ router.get('/:id/albums', async (req, res) => {
   Endpoint structure example: localhost:3000/spotify-api/artists/{artistId}/top-tracks?country=US
 */
 router.get('/:id/top-tracks', async (req, res) => {
-  const artistId = req.params.id;
+  const artistID = req.params.id;
   const { country } = req.query
 
-  spotifyApi.getArtistTopTracks(artistId, country).then(
+  spotifyApi.getArtistTopTracks(artistID, country).then(
     function (data) {
       res.json(data.body);
     },
@@ -104,9 +108,9 @@ router.get('/:id/top-tracks', async (req, res) => {
   Endpoint structure example: localhost:3000/spotify-api/artists/{artistId}/related-artists
 */
 router.get('/:id/related-artists', async (req, res) => {
-  const artistId = req.params.id;
+  const artistID = req.params.id;
 
-  spotifyApi.getArtistRelatedArtists(artistId).then(
+  spotifyApi.getArtistRelatedArtists(artistID).then(
     function (data) {
       res.json(data.body);
     },
@@ -117,6 +121,30 @@ router.get('/:id/related-artists', async (req, res) => {
 });
 
 
+/*
+  Obtain severeal artists given multiple artist IDs
+
+  Required Query Parameter:
+    ids: A comma=separated list of the Spotify IDs for the artists (Maximum=50)
+
+  Endpoint structure example: localhost:3000/spotify-api/artists?ids=43ZHCT0cAZBISjO8DG9PnE,6XYvaoDGE0VmRt83Jss9Sn
+*/
+router.get('/', async (req, res) => {
+  const { ids } = req.query;
+
+  let artistIDList = ids.split(',');
+
+  console.log(artistIDList);
+
+  spotifyApi.getArtists(artistIDList).then(
+    function (data) {
+      res.json(data.body);
+    },
+    function (err) {
+      res.json(err);
+    }
+  );
+});
 
 
 module.exports = router;
