@@ -5,8 +5,15 @@ import SignOutButton from "./SignOut";
 import "../App.css";
 
 const Navigation = () => {
-  const { currentUser } = useContext(AuthContext);
-  return <div>{currentUser ? <NavigationAuth /> : <NavigationNonAuth />}</div>;
+  return (
+    <div> 
+      {NavigationAuth}
+    </div>
+    
+    );
+  // for now its currentUser not working please check
+  // const { currentUser } = useContext(AuthContext);
+  // return <div>{currentUser ? <NavigationAuth /> : <NavigationNonAuth />}</div>;
 };
 
 const NavigationAuth = () => {
