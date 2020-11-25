@@ -17,11 +17,11 @@ function SignIn() {
     }
   };
 
-  const passwordReset = (event) => {
+  const passwordReset = async (event) => {
     event.preventDefault();
     let email = document.getElementById("email").value;
     if (email) {
-      doPasswordReset(email);
+      await doPasswordReset(email);
       alert("Password reset email was sent");
     } else {
       alert("Please enter an email address below before you click the forgot password link");
