@@ -1,9 +1,16 @@
-var express = require('express');
-var router = express.Router();
+const spotifyArtistsRoutes = require('./spotify-api/artists');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.send('Hello there!')
-});
+const constructorMethod = (app) => {
+  app.use('/spotify-api/artists', spotifyArtistsRoutes);
 
-module.exports = router;
+  app.use('/test', (req, res) => {
+    res.send('Hello test!');
+  });
+
+  app.use('/', (req, res) => {
+    res.send('Hello there!');
+  });
+}
+
+module.exports = constructorMethod;
+
