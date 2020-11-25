@@ -57,9 +57,9 @@ async function getDataInRef(Ref) {
 }
 
 module.exports = {
-  async addNewUser(userData) {
-    return await addData(userData, usersRef);
-  },
+  // async addNewUser(userData) {
+  //   return await addData(userData, usersRef);
+  // },
 
   async updateUserData(userId, updateUserData) {
     await updateData(userId, updateUserData, usersRef);
