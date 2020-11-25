@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 
 import Logo from './Logo'
+import Navigation from './Navigation'
 
 const Container = styled.div.attrs({
     className: 'container',
@@ -19,7 +20,7 @@ class NavBar extends Component {
             <Container>
                 <Nav>
                     <Logo />
-                   
+                    <Navigation/>               
                 </Nav>
             </Container>
         )

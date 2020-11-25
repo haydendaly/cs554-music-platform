@@ -14,9 +14,13 @@
 }
 
 .App-header {
-  background-color: #ffffff;
-  height: 150px;
-  padding: 20px;
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
   color: white;
 }
 
@@ -33,41 +37,41 @@
   }
 }
 
-.navigation {
-  background: #ffffff;
+.sidenav {
+  height: 100%;
+  width: 160px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 20px;
 }
 
-.navigation ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-.navigation a:link,
-.navigation a:visited {
-  color: #1db954;
+.sidenav a {
+  padding: 6px 8px 6px 16px;
   text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
 }
 
-.active {
-  font-weight: bold;
-  color: #1ed760 !important;
+.sidenav a:hover {
+  color: #f1f1f1;
 }
 
-.error {
-  font-weight: bold;
-  color: red !important;
+.main {
+  margin-left: 160px; /* Same as the width of the sidenav */
+  font-size: 28px; /* Increased text to enable scrolling */
+  padding: 0px 10px;
 }
 
-.forgotPassword {
-  background: none !important;
-  border: none !important;
-  text-decoration: underline;
-  margin-left: 5px;
-  color: #069;
-}
-
-.forgotPassword:hover {
-  text-decoration: none;
-  color: red;
+@media screen and (max-height: 450px) {
+  .sidenav {
+    padding-top: 15px;
+  }
+  .sidenav a {
+    font-size: 18px;
+  }
 }
