@@ -1,4 +1,4 @@
-// Possibly rename this file?
+// THIS DOESNT BELONG HERE!!! But for dev purposes keeping it here for now, move for deployment to hide keys/secret
 // Refer to https://developer.spotify.com/documentation/web-api/reference/ for info about spotify's endpoints
 // Refer to https://github.com/thelinmichael/spotify-web-api-node for info about the usage of the wrapper module for the spotify api that we are using
 // -------------------------------------------------------------------

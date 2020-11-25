@@ -28,10 +28,10 @@ router.get('/:id', async (req, res) => {
   const artistID = req.params.id;
 
   spotifyApi.getArtist(artistID).then(
-    function (data) {
+    (data) => {
       res.json(data.body);
     },
-    function (err) {
+    (err) => {
       res.json(err);
     }
   );
@@ -70,10 +70,10 @@ router.get('/:id/albums', async (req, res) => {
   if (include_groups) queryParams.include_groups = include_groups;
 
   spotifyApi.getArtistAlbums(artistID, queryParams).then(
-    function (data) {
+    (data) => {
       res.json(data.body);
     },
-    function (err) {
+    (err) => {
       res.json(err);
     }
   );
@@ -93,10 +93,10 @@ router.get('/:id/top-tracks', async (req, res) => {
   const { country } = req.query
 
   spotifyApi.getArtistTopTracks(artistID, country).then(
-    function (data) {
+    (data) => {
       res.json(data.body);
     },
-    function (err) {
+    (err) => {
       res.json(err);
     }
   );
@@ -111,10 +111,10 @@ router.get('/:id/related-artists', async (req, res) => {
   const artistID = req.params.id;
 
   spotifyApi.getArtistRelatedArtists(artistID).then(
-    function (data) {
+    (data) => {
       res.json(data.body);
     },
-    function (err) {
+    (err) => {
       res.json(err);
     }
   );
@@ -132,15 +132,13 @@ router.get('/:id/related-artists', async (req, res) => {
 router.get('/', async (req, res) => {
   const { ids } = req.query;
 
-  let artistIDList = ids.split(',');
-
-  console.log(artistIDList);
+  const artistIDList = ids.split(',');
 
   spotifyApi.getArtists(artistIDList).then(
-    function (data) {
+    (data) => {
       res.json(data.body);
     },
-    function (err) {
+    (err) => {
       res.json(err);
     }
   );
