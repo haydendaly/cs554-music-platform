@@ -175,16 +175,16 @@ router.delete("/:postId/comment/:commentId", async (req, res) => {
     let post = await postDataObj.getPostById(req.params.postId);
 
     let commentArray = post["commentsArray"];
-
-    let newData = await commentDataObj.deleteComment(req.params.commentId, commentArray);
-
+  
     if (
-      !newData ||
-      !Array.isArray(newData) ||
-      newData.length === 0
+      !commentArray ||
+      !Array.isArray(commentArray) ||
+      commentArray.length === 0
     ) {
       throw "Empty comment array";
     }
+
+    let newData = await commentDataObj.deleteComment(req.params.commentId, commentArray);
 
     let updateData = await postDataObj.updatePost(
       req.params.postId,

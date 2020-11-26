@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useState, useEffect } from "react";
 import axios from 'axios'
-import { makeStyles, Card, CardContent,Typography, Button } from '@material-ui/core';
+import { makeStyles, Card, CardContent,Typography, Button} from '@material-ui/core';
 import Modal from 'react-bootstrap/Modal'
-import css from "../App.css"
+import { AuthContext } from "../firebase/Auth";
 
 const useStyles = makeStyles({
     
@@ -29,7 +29,17 @@ const useStyles = makeStyles({
         marginLeft: '470px',
         marginRight:'1%'
     },
+    toprightCornerParent:{
+        display :"flex"
+    },
 
+    toprightCornerButton:{
+        // display :"flex",
+        marginleft : "auto",
+        // top: "2px",
+        // right: "2px",
+        // zindex: "100"
+    },
     textFieldStyle: {
         left: ".5%",
         right:".5%",
@@ -42,12 +52,15 @@ const useStyles = makeStyles({
 })
 function PostInsert() {
     const classes = useStyles();
+    const { currentUser } = useContext(AuthContext);
 
     const [post, setPost] = useState(null);
     const [loading, setLoading] = useState(true);
 
     const [comment, setCommentData] = useState(undefined);
     const [postData, setPostData] = useState(null)
+    const [editPostData, seteditPostData] = useState(false)
+    const [postId, setPostId] = useState(null)
 
     const [showAddModal, setShowAddModal] = useState(false);
     const handleClose = () => setShowAddModal(false);
@@ -88,18 +101,23 @@ function PostInsert() {
      * render complete data
      */
     const saveComment = async (commentPost) => {
-        try {
-            const { commentData } = await axios.post(`http://localhost:3000/api/post/${commentPost._id}/comment`, {
-                userId : commentPost["userId"],
+        if(currentUser &&  currentUser.uid){
+            try {
+                const { commentData } = await axios.post(`http://localhost:3000/api/post/${commentPost._id}/comment`, {
+                userId : currentUser.uid,
                 commentText : comment
-            }); 
-            getAllPost()
+                }); 
+                getAllPost()
+                let field = document.getElementById("commentField" + commentPost._id)
+                field.value = ""
+            } catch (error) {
+                throw `${error}`
+            }
+        }else{
             let field = document.getElementById("commentField" + commentPost._id)
             field.value = ""
-        } catch (error) {
-            throw `${error}`
+            alert("Please LogIn to Comment on Post")
         }
-       
     }
 
     /***
@@ -110,12 +128,13 @@ function PostInsert() {
      * If no, then post is liked, and added to liked list.
      */
     const handleLike = async (likedpost) => {
-        
+        if(currentUser &&  currentUser.uid){
         try {
             let data = isLikedByUser(likedpost)
+
             if(!data){
                 const { likeData } = await axios.post(`http://localhost:3000/api/post/${likedpost._id}/likes`, {
-                userId : likedpost["userId"],
+                userId : currentUser.uid,
              });
 
             }else{
@@ -126,18 +145,24 @@ function PostInsert() {
         } catch (e) {
             console.log(`ERROR IN MAIN : ${e}`);
         }
+    } else{
+        alert("Please LogIn to like Post")
+    }
     }
 
     const isLikedByUser = (likePost) => {
+        if(currentUser && currentUser.uid){ 
         let likeArray = likePost["likesArray"]
 
         if(likeArray.length > 0){
           let data = likeArray.filter(function(item){
-                       return item.userId === likePost["userId"];
+                       return currentUser.uid === item["userId"];
                    });
            if(data) return data[0]
         }
-        return null    
+        return null
+     }
+       
     }
         
     /***
@@ -148,42 +173,123 @@ function PostInsert() {
     }
 
     /***
-     * Save Post
+     * If user logged in , then allow to add, edit or delete post
+     * Else show message "You must log in to post"
+     * Once posted , save post
      */
     const handleAddPost = async () => {
-      try {
-        const { data } = await axios.post("http://localhost:3000/api/post", {
-           userId : "1", // pass valid userid here
-           text : postData,
-           commentsArray :[],
-           likesArray : []
-        });
-        handleClose()
-       
-     } catch (e) {
-        console.log(`ERROR IN ADD POST : ${e}`);
-     } 
-   
+        if(currentUser &&  currentUser.uid){
+            try {
+                const { data } = await axios.post("http://localhost:3000/api/post", {
+                   userId : currentUser.uid, // pass valid userid here
+                   text : postData,
+                   commentsArray :[],
+                   likesArray : []
+                });
+                handleClose()
+               
+             } catch (e) {
+                console.log(`ERROR IN ADD POST : ${e}`);
+             } 
+        }else{
+            alert("You must logged in to Post on SpotifyTwitter")
+        }     
     };
 
-   
-    
+    /**
+     * Edit given post ,
+     * only if logged In uploaded that post,
+     */
+    const editPost = async (argPost) => {
+        if(currentUser && currentUser.uid && currentUser.uid === argPost.userId){
+            seteditPostData(true)  //set edit mode true
+            setPostId(argPost._id) //set postId
+            setPostData(argPost.text) // set pre text into textfield
+            setShowAddModal(true) // show modal in edit mode         
+        }else{
+            alert("Invalid user to edit post")
+        }
+
+    }
+    const handleEditPost = async () => {
+        try {
+            const { data } = await axios.patch(`http://localhost:3000/api/post/${postId}`, {
+                text : postData,
+            });
+            seteditPostData(false) // set edit mode off
+            handleClose() // close modal
+            setPostId(null) // set post Id to null after edit
+                   
+        } catch (e) {
+            console.log(`ERROR IN EDIT POST : ${e}`);
+        }   
+    }
+        
+
+    /**
+     * Delete given post ,
+     * only if logged In uploaded that post,
+     */
+    const deletePost = async (argPost) => {
+        if(currentUser && currentUser.uid && currentUser.uid === argPost.userId){
+            try {
+                const { data } = await axios.delete(`http://localhost:3000/api/post/${argPost._id}`)
+                getAllPost()
+            } catch (error) {
+                console.log(`ERROR IN DELETE POST : ${error}`);
+            }
+            
+        }
+    }
+
+    /**
+     * Delete given comment ,
+     * only if logged In commented ,
+     */
+    const deleteComment = async (argPost, argComment) => {
+        if(currentUser && currentUser.uid && currentUser.uid === argComment.userId){
+            try {
+                const { data } = await axios.delete(`http://localhost:3000/api/post/${argPost._id}/comment/${argComment._id}`)
+                getAllPost()
+            } catch (error) {
+                console.log(`ERROR IN DELETE COMMENT : ${error}`);
+            }           
+        }else{
+            console.log(`currentUSer=${currentUser.uid}, commentUser=${argComment.userId}, postId= http://localhost:3000/api/post/${argPost._id}/comment/${argComment._id}`)
+        }
+    }
+
+    const showAddPostModal = () => {
+        if(currentUser){
+            handleShow()
+        }else{
+            alert("Please logIn to add post")
+        }
+    }
+
+    const hideEditMode = (currentData) => {
+        if(currentUser && currentUser.uid && currentUser.uid === currentData.userId){
+            return false
+        }
+        return true
+    }
+
     return (
         <div class="main">
             <div>
             {/* add post */}
-            <button onClick={handleShow}>Add Post</button>
+            <button onClick={() => showAddPostModal()}>Add Post</button>
             </div>
 
             <Modal show={showAddModal} onHide={handleClose}>
             <Modal.Header closeButton>
-            <Modal.Title>Add Post</Modal.Title>        
+            <Modal.Title>{editPostData ? "EditPost" : "Add Post"}</Modal.Title>        
             </Modal.Header>  
             <Modal.Body> 
-            <textarea  className={classes.textFieldStyle} id="txtPost" type='text' placeholder="Enter Post here...." rows="4" onChange={handleTextField}/>
+            <textarea  className={classes.textFieldStyle} id="txtPost" value={editPostData ? postData : null} type='text' placeholder="Enter Post here...." rows="4" onChange={handleTextField}/>
             </Modal.Body>
             <Modal.Footer>
-            <Button variant="contained" color='secondary' size='medium' type="reset" defaultValue="Reset"  onClick={() => handleAddPost()}>Enter</Button>
+            <Button variant="contained" color='secondary' size='medium' type="reset" defaultValue="Reset"  onClick={() => {editPostData? handleEditPost() : handleAddPost()}}>Enter</Button>
             <Button onClick={handleClose}> Cancel </Button> 
             </Modal.Footer>
             </Modal>
@@ -195,7 +301,14 @@ function PostInsert() {
                 <div>
                     <Card className={classes.card} variant='outlined'>
                     <CardContent>
-                        <Typography  gutterBottom variant='h6' component='h2'>{product.text}</Typography>
+                        <Typography  gutterBottom variant='h6' component='h2'>
+                            {product.text}
+                            <div class={classes.toprightCornerParent} hidden={hideEditMode(product)}> 
+                            <Button id={"edit" + product._id} className={classes.toprightCornerButton} variant="contained" color="primary" size='medium' onClick={() => editPost(product)}>Edit</Button>
+                            <Button id={"delete" + product._id} className={classes.toprightCornerButton} variant="contained" color="primary" size='medium' onClick={() => deletePost(product)}>Delete</Button>
+                            </div>                          
+                        </Typography>
+
                     </CardContent> 
                     </Card>
     
@@ -204,9 +317,12 @@ function PostInsert() {
                        
                         <ul>
                           {(product["commentsArray"] && product["commentsArray"].length > 0) ? (product["commentsArray"].map(commentItem =>
-                             
+                            
                             <li className={classes.classLike} key={commentItem._id} className="list__item product">
                                 {commentItem["commentText"]}
+                                <div hidden={hideEditMode(commentItem)}> 
+                                <Button id={"delete" + commentItem._id} variant="contained" color="primary" size='medium' onClick={() => deleteComment(product, commentItem)}>Delete</Button>
+                                </div>
                             </li>
                           
                          )) : (<p>No Comment</p>)}

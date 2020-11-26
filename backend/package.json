@@ -19,11 +19,9 @@
     "express": "^4.17.1",
     "mongodb": "^3.6.1",
     "react-model": "^3.1.4",
-    "uuid": "^8.3.1"
-
+    "uuid": "^8.3.1",
     "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-   
+    "debug": "~2.6.9",   
     "firebase": "^8.0.2",
     "firebase-admin": "^9.4.1",
     "http-errors": "~1.6.3",

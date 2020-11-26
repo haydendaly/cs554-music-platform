@@ -37,12 +37,12 @@ async function deleteComment(commentId, commentArray) {
   commentId = getValidId(commentId);
   for (let item of commentArray) {
     let index = commentArray.indexOf(item);
-    if (commentId.toString() === item._id.toString()) {
+    if (commentId === item._id.toString()) {
       commentArray.splice(index, 1);
-      return commentArray;
+      break;
     }
   }
-  throw `Error : Cannot find comment with id : ${commentId}`
+  return commentArray;
 }
 
 
