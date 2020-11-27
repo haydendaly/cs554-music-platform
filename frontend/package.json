@@ -15,14 +15,15 @@
     "react-dom": "^17.0.1",
     "react-model": "^3.1.4",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^4.0.0",
+    "react-scripts": "^4.0.1",
     "react-table": "^7.6.2",
     "reactjs-popup": "^2.0.4",
+    "spotify-web-api-js": "^1.5.1",
     "styled-components": "^5.2.1",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "PORT=8000 react-scripts start",
+    "start": "set PORT=8000 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

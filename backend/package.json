@@ -11,19 +11,19 @@
   "author": "JavaScripters",
   "license": "ISC",
   "dependencies": {
-    "@material-ui/core": "^4.11.0",
+    "@material-ui/core": "^4.11.1",
     "axios": "^0.21.0",
     "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
+    "debug": "^2.6.9",
     "express": "^4.17.1",
-    "mongodb": "^3.6.1",
-    "react-model": "^3.1.4",
-    "uuid": "^8.3.1",
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "firebase": "^8.0.2",
+    "firebase": "^8.1.1",
     "firebase-admin": "^9.4.1",
-    "http-errors": "~1.6.3",
-    "morgan": "~1.9.1"
+    "http-errors": "^1.6.3",
+    "mongodb": "^3.6.3",
+    "morgan": "^1.9.1",
+    "react-model": "^3.1.4",
+    "uuid": "^8.3.1"
   }
 }
