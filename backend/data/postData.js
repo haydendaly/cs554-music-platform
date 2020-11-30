@@ -44,13 +44,15 @@ async function createPost(postParam) {
   commentIdArray = postParam["commentsArray"];
   likesIdArray = postParam["likesArray"];
   postText = postParam["text"];
+  songData = postParam["songData"];
 
   let postSchema = {
     _id: uuidv4(),
     commentsArray : commentIdArray,
     likesArray : likesIdArray,
     text: postText,
-    userId : userId
+    userId,
+    songData
   };
 
   let postObj = await postCollectionObj();
@@ -63,18 +65,20 @@ async function createPost(postParam) {
 
   return await this.getPostById(newPost.insertedId);
 }
-async function updatePost(postId, userId, newtext, newcommentArray, newLikeArray) {
+async function updatePost(postId, userId, newtext, newcommentArray, newLikeArray, songData) {
   postId = getValidId(postId);
   userId = getValidId(userId);
   commentIdArray = newcommentArray;
   likesIdArray = newLikeArray;
   postText = newtext;
+  songData = songData;
 
   let postSchema = {
     commentsArray: commentIdArray,
     likesArray : likesIdArray,
     text: postText,
-    userId : userId
+    userId,
+    songData
   };
 
   let postObj = await postCollectionObj();
