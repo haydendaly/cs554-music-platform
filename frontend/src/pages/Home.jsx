@@ -1,5 +1,4 @@
 import React from 'react'
-import css from "../App.css"
 const Home = () => {
     return(
     <div class="main">

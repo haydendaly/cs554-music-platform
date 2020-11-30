@@ -90,8 +90,8 @@ router.post("/:postId/likes", async (req, res) => {
       post["userId"],
       post["text"],
       post["commentsArray"],
+      likeArray,
       post["songData"],
-      likeArray
     );
 
     res.json(updateData);
@@ -125,8 +125,8 @@ router.delete("/:postId/likes/:likeId", async (req, res) => {
           post["userId"],
           post["text"],
           post["commentsArray"],
-          post["songData"],
-          updatedLikeArray
+          updatedLikeArray,
+          post["songData"]
     );
     res.json(updateData);
     }catch (error) {

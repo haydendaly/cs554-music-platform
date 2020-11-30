@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import '../App.css';
 import { Card, CardActionArea, CardContent, Grid, Typography, makeStyles,Button } from '@material-ui/core';
 import SpotifyWebApi from 'spotify-web-api-js';
 import Modal from 'react-bootstrap/Modal';

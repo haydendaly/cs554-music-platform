@@ -3,6 +3,7 @@ const settings = {
   mongoConfig: {
     serverUrl: "mongodb://localhost:27017/",
     database: "SpotifyTwitter",
+    useUnifiedTopology: true
   },
 };
 const mongoConfig = settings.mongoConfig;

@@ -277,7 +277,7 @@ function PostInsert() {
     }
 
     return (
-        <div class="main">
+        <div className="main">
             <div>
             {/* add post */}
             <button onClick={() => showAddPostModal()}>Add Post</button>
