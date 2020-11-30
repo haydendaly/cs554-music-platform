@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../firebase/Auth";
 import SignOutButton from "./SignOut";
-import "../App.css";
 
 const Navigation = () => {
   const { currentUser } = useContext(AuthContext);

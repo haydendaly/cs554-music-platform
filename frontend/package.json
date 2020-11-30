@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.32",
+    "@fortawesome/free-solid-svg-icons": "^5.15.1",
+    "@fortawesome/react-fontawesome": "^0.1.13",
     "@material-ui/core": "^4.11.1",
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.1",
@@ -10,6 +13,7 @@
     "axios": "^0.21.0",
     "bootstrap": "^4.5.3",
     "firebase": "^8.1.1",
+    "node-sass": "^4.14.1",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
     "react-dom": "^17.0.1",
@@ -18,12 +22,14 @@
     "react-scripts": "^4.0.1",
     "react-table": "^7.6.2",
     "reactjs-popup": "^2.0.4",
+    "serve": "^11.3.2",
     "spotify-web-api-js": "^1.5.1",
     "styled-components": "^5.2.1",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
     "start": "set PORT=8000 && react-scripts start",
+    "start-linux": "export PORT=8000 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

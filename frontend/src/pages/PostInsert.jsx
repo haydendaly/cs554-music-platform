@@ -58,9 +58,10 @@ function PostInsert() {
     const [loading, setLoading] = useState(true);
 
     const [comment, setCommentData] = useState(undefined);
-    const [postData, setPostData] = useState(null)
-    const [editPostData, seteditPostData] = useState(false)
-    const [postId, setPostId] = useState(null)
+    const [songData, setSongData] = useState({});
+    const [postData, setPostData] = useState(null);
+    const [editPostData, seteditPostData] = useState(false);
+    const [postId, setPostId] = useState(null);
 
     const [showAddModal, setShowAddModal] = useState(false);
     const handleClose = () => setShowAddModal(false);
@@ -183,6 +184,7 @@ function PostInsert() {
                 const { data } = await axios.post("http://localhost:3000/api/post", {
                    userId : currentUser.uid, // pass valid userid here
                    text : postData,
+                   songData: songData,
                    commentsArray :[],
                    likesArray : []
                 });
@@ -275,7 +277,7 @@ function PostInsert() {
     }
 
     return (
-        <div class="main">
+        <div className="main">
             <div>
             {/* add post */}
             <button onClick={() => showAddPostModal()}>Add Post</button>
