@@ -9,7 +9,7 @@ let Spotify = require('spotify-web-api-js');
 
 let spotifyApi = new SpotifyWebApi();
 
-spotifyApi.setAccessToken('BQCACMJEq9tHcc0SC6D0B2DxyBPeaxJlUfnh9o4M_JwlDQxTVX3rrgfvs-O_oZMmXOi4xVMEaNxCbZDjeqv1eaJtKqsPrKjYq95PJ7-Hu200V1RSbr7V6UW8MLv8vv-XKsPzoTpNojjeO-arkuI64gZr2Lb8YOJ5AGKuLAUzeNojVkWz');
+spotifyApi.setAccessToken('BQBhVweoQuYIiRLoXUGEEQPvS9tGAbtUcAckHEEa4x8kRrfiD0p5OOUcRt3Vu0eoT0qzrYxo4J70U5L_YSDQ1Ly7mOn2FiK3q-MN91hC4e4AWJdvfalQMddvuLIJxGtdr_m2nokOjz1SOL2hDq7XAZwvpxqSPbeYXY38wYsbKe8');
 
 const useStyles = makeStyles({
 	card: {
@@ -158,7 +158,7 @@ const PlayListByLoveSongs = (props) => {
 	
 	else{
 		return(
-		<div>
+		<div class="main">
 		<>  
 		<Modal className={classes.modal} show={showSharePostModal} onHide={handleCloseModals}>
 		  <Modal.Header closeButton>

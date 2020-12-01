@@ -4,6 +4,7 @@ import axios from 'axios'
 import { makeStyles, Card, CardContent,Typography, Button} from '@material-ui/core';
 import Modal from 'react-bootstrap/Modal'
 import { AuthContext } from "../firebase/Auth";
+import css from "../styles/index.scss"
 
 const useStyles = makeStyles({
     

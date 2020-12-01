@@ -157,7 +157,7 @@ const PlayAlbum = (props) => {
 		}
 		else{
 			return(
-			<div>
+			<div class="main">
 			<>  
 			<Modal className={classes.modal} show={showSharePostModal} onHide={handleCloseModals}>
 			  <Modal.Header closeButton>
