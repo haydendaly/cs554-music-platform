@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, {useContext, useState, useEffect } from 'react';
 import { Card, CardActionArea, CardContent, Grid, Typography, makeStyles,Button } from '@material-ui/core';
 import SpotifyWebApi from 'spotify-web-api-js';
-import Modal from 'react-bootstrap/Modal';
 import { AuthContext } from "../firebase/Auth";
+import AddPostModal from "../pages/AddPostModal"
 
 let Spotify = require('spotify-web-api-js');
 // var s = new Spotify();
@@ -70,7 +70,9 @@ const PlayAlbum = (props) => {
 	const [sharePost, setSharePost] = useState(null);;
 	const [showSharePostModal, setShowSharePostModal] = useState(null);
 	
-    let card = null;
+	let card = null;
+	
+	const { currentUser } = useContext(AuthContext);
 
 	
 		useEffect(() => {
@@ -128,6 +130,15 @@ const PlayAlbum = (props) => {
 						  share
 						</Button>
 						</div>
+            				{showSharePostModal && (<AddPostModal
+           						isOpen={showSharePostModal}
+            					handleClose={handleCloseModals}
+            					title = {"Share Post"} 
+            					data={null}
+            					currentUser = {currentUser.uid}
+            					songData = {sharePost}
+            					postId = {null}
+         				/>)}	
 							
 						</Card>
 					</Grid>
@@ -159,13 +170,13 @@ const PlayAlbum = (props) => {
 			return(
 			<div class="main">
 			<>  
-			<Modal className={classes.modal} show={showSharePostModal} onHide={handleCloseModals}>
+			{/* <Modal className={classes.modal} show={showSharePostModal} onHide={handleCloseModals}>
 			  <Modal.Header closeButton>
 				<Modal.Title>Modal heading</Modal.Title>
 			  </Modal.Header>
 			 
 			  <Modal.Body>
-			  <textarea className={classes.textFieldStyle} type='text' placeholder="you can enter description here...." rows="2" /> 
+			  <textarea className={classes.textFieldStyle} type='text' placeholder="Enter description here...." rows="2" /> 
 			  <textarea className={classes.textFieldStyle} value={sharePost? 'name:'+sharePost.name+' href:'+sharePost.external_urls.spotify+' id:'+sharePost.id : ''} rows="4"></textarea></Modal.Body>
 			  <Modal.Footer>
 				<Button variant="contained" color='secondary' onClick={handleCloseModals}>
@@ -175,7 +186,7 @@ const PlayAlbum = (props) => {
 				  Save Changes
 				</Button>
 			  </Modal.Footer>
-			</Modal>
+			</Modal> */}
 		  </>
 	
 	
