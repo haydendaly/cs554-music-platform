@@ -31,6 +31,7 @@ function SignIn() {
     return <Redirect to="/home" />;
   }
   return (
+    <div class="main">
     <div className="container">
       <h1>Log in</h1>
       <form onSubmit={handleLogin}>
@@ -57,6 +58,7 @@ function SignIn() {
 
       <br />
       <SocialSignIn />
+    </div>
     </div>
   );
 }

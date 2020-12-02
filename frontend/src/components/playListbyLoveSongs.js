@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, {useContext ,useState, useEffect } from 'react';
 import { Card, CardActionArea, CardContent, Grid, Typography, makeStyles,Button } from '@material-ui/core';
 import SpotifyWebApi from 'spotify-web-api-js';
-import Modal from 'react-bootstrap/Modal';
 import { AuthContext } from "../firebase/Auth";
+import AddPostModal from "../pages/AddPostModal"
 
 let Spotify = require('spotify-web-api-js');
 // var s = new Spotify();
 
 let spotifyApi = new SpotifyWebApi();
 
-spotifyApi.setAccessToken('BQCACMJEq9tHcc0SC6D0B2DxyBPeaxJlUfnh9o4M_JwlDQxTVX3rrgfvs-O_oZMmXOi4xVMEaNxCbZDjeqv1eaJtKqsPrKjYq95PJ7-Hu200V1RSbr7V6UW8MLv8vv-XKsPzoTpNojjeO-arkuI64gZr2Lb8YOJ5AGKuLAUzeNojVkWz');
+spotifyApi.setAccessToken('BQBsgYSVIOchv5aSZxUZeWwfglIp6XFWbd0fyimpAxj-8olrz9SD4X9feYrdVtT49QNswcW4-EAsU9yjnqV5UyJSuaoee_Sqt_DJOEALOcNmUlad1tFDkrbgmiFcIYFz7U5rg1nbKfEXXrYO8Up5zBz1QpqiYkLMz3uylWX1emG32Q');
 
 const useStyles = makeStyles({
 	card: {
@@ -71,17 +71,15 @@ const PlayListByLoveSongs = (props) => {
 	const [sharePost, setSharePost] = useState(null);;
     const [showSharePostModal, setShowSharePostModal] = useState(null);
 	
-	const [showAddModal, setShowAddModal] = useState(false);
-    const handleClose = () => setShowAddModal(false);
-	const handleShow = () => setShowAddModal(true);
+
+
+	const { currentUser } = useContext(AuthContext);
 	
 
     let card = null;
 	useEffect(() => {
-		console.log('on load useeffect');
 		async function fetchData() {
 			try {
-				console.log('hi there');
                 spotifyApi.searchTracks('Love').then(
                     function (data) {
                         setPlayListData(data.tracks.items);
@@ -127,16 +125,27 @@ const PlayListByLoveSongs = (props) => {
 						<iframe id="playSong" src= {"https://open.spotify.com/embed?uri="+ playList.uri}
 						width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
 						<div className="e-card-actions e-card-vertical">
+						
 						<Button variant="contained" color='secondary' className={classes.buttonClass}
 					  onClick={() => {
 						handleOpenshareModal(playList);
 					  }}>
 					  share
 					</Button>
-					</div>
-						
-					</Card>
-				</Grid>
+
+					
+            </div>
+            {showSharePostModal && (<AddPostModal
+            isOpen={showSharePostModal}
+            handleClose={handleCloseModals}
+            title = {"Share Post"} 
+            data={null}
+            currentUser = {currentUser.uid}
+            songData = {sharePost}
+            postId = {null}
+          />)}	
+			</Card>
+			</Grid>
 			);
 		};
 		if (playListData) {
@@ -158,32 +167,12 @@ const PlayListByLoveSongs = (props) => {
 	
 	else{
 		return(
-		<div>
-		<>  
-		<Modal className={classes.modal} show={showSharePostModal} onHide={handleCloseModals}>
-		  <Modal.Header closeButton>
-			<Modal.Title>Modal heading</Modal.Title>
-		  </Modal.Header>
-		  <textarea className={classes.textFieldStyle} type='text' placeholder="you can enter description here...." rows="3" />
-		  <Modal.Body><textarea className={classes.textFieldStyle} value={sharePost? 'name:'+sharePost.name+' href:'+sharePost.href+' id:'+sharePost.id+' img:'+sharePost.album.images[0].url : ''} rows="5" ></textarea></Modal.Body>
-		  <Modal.Footer>
-			<Button variant="contained" color='secondary' onClick={handleCloseModals}>
-			  Close
-			</Button>
-			<Button variant="contained" color='primary'  onClick={handleCloseModals}>
-			  Save Changes
-			</Button>
-		  </Modal.Footer>
-		</Modal>
-	  </>
-
-
-		
+		<div class="main">
 		<Grid container className={classes.grid} spacing={5}>
-						{card}
-					</Grid>
-				</div>)
-	}
+			{card}
+		</Grid>
+	</div>)
+  }
 }
 
 export default PlayListByLoveSongs;

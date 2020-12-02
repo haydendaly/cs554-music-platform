@@ -35,8 +35,7 @@ router.post("/", async (req, res) => {
     !req.body.userId ||
     !req.body.text ||
     !req.body.commentsArray ||
-    !req.body.likesArray ||
-    !req.body.songData
+    !req.body.likesArray
   ) {
     res.status(404).json({ error: "Must supply all fields." });
     return;

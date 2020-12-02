@@ -26,6 +26,7 @@ function SignUp() {
   }
 
   return (
+    <div className="main">
     <div className="container">
       <h1>Sign up</h1>
       {pwMatch && <h4 className="error">{pwMatch}</h4>}
@@ -73,6 +74,7 @@ function SignUp() {
       </form>
       <br />
       <SocialSignIn />
+    </div>
     </div>
   );
 }
