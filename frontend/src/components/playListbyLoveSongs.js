@@ -10,7 +10,7 @@ let Spotify = require('spotify-web-api-js');
 
 let spotifyApi = new SpotifyWebApi();
 
-spotifyApi.setAccessToken('BQCACMJEq9tHcc0SC6D0B2DxyBPeaxJlUfnh9o4M_JwlDQxTVX3rrgfvs-O_oZMmXOi4xVMEaNxCbZDjeqv1eaJtKqsPrKjYq95PJ7-Hu200V1RSbr7V6UW8MLv8vv-XKsPzoTpNojjeO-arkuI64gZr2Lb8YOJ5AGKuLAUzeNojVkWz');
+spotifyApi.setAccessToken('BQBup4dcPZwityTzoZibYUD8O63LEDhP2_bnHB7AslR_I_D1q_Z8CHAB-1z08d9Hcttq8_u8BosaHIkaCNOjkhhUMwrLqf-KkhxK86zr3m1LvKezx4mIoOU7GEQF4TnMSvkaMMgStRzm_pP8Ix1FQVDTuWaDbkYRbfaDwTPuuFI2ajmu');
 
 const useStyles = makeStyles({
 	card: {
