@@ -9,7 +9,7 @@ let Spotify = require('spotify-web-api-js');
 
 let spotifyApi = new SpotifyWebApi();
 
-spotifyApi.setAccessToken('BQBsgYSVIOchv5aSZxUZeWwfglIp6XFWbd0fyimpAxj-8olrz9SD4X9feYrdVtT49QNswcW4-EAsU9yjnqV5UyJSuaoee_Sqt_DJOEALOcNmUlad1tFDkrbgmiFcIYFz7U5rg1nbKfEXXrYO8Up5zBz1QpqiYkLMz3uylWX1emG32Q');
+spotifyApi.setAccessToken('BQAary77s1KQcaVZ-ke2a_Q9dqMMnwQNLy_QttRBP8ZGyk37rAtOH8FJX-Ie0Y5Z5jX2v0NeKbP3tuPY5qD9a_oQgylKzktfu-Te69-B0pb30JWeRT5QBH6ZN5IAxuHS0qs76YQ5ngh_5WhVokEXkL3eZz3aWLg2aTa_Ai4jlM0IBwsG');
 
 const useStyles = makeStyles({
 	card: {
@@ -123,7 +123,7 @@ const PlayListByLoveSongs = (props) => {
 								</CardContent>
 						</CardActionArea>
 						<iframe id="playSong" src= {"https://open.spotify.com/embed?uri="+ playList.uri}
-						width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
+						width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
 						<div className="e-card-actions e-card-vertical">
 						
 						<Button variant="contained" color='secondary' className={classes.buttonClass}

@@ -10,7 +10,7 @@ let Spotify = require('spotify-web-api-js');
 
 let spotifyApi = new SpotifyWebApi();
 
-spotifyApi.setAccessToken('BQCACMJEq9tHcc0SC6D0B2DxyBPeaxJlUfnh9o4M_JwlDQxTVX3rrgfvs-O_oZMmXOi4xVMEaNxCbZDjeqv1eaJtKqsPrKjYq95PJ7-Hu200V1RSbr7V6UW8MLv8vv-XKsPzoTpNojjeO-arkuI64gZr2Lb8YOJ5AGKuLAUzeNojVkWz');
+spotifyApi.setAccessToken('BQAary77s1KQcaVZ-ke2a_Q9dqMMnwQNLy_QttRBP8ZGyk37rAtOH8FJX-Ie0Y5Z5jX2v0NeKbP3tuPY5qD9a_oQgylKzktfu-Te69-B0pb30JWeRT5QBH6ZN5IAxuHS0qs76YQ5ngh_5WhVokEXkL3eZz3aWLg2aTa_Ai4jlM0IBwsG');
 
 
 
@@ -122,7 +122,7 @@ const PlayAlbum = (props) => {
 									</CardContent>
 							</CardActionArea>
 							<iframe id="playSong" src= {"https://open.spotify.com/embed?uri="+ album.uri}
-							width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
+							width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
 							<div className="e-card-actions e-card-vertical">
 							<Button variant="contained" color='secondary' className={classes.buttonClass} onClick={() => {
 							handleOpenshareModal(album);
