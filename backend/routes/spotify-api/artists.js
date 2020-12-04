@@ -17,6 +17,14 @@
 
 const express = require("express");
 const router = express.Router();
+const redis = require('redis');
+const client = redis.createClient();
+const bluebird = require('bluebird')
+const flatten = require('flat');
+const unflatten = flatten.unflatten;
+
+bluebird.promisifyAll(redis.RedisClient.prototype);
+bluebird.promisifyAll(redis.Multi.prototype);
 
 // Pull spotifyApi from authorization.js file
 const spotifyApi = require('./authorization');
@@ -29,14 +37,24 @@ const spotifyApi = require('./authorization');
 router.get('/:id', async (req, res) => {
     const artistID = req.params.id;
 
-    spotifyApi.getArtist(artistID).then(
-        (data) => {
-            res.json(data.body);
-        },
-        (err) => {
-            res.json(err);
-        }
-    );
+    const cacheKey = `spotify-api/artists/${artistID}`;
+    const isQueryCached = await client.existsAsync(cacheKey);
+
+    if (isQueryCached === 1) {
+        const cachedData = await client.getAsync(cacheKey);
+        const data = unflatten(JSON.parse(cachedData));
+        res.json(data);
+    } else {
+        spotifyApi.getArtist(artistID).then(
+            async (data) => {
+                await client.setAsync(cacheKey, JSON.stringify(flatten(data.body)));
+                res.json(data.body);
+            },
+            async (err) => {
+                res.json(err);
+            }
+        );
+    }
 });
 
 
@@ -58,7 +76,7 @@ router.get('/:id', async (req, res) => {
                     For example: include_groups=album,single.
 
   Endpoint structure example: localhost:3000/spotify-api/artists/{artistId}/albums?offset=0&limit=20&country=US&include_groups=album,single
-  Another example: http://localhost:3000/spotify-api/artists/43ZHCT0cAZBISjO8DG9PnE/albums?country=US for elvis
+  Another example: localhost:3000/spotify-api/artists/43ZHCT0cAZBISjO8DG9PnE/albums?country=US for elvis
 */
 router.get('/:id/albums', async (req, res) => {
     const artistID = req.params.id;
@@ -71,14 +89,24 @@ router.get('/:id/albums', async (req, res) => {
     if (country) optQueryParams.country = country;
     if (include_groups) optQueryParams.include_groups = include_groups;
 
-    spotifyApi.getArtistAlbums(artistID, optQueryParams).then(
-        (data) => {
-            res.json(data.body);
-        },
-        (err) => {
-            res.json(err);
-        }
-    );
+    const cacheKey = `spotify-api/artists/${artistID}/albums?${JSON.stringify(flatten(optQueryParams))}`;
+    const isQueryCached = await client.existsAsync(cacheKey);
+
+    if (isQueryCached === 1) {
+        const cachedData = await client.getAsync(cacheKey);
+        const data = unflatten(JSON.parse(cachedData));
+        res.json(data);
+    } else {
+        spotifyApi.getArtistAlbums(artistID, optQueryParams).then(
+            async (data) => {
+                await client.setAsync(cacheKey, JSON.stringify(flatten(data.body)));
+                res.json(data.body);
+            },
+            async (err) => {
+                res.json(err);
+            }
+        );
+    }
 });
 
 
@@ -94,14 +122,27 @@ router.get('/:id/top-tracks', async (req, res) => {
     const artistID = req.params.id;
     const { country } = req.query;
 
-    spotifyApi.getArtistTopTracks(artistID, country).then(
-        (data) => {
-            res.json(data.body);
-        },
-        (err) => {
-            res.json(err);
-        }
-    );
+    let optQueryParams = {};
+    if (country) optQueryParams.country = country;
+
+    const cacheKey = `spotify-api/artists/${artistID}/top-tracks?${JSON.stringify(flatten(optQueryParams))}`;
+    const isQueryCached = await client.existsAsync(cacheKey);
+
+    if (isQueryCached === 1) {
+        const cachedData = await client.getAsync(cacheKey);
+        const data = unflatten(JSON.parse(cachedData));
+        res.json(data);
+    } else {
+        spotifyApi.getArtistTopTracks(artistID, optQueryParams).then(
+            async (data) => {
+                await client.setAsync(cacheKey, JSON.stringify(flatten(data.body)));
+                res.json(data.body);
+            },
+            async (err) => {
+                res.json(err);
+            }
+        );
+    }
 });
 
 
@@ -112,14 +153,24 @@ router.get('/:id/top-tracks', async (req, res) => {
 router.get('/:id/related-artists', async (req, res) => {
     const artistID = req.params.id;
 
-    spotifyApi.getArtistRelatedArtists(artistID).then(
-        (data) => {
-            res.json(data.body);
-        },
-        (err) => {
-            res.json(err);
-        }
-    );
+    const cacheKey = `spotify-api/artists/${artistID}/related-artists`;
+    const isQueryCached = await client.existsAsync(cacheKey);
+
+    if (isQueryCached === 1) {
+        const cachedData = await client.getAsync(cacheKey);
+        const data = unflatten(JSON.parse(cachedData));
+        res.json(data);
+    } else {
+        spotifyApi.getArtistRelatedArtists(artistID).then(
+            async (data) => {
+                await client.setAsync(cacheKey, JSON.stringify(flatten(data.body)));
+                res.json(data.body);
+            },
+            async (err) => {
+                res.json(err);
+            }
+        );
+    }
 });
 
 
@@ -136,14 +187,24 @@ router.get('/', async (req, res) => {
 
     const artistIDList = ids.split(',');
 
-    spotifyApi.getArtists(artistIDList).then(
-        (data) => {
-            res.json(data.body);
-        },
-        (err) => {
-            res.json(err);
-        }
-    );
+    const cacheKey = `spotify-api/artists?${ids}`;
+    const isQueryCached = await client.existsAsync(cacheKey);
+
+    if (isQueryCached === 1) {
+        const cachedData = await client.getAsync(cacheKey);
+        const data = unflatten(JSON.parse(cachedData));
+        res.json(data);
+    } else {
+        spotifyApi.getArtists(artistIDList).then(
+            async (data) => {
+                await client.setAsync(cacheKey, JSON.stringify(flatten(data.body)));
+                res.json(data.body);
+            },
+            async (err) => {
+                res.json(err);
+            }
+        );
+    }
 });
 
 

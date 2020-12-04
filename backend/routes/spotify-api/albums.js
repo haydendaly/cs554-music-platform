@@ -1,10 +1,10 @@
 /*
   Endpoints for retrieving information about one or more albums from the Spotify catalog.
   
-  Method and Endpoint               Usage:                            Returns:
-  GET	/albums/{id}	            Get an Album	                  album
+  Method and Endpoint             Usage:                          Returns:
+  GET	/albums/{id}	              Get an Album	                  album
   GET	/albums/{id}/tracks	        Get an Album's Tracks	          tracks
-  GET	/albums	                    Get Several Albums	              albums
+  GET	/albums	                    Get Several Albums	            albums
 
   https://developer.spotify.com/documentation/web-api/reference/albums/
 */
@@ -15,6 +15,14 @@
 
 const express = require("express");
 const router = express.Router();
+const redis = require('redis');
+const client = redis.createClient();
+const bluebird = require('bluebird')
+const flatten = require('flat');
+const unflatten = flatten.unflatten;
+
+bluebird.promisifyAll(redis.RedisClient.prototype);
+bluebird.promisifyAll(redis.Multi.prototype);
 
 // Pull spotifyApi from authorization.js file
 const spotifyApi = require('./authorization');
@@ -35,14 +43,24 @@ router.get('/:id', async (req, res) => {
     let optQueryParams = {};
     if (market) optQueryParams.market = market;
 
-    spotifyApi.getAlbum(albumID, optQueryParams).then(
-        (data) => {
-            res.json(data.body);
-        },
-        (err) => {
-            res.json(err);
-        }
-    );
+    const cacheKey = `spotify-api/albums/${albumID}?${JSON.stringify(flatten(optQueryParams))}`;
+    const isQueryCached = await client.existsAsync(cacheKey);
+
+    if (isQueryCached === 1) {
+        const cachedData = await client.getAsync(cacheKey);
+        const data = unflatten(JSON.parse(cachedData));
+        res.json(data);
+    } else {
+        spotifyApi.getAlbum(albumID, optQueryParams).then(
+            async (data) => {
+                await client.setAsync(cacheKey, JSON.stringify(flatten(data.body)));
+                res.json(data.body);
+            },
+            async (err) => {
+                res.json(err);
+            }
+        );
+    }
 });
 
 
@@ -65,14 +83,24 @@ router.get('/:id/tracks', async (req, res) => {
     if (offset) optQueryParams.offset = offset;
     if (market) optQueryParams.market = market;
 
-    spotifyApi.getAlbumTracks(albumID, optQueryParams).then(
-        (data) => {
-            res.json(data.body);
-        },
-        (err) => {
-            res.json(err);
-        }
-    );
+    const cacheKey = `spotify-api/albums/${albumID}/tracks?${JSON.stringify(flatten(optQueryParams))}`;
+    const isQueryCached = await client.existsAsync(cacheKey);
+
+    if (isQueryCached === 1) {
+        const cachedData = await client.getAsync(cacheKey);
+        const data = unflatten(JSON.parse(cachedData));
+        res.json(data);
+    } else {
+        spotifyApi.getAlbumTracks(albumID, optQueryParams).then(
+            async (data) => {
+                await client.setAsync(cacheKey, JSON.stringify(flatten(data.body)));
+                res.json(data.body);
+            },
+            async (err) => {
+                res.json(err);
+            }
+        );
+    }
 });
 
 
@@ -93,17 +121,27 @@ router.get('/', async (req, res) => {
 
     let optQueryParams = {};
     if (market) optQueryParams.market = market;
-
+    
     const albumIDList = ids.split(',');
 
-    spotifyApi.getAlbums(albumIDList, optQueryParams).then(
-        (data) => {
-            res.json(data.body);
-        },
-        (err) => {
-            res.json(err);
-        }
-    );
+    const cacheKey = `spotify-api/albums?${ids}&${JSON.stringify(flatten(optQueryParams))}`
+    const isQueryCached = await client.existsAsync(cacheKey);
+
+    if (isQueryCached === 1) {
+        const cachedData = await client.getAsync(cacheKey);
+        const data = unflatten(JSON.parse(cachedData));
+        res.json(data);
+    } else {
+        spotifyApi.getAlbums(albumIDList, optQueryParams).then(
+            async (data) => {
+                await client.setAsync(cacheKey, JSON.stringify(flatten(data.body)));
+                res.json(data.body);
+            },
+            async (err) => {
+                res.json(err);
+            }
+        );
+    }
 });
 
 module.exports = router;

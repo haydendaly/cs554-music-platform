@@ -2,7 +2,7 @@
     Endpoints for retrieving information about one or more tracks from the Spotify catalog.
 
     Method and Endpoint             Usage:                            Returns:
-    GET	/tracks/{id}	            Get a track 	                  track
+    GET	/tracks/{id}	              Get a track 	                    track
     GET	/tracks	                    Get several tracks	              tracks
 
     https://developer.spotify.com/documentation/web-api/reference/tracks/
@@ -10,6 +10,14 @@
 
 const express = require("express");
 const router = express.Router();
+const redis = require('redis');
+const client = redis.createClient();
+const bluebird = require('bluebird')
+const flatten = require('flat');
+const unflatten = flatten.unflatten;
+
+bluebird.promisifyAll(redis.RedisClient.prototype);
+bluebird.promisifyAll(redis.Multi.prototype);
 
 // Pull spotifyApi from authorization.js file
 const spotifyApi = require('./authorization');
@@ -30,14 +38,24 @@ router.get('/:id', async (req, res) => {
     let optQueryParams = {};
     if (market) optQueryParams.market = market;
 
-    spotifyApi.getTrack(trackID, optQueryParams).then(
-        (data) => {
-            res.json(data.body);
-        },
-        (err) => {
-            res.json(err);
-        }
-    );
+    const cacheKey = `spotify-api/tracks/${trackID}?${JSON.stringify(flatten(optQueryParams))}`;
+    const isQueryCached = await client.existsAsync(cacheKey);
+
+    if (isQueryCached === 1) {
+        const cachedData = await client.getAsync(cacheKey);
+        const data = unflatten(JSON.parse(cachedData));
+        res.json(data);
+    } else {
+        spotifyApi.getTrack(trackID, optQueryParams).then(
+            async (data) => {
+                await client.setAsync(cacheKey, JSON.stringify(flatten(data.body)));
+                res.json(data.body);
+            },
+            async (err) => {
+                res.json(err);
+            }
+        );
+    }
 });
 
 /*
@@ -60,14 +78,25 @@ router.get('/', async (req, res) => {
 
     const trackIDList = ids.split(',');
 
-    spotifyApi.getTracks(trackIDList, optQueryParams).then(
-        (data) => {
-            res.json(data.body);
-        },
-        (err) => {
-            res.json(err);
-        }
-    );
+    const cacheKey = `spotify-api/tracks?${ids}&${JSON.stringify(flatten(optQueryParams))}`
+    const isQueryCached = await client.existsAsync(cacheKey);
+
+    if (isQueryCached === 1) {
+        const cachedData = await client.getAsync(cacheKey);
+        const data = unflatten(JSON.parse(cachedData));
+        res.json(data);
+    } else {
+        spotifyApi.getTracks(trackIDList, optQueryParams).then(
+            async (data) => {
+                await client.setAsync(cacheKey, JSON.stringify(flatten(data.body)));
+                res.json(data.body);
+            },
+            async (err) => {
+                res.json(err);
+            }
+        );
+    }
+
 });
 
 
