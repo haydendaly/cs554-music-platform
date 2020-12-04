@@ -31,6 +31,26 @@
   }
 
   .header-text {
-    padding-left: 15px;
+    padding-left: 24px;
     font-size: 32px;
+  }
+
+  .menu-row {
+    display: flex;
+    flex-direction: row;
+    height: 50px;
+    align-items: center;
+    color: #818181;
+  }
+
+  .menu-row:hover {
+    color: #fff;
+  }
+
+  .menu-text {
+    font-size: 28px;
+  }
+
+  .menu-icon {
+    font-size: 24px;
   }
