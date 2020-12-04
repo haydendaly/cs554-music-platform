@@ -44,11 +44,10 @@ async function createUser(authUserData) {
     _id: authUserData.id,
     displayName: authUserData.displayName,
     email: authUserData.email,
-    birthday: new Date("1/1/1900"),
     gender: "Not Specified",
     biography: "",
     websiteUrl: "",
-    socialMedia: {},
+    socialMedia: { facebook: "", instagram:"", twitter:"" },
     profilePicId: "",
     country: "United States"
   };

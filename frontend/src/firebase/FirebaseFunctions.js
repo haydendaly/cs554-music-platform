@@ -1,4 +1,5 @@
 import firebase from "firebase/app";
+import axios from "axios";
 
 async function doCreateUserWithEmailAndPassword(email, password, displayName) {
   await firebase.auth().createUserWithEmailAndPassword(email, password);
@@ -8,6 +9,13 @@ async function doCreateUserWithEmailAndPassword(email, password, displayName) {
     email: user.email,
     displayName: user.displayName,
   });
+
+  const newUser = {id: user.uid, email: user.email, displayName: user.displayName};
+  try{
+    await axios.post("http://localhost:3000/api/user", newUser)
+  }catch(e){
+    console.log(e);
+  }
 }
 
 async function doChangePassword(email, oldPassword, newPassword) {
@@ -46,6 +54,13 @@ async function doSocialSignIn(provider) {
         email: user.email,
         displayName: user.displayName,
       });
+
+      const newUser = {id: user.uid, email: user.email, displayName: user.displayName};
+      try{
+        await axios.post("http://localhost:3000/api/user", newUser)
+      }catch(e){
+        console.log(e);
+      };
     }
   } else {
     // no users yet
@@ -53,6 +68,13 @@ async function doSocialSignIn(provider) {
       email: user.email,
       displayName: user.displayName,
     });
+
+    const newUser = {id: user.uid, email: user.email, displayName: user.displayName};
+      try{
+        await axios.post("http://localhost:3000/api/user", newUser)
+      }catch(e){
+        console.log(e);
+      };
   }
 }
 
