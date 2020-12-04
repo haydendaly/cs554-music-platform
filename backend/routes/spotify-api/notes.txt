@@ -17,3 +17,6 @@ artists.js
 tracks.js
     GET	/tracks/{id}	              Get a track 	                    track
     GET	/tracks	                      Get several tracks	            tracks
+
+Other routes are not cached due to their constant changes (e.g. dont want to cache a playlist, people add
+to them fairly often)
