@@ -35,11 +35,11 @@ const SideBar = () => {
                 )}
             </div>
             <div className="menu-row">
-                <Link to="/post">
+                <Link to="/usershowprofile">
                     <Icon icon={faUser} className="menu-icon" />
                 </Link>
                 {width > 1100 && (
-                    <Link to="/post" className="menu-text">
+                    <Link to="/usershowprofile" className="menu-text">
                         User Profile
                     </Link>
                 )}

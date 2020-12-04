@@ -17,4 +17,5 @@ module.exports = {
   comments: getCollectionFn("comments"),
   post: getCollectionFn("posts"),
   likes: getCollectionFn("likes"),
+  users: getCollectionFn("users"),
 };

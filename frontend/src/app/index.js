@@ -21,6 +21,8 @@ const PlayListByLoveSongs = lazy(() =>
 )
 const PostInsert = lazy(() => import('../pages/PostInsert'))
 const Home = lazy(() => import('../pages/Home'))
+const UserProfile = lazy(() => import('../pages/UserProfile'))
+const ChangePassword = lazy(() => import('../components/ChangePassword'))
 
 function App() {
     return (
@@ -45,6 +47,23 @@ function App() {
                             exact
                             component={PlayListByLoveSongs}
                         />
+
+                        <Route
+                            path="/usershowprofile"
+                            exact
+                            component={() => <UserProfile page="ShowProfile" />}
+                        />
+                        <Route
+                            path="/usereditprofile"
+                            exact
+                            component={() => <UserProfile page="EditProfile" />}
+                        />
+                        <Route
+                            path="/userupdatepassword"
+                            exact
+                            component={ChangePassword}
+                        />
+
                         <Route path="/">
                             <Redirect to="/post" />
                         </Route>
