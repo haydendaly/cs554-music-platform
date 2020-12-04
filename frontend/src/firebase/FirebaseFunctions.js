@@ -1,21 +1,27 @@
-import firebase from "firebase/app";
-import axios from "axios";
+import firebase from 'firebase/app'
+import axios from 'axios'
 
 async function doCreateUserWithEmailAndPassword(email, password, displayName) {
-  await firebase.auth().createUserWithEmailAndPassword(email, password);
-  await firebase.auth().currentUser.updateProfile({ displayName, displayName });
-  let user = firebase.auth().currentUser;
-  await firebase.database().ref("/users").child(user.uid).set({
-    email: user.email,
-    displayName: user.displayName,
-  });
+    await firebase.auth().createUserWithEmailAndPassword(email, password)
+    await firebase
+        .auth()
+        .currentUser.updateProfile({ displayName, displayName })
+    let user = firebase.auth().currentUser
+    await firebase.database().ref('/users').child(user.uid).set({
+        email: user.email,
+        displayName: user.displayName,
+    })
 
-  const newUser = {id: user.uid, email: user.email, displayName: user.displayName};
-  try{
-    await axios.post("http://localhost:3000/api/user", newUser)
-  }catch(e){
-    console.log(e);
-  }
+    const newUser = {
+        id: user.uid,
+        email: user.email,
+        displayName: user.displayName,
+    }
+    try {
+        await axios.post('http://localhost:3000/api/user', newUser)
+    } catch (e) {
+        console.log(e)
+    }
 }
 
 async function doChangePassword(email, oldPassword, newPassword) {
@@ -49,36 +55,44 @@ async function doSocialSignIn(provider) {
             allUsers = result.val()
         })
 
-  if (allUsers) {
-    const existingIds = Object.keys(allUsers);
-    // users exist but current user is a new user to project
-    if (!existingIds.includes(user.uid)) {
-      await firebase.database().ref("/users").child(user.uid).set({
-        email: user.email,
-        displayName: user.displayName,
-      });
+    if (allUsers) {
+        const existingIds = Object.keys(allUsers)
+        // users exist but current user is a new user to project
+        if (!existingIds.includes(user.uid)) {
+            await firebase.database().ref('/users').child(user.uid).set({
+                email: user.email,
+                displayName: user.displayName,
+            })
 
-      const newUser = {id: user.uid, email: user.email, displayName: user.displayName};
-      try{
-        await axios.post("http://localhost:3000/api/user", newUser)
-      }catch(e){
-        console.log(e);
-      };
+            const newUser = {
+                id: user.uid,
+                email: user.email,
+                displayName: user.displayName,
+            }
+            try {
+                await axios.post('http://localhost:3000/api/user', newUser)
+            } catch (e) {
+                console.log(e)
+            }
+        }
+    } else {
+        // no users yet
+        await firebase.database().ref('/users').child(user.uid).set({
+            email: user.email,
+            displayName: user.displayName,
+        })
+
+        const newUser = {
+            id: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+        }
+        try {
+            await axios.post('http://localhost:3000/api/user', newUser)
+        } catch (e) {
+            console.log(e)
+        }
     }
-  } else {
-    // no users yet
-    await firebase.database().ref("/users").child(user.uid).set({
-      email: user.email,
-      displayName: user.displayName,
-    });
-
-    const newUser = {id: user.uid, email: user.email, displayName: user.displayName};
-      try{
-        await axios.post("http://localhost:3000/api/user", newUser)
-      }catch(e){
-        console.log(e);
-      };
-  }
 }
 
 async function doPasswordReset(email) {
