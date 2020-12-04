@@ -20,7 +20,7 @@ class NavBar extends Component {
             <Container>
                 <Nav>
                     <Logo />
-                    <Navigation/>               
+                    <Navigation />
                 </Nav>
             </Container>
         )

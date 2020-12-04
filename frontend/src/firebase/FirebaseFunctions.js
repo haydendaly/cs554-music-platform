@@ -19,32 +19,35 @@ async function doCreateUserWithEmailAndPassword(email, password, displayName) {
 }
 
 async function doChangePassword(email, oldPassword, newPassword) {
-  let credential = firebase.auth.EmailAuthProvider.credential(email, oldPassword);
-  await firebase.auth().currentUser.reauthenticateWithCredential(credential);
-  await firebase.auth().currentUser.updatePassword(newPassword);
-  await doSignOut();
+    let credential = firebase.auth.EmailAuthProvider.credential(
+        email,
+        oldPassword
+    )
+    await firebase.auth().currentUser.reauthenticateWithCredential(credential)
+    await firebase.auth().currentUser.updatePassword(newPassword)
+    await doSignOut()
 }
 
 async function doSignInWithEmailAndPassword(email, password) {
-  await firebase.auth().signInWithEmailAndPassword(email, password);
+    await firebase.auth().signInWithEmailAndPassword(email, password)
 }
 
 async function doSocialSignIn(provider) {
-  let socialProvider = null;
-  if (provider === "google") {
-    socialProvider = new firebase.auth.GoogleAuthProvider();
-  } else if (provider === "facebook") {
-    socialProvider = new firebase.auth.FacebookAuthProvider();
-  }
-  await firebase.auth().signInWithPopup(socialProvider);
-  const user = firebase.auth().currentUser;
-  let allUsers = null;
-  await firebase
-    .database()
-    .ref("/users")
-    .once("value", function (result) {
-      allUsers = result.val();
-    });
+    let socialProvider = null
+    if (provider === 'google') {
+        socialProvider = new firebase.auth.GoogleAuthProvider()
+    } else if (provider === 'facebook') {
+        socialProvider = new firebase.auth.FacebookAuthProvider()
+    }
+    await firebase.auth().signInWithPopup(socialProvider)
+    const user = firebase.auth().currentUser
+    let allUsers = null
+    await firebase
+        .database()
+        .ref('/users')
+        .once('value', function (result) {
+            allUsers = result.val()
+        })
 
   if (allUsers) {
     const existingIds = Object.keys(allUsers);
@@ -79,23 +82,23 @@ async function doSocialSignIn(provider) {
 }
 
 async function doPasswordReset(email) {
-  await firebase.auth().sendPasswordResetEmail(email);
+    await firebase.auth().sendPasswordResetEmail(email)
 }
 
 async function doPasswordUpdate(password) {
-  await firebase.auth().updatePassword(password);
+    await firebase.auth().updatePassword(password)
 }
 
 async function doSignOut() {
-  await firebase.auth().signOut();
+    await firebase.auth().signOut()
 }
 
 export {
-  doCreateUserWithEmailAndPassword,
-  doSocialSignIn,
-  doSignInWithEmailAndPassword,
-  doPasswordReset,
-  doPasswordUpdate,
-  doSignOut,
-  doChangePassword,
-};
+    doCreateUserWithEmailAndPassword,
+    doSocialSignIn,
+    doSignInWithEmailAndPassword,
+    doPasswordReset,
+    doPasswordUpdate,
+    doSignOut,
+    doChangePassword,
+}
