@@ -11,7 +11,7 @@ const SideBar = () => {
         <h1 className="header-text">SongShare</h1>
       </div>
       <Link to="/post">About</Link>
-      <Link to="/post">User Profile</Link>
+      <Link to="/userprofile">User Profile</Link>
       <Link to="/post/create">Add Post</Link>
       <Link to="/playList">Playlist</Link>
       <Link to="/playListbyLove">Love Songs</Link>

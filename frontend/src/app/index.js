@@ -1,10 +1,5 @@
 import React, { lazy, Suspense } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { AuthProvider } from "../firebase/Auth";
@@ -19,6 +14,7 @@ const PlayAlbum = lazy(() => import("../components/playAlbum"));
 const PlayListByLoveSongs = lazy(() => import("../components/playListbyLoveSongs"));
 const PostInsert = lazy(() => import("../pages/PostInsert"));
 const Home = lazy(() => import("../pages/Home"));
+const UserProfile = lazy(() => import("../pages/UserProfile"));
 
 function App() {
   return (
@@ -35,6 +31,8 @@ function App() {
             <Route path="/signup" component={SignUp} />
             <Route path="/playList" exact component={PlayAlbum} />
             <Route path="/playListbyLove" exact component={PlayListByLoveSongs} />
+            <Route path="/userprofile" exact component={UserProfile} />
+
             <Route path="/">
               <Redirect to="/post" />
             </Route>
