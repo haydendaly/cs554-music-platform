@@ -139,7 +139,7 @@ function AddPostModal(props) {
           subheader={props.songData.id}
         />
         <iframe id={props.songData.uri} title={props.songData.uri} src= {"https://open.spotify.com/embed?uri="+ props.songData.uri}
-							width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
+							width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
           <a href={props.songData.href}>{props.songData.href}</a> 
