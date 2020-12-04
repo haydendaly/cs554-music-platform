@@ -1,10 +1,12 @@
 /*
-  Endpoints for retrieving information about one or more artists from the Spotify catalog.
+  Endpoints for retrieving information about one or more albums from the Spotify catalog.
   
-  Method and Endpoint                   Usage:                            Returns:
-  GET	/v1/albums/{id}	                  Get an Album	                    album
-  GET	/v1/albums/{id}/tracks	          Get an Album's Tracks	            tracks
-  GET	/v1/albums	                      Get Several Albums	              albums
+  Method and Endpoint               Usage:                            Returns:
+  GET	/albums/{id}	            Get an Album	                  album
+  GET	/albums/{id}/tracks	        Get an Album's Tracks	          tracks
+  GET	/albums	                    Get Several Albums	              albums
+
+  https://developer.spotify.com/documentation/web-api/reference/albums/
 */
 
 // Example Album IDs:
@@ -27,20 +29,20 @@ const spotifyApi = require('./authorization');
   Endpoint structure example: localhost:3000/spotify-api/albums/{albumId}
 */
 router.get('/:id', async (req, res) => {
-  const albumID = req.params.id;
-  const { market } = req.query;
+    const albumID = req.params.id;
+    const { market } = req.query;
 
-  let queryParams = {};
-  if (market) queryParams.market = market
+    let optQueryParams = {};
+    if (market) optQueryParams.market = market;
 
-  spotifyApi.getAlbum(albumID, queryParams).then(
-    (data) => {
-      res.json(data.body);
-    },
-    (err) => {
-      res.json(err);
-    }
-  );
+    spotifyApi.getAlbum(albumID, optQueryParams).then(
+        (data) => {
+            res.json(data.body);
+        },
+        (err) => {
+            res.json(err);
+        }
+    );
 });
 
 
@@ -55,23 +57,22 @@ router.get('/:id', async (req, res) => {
   Endpoint structure example: localhost:3000/spotify-api/albums/{albumId}/tracks?offset=0&limit=20&market=US
 */
 router.get('/:id/tracks', async (req, res) => {
-  const albumID = req.params.id;
-  const { limit, offset, market } = req.query
+    const albumID = req.params.id;
+    const { limit, offset, market } = req.query;
 
-  let queryParams = {}
+    let optQueryParams = {}
+    if (limit) optQueryParams.limit = limit;
+    if (offset) optQueryParams.offset = offset;
+    if (market) optQueryParams.market = market;
 
-  if (limit) queryParams.limit = limit;
-  if (offset) queryParams.offset = offset;
-  if (market) queryParams.market = market;
-
-  spotifyApi.getAlbumTracks(albumID, queryParams).then(
-    (data) => {
-      res.json(data.body);
-    },
-    (err) => {
-      res.json(err);
-    }
-  );
+    spotifyApi.getAlbumTracks(albumID, optQueryParams).then(
+        (data) => {
+            res.json(data.body);
+        },
+        (err) => {
+            res.json(err);
+        }
+    );
 });
 
 
@@ -79,28 +80,30 @@ router.get('/:id/tracks', async (req, res) => {
   Obtain severeal albums given multiple albums IDs
 
   Required Query Parameter:
-    ids:      A comma=separated list of the Spotify IDs for the albums (Maximum=50)
+    ids:      A comma-separated list of the Spotify IDs for the albums (Maximum=50)
   Optional Query Parameter:
     market:   An ISO 3166-1 alpha-2 country code. Provide this parameter if you want to apply Track Relinking. (https://developer.spotify.com/documentation/general/guides/track-relinking-guide/)
 
   Endpoint structure example: localhost:3000/spotify-api/albums?ids=31jHyTSpj8nWQgV45gvZA3,4G9ANFGk9579p2uirMbVT0
 */
 router.get('/', async (req, res) => {
-  const { ids, market } = req.query;
+    const { ids, market } = req.query;
 
-  let queryParams = {};
-  if (market) queryParams.market = market
+    if (!ids) return res.status(400).json({ error: 'Required query parameter \'ids\' not provided' });
 
-  const albumIDList = ids.split(',');
+    let optQueryParams = {};
+    if (market) optQueryParams.market = market;
 
-  spotifyApi.getAlbums(albumIDList, queryParams).then(
-    (data) => {
-      res.json(data.body);
-    },
-    (err) => {
-      res.json(err);
-    }
-  );
+    const albumIDList = ids.split(',');
+
+    spotifyApi.getAlbums(albumIDList, optQueryParams).then(
+        (data) => {
+            res.json(data.body);
+        },
+        (err) => {
+            res.json(err);
+        }
+    );
 });
 
 module.exports = router;

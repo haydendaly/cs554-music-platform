@@ -2,11 +2,13 @@
   Endpoints for retrieving information about one or more artists from the Spotify catalog.
   
   Method and Endpoint                   Usage:                            Returns:
-  GET	artists/{id}	                    Get an Artist                     artist
-  GET	artists/{id}/albums	              Get an Artist's Albums            albums
-  GET	artists/{id}/top-tracks	          Get an Artist's Top Tracks        tracks
-  GET	artists/{id}/related-artists	    Get an Artist's Related Artists	  artists
-  GET	artists	                          Get Several Artists	              artists
+  GET	/artists/{id}	                Get an Artist                     artist
+  GET	/artists/{id}/albums	        Get an Artist's Albums            albums
+  GET	/artists/{id}/top-tracks	    Get an Artist's Top Tracks        tracks
+  GET	/artists/{id}/related-artists	Get an Artist's Related Artists	  artists
+  GET	/artists	                    Get Several Artists	              artists
+
+  https://developer.spotify.com/documentation/web-api/reference/artists/
 */
 
 // Example Artist IDs
@@ -25,16 +27,16 @@ const spotifyApi = require('./authorization');
   Endpoint structure example: localhost:3000/spotify-api/artists/{artistId}
 */
 router.get('/:id', async (req, res) => {
-  const artistID = req.params.id;
+    const artistID = req.params.id;
 
-  spotifyApi.getArtist(artistID).then(
-    (data) => {
-      res.json(data.body);
-    },
-    (err) => {
-      res.json(err);
-    }
-  );
+    spotifyApi.getArtist(artistID).then(
+        (data) => {
+            res.json(data.body);
+        },
+        (err) => {
+            res.json(err);
+        }
+    );
 });
 
 
@@ -59,24 +61,24 @@ router.get('/:id', async (req, res) => {
   Another example: http://localhost:3000/spotify-api/artists/43ZHCT0cAZBISjO8DG9PnE/albums?country=US for elvis
 */
 router.get('/:id/albums', async (req, res) => {
-  const artistID = req.params.id;
-  const { limit, offset, country, include_groups } = req.query
+    const artistID = req.params.id;
+    const { limit, offset, country, include_groups } = req.query
 
-  let queryParams = {}
+    let optQueryParams = {}
 
-  if (limit) queryParams.limit = limit;
-  if (offset) queryParams.offset = offset;
-  if (country) queryParams.country = country;
-  if (include_groups) queryParams.include_groups = include_groups;
+    if (limit) optQueryParams.limit = limit;
+    if (offset) optQueryParams.offset = offset;
+    if (country) optQueryParams.country = country;
+    if (include_groups) optQueryParams.include_groups = include_groups;
 
-  spotifyApi.getArtistAlbums(artistID, queryParams).then(
-    (data) => {
-      res.json(data.body);
-    },
-    (err) => {
-      res.json(err);
-    }
-  );
+    spotifyApi.getArtistAlbums(artistID, optQueryParams).then(
+        (data) => {
+            res.json(data.body);
+        },
+        (err) => {
+            res.json(err);
+        }
+    );
 });
 
 
@@ -89,17 +91,17 @@ router.get('/:id/albums', async (req, res) => {
   Endpoint structure example: localhost:3000/spotify-api/artists/{artistId}/top-tracks?country=US
 */
 router.get('/:id/top-tracks', async (req, res) => {
-  const artistID = req.params.id;
-  const { country } = req.query
+    const artistID = req.params.id;
+    const { country } = req.query;
 
-  spotifyApi.getArtistTopTracks(artistID, country).then(
-    (data) => {
-      res.json(data.body);
-    },
-    (err) => {
-      res.json(err);
-    }
-  );
+    spotifyApi.getArtistTopTracks(artistID, country).then(
+        (data) => {
+            res.json(data.body);
+        },
+        (err) => {
+            res.json(err);
+        }
+    );
 });
 
 
@@ -108,16 +110,16 @@ router.get('/:id/top-tracks', async (req, res) => {
   Endpoint structure example: localhost:3000/spotify-api/artists/{artistId}/related-artists
 */
 router.get('/:id/related-artists', async (req, res) => {
-  const artistID = req.params.id;
+    const artistID = req.params.id;
 
-  spotifyApi.getArtistRelatedArtists(artistID).then(
-    (data) => {
-      res.json(data.body);
-    },
-    (err) => {
-      res.json(err);
-    }
-  );
+    spotifyApi.getArtistRelatedArtists(artistID).then(
+        (data) => {
+            res.json(data.body);
+        },
+        (err) => {
+            res.json(err);
+        }
+    );
 });
 
 
@@ -130,18 +132,18 @@ router.get('/:id/related-artists', async (req, res) => {
   Endpoint structure example: localhost:3000/spotify-api/artists?ids=43ZHCT0cAZBISjO8DG9PnE,6XYvaoDGE0VmRt83Jss9Sn
 */
 router.get('/', async (req, res) => {
-  const { ids } = req.query;
+    const { ids } = req.query;
 
-  const artistIDList = ids.split(',');
+    const artistIDList = ids.split(',');
 
-  spotifyApi.getArtists(artistIDList).then(
-    (data) => {
-      res.json(data.body);
-    },
-    (err) => {
-      res.json(err);
-    }
-  );
+    spotifyApi.getArtists(artistIDList).then(
+        (data) => {
+            res.json(data.body);
+        },
+        (err) => {
+            res.json(err);
+        }
+    );
 });
 
 
