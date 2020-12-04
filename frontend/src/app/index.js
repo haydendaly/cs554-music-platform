@@ -47,9 +47,7 @@ function App() {
                             exact
                             component={PlayListByLoveSongs}
                         />
-                        <Route path="/">
-                            <Redirect to="/post" />
-                        </Route>
+
                         <Route
                             path="/usershowprofile"
                             exact
@@ -65,6 +63,10 @@ function App() {
                             exact
                             component={ChangePassword}
                         />
+
+                        <Route path="/">
+                            <Redirect to="/post" />
+                        </Route>
                     </Switch>
                 </Suspense>
             </Router>
