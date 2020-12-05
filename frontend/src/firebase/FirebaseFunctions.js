@@ -5,7 +5,7 @@ async function doCreateUserWithEmailAndPassword(email, password, displayName) {
     await firebase.auth().createUserWithEmailAndPassword(email, password)
     await firebase
         .auth()
-        .currentUser.updateProfile({ displayName, displayName })
+        .currentUser.updateProfile({ displayName: displayName })
     let user = firebase.auth().currentUser
     await firebase.database().ref('/users').child(user.uid).set({
         email: user.email,
@@ -18,7 +18,7 @@ async function doCreateUserWithEmailAndPassword(email, password, displayName) {
         displayName: user.displayName,
     }
     try {
-        await axios.post('http://localhost:3000/api/user', newUser)
+        await axios.post('http://localhost:3000/api/user/create', newUser)
     } catch (e) {
         console.log(e)
     }
@@ -57,6 +57,7 @@ async function doSocialSignIn(provider) {
 
     if (allUsers) {
         const existingIds = Object.keys(allUsers)
+        console.log("alluser:", allUsers);
         // users exist but current user is a new user to project
         if (!existingIds.includes(user.uid)) {
             await firebase.database().ref('/users').child(user.uid).set({
@@ -70,7 +71,7 @@ async function doSocialSignIn(provider) {
                 displayName: user.displayName,
             }
             try {
-                await axios.post('http://localhost:3000/api/user', newUser)
+                await axios.post('http://localhost:3000/api/user/create', newUser)
             } catch (e) {
                 console.log(e)
             }
@@ -88,7 +89,7 @@ async function doSocialSignIn(provider) {
             displayName: user.displayName,
         }
         try {
-            await axios.post('http://localhost:3000/api/user', newUser)
+            await axios.post('http://localhost:3000/api/user/create', newUser)
         } catch (e) {
             console.log(e)
         }
