@@ -30,7 +30,7 @@ router.get("/:id", async (req, res) => {
 router.post("/create", async (req, res) => {
   if (
     !req.body ||
-    !req.body.userId ||
+    !req.body.id ||
     !req.body.displayName||
     !req.body.email 
   ) {
