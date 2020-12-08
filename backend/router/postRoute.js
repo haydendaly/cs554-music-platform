@@ -89,7 +89,8 @@ router.post("/:postId/likes", async (req, res) => {
       post["userId"],
       post["text"],
       post["commentsArray"],
-      likeArray
+      likeArray,
+      post["songData"],
     );
 
     res.json(updateData);
@@ -123,7 +124,8 @@ router.delete("/:postId/likes/:likeId", async (req, res) => {
           post["userId"],
           post["text"],
           post["commentsArray"],
-          updatedLikeArray
+          updatedLikeArray,
+          post["songData"]
     );
     res.json(updateData);
     }catch (error) {
@@ -155,7 +157,8 @@ router.post("/:postId/comment", async (req, res) => {
       post["userId"],
       post["text"],
       commentArray,
-      post["likesArray"]
+      post["likesArray"],
+      post["songData"]
     );
 
     res.json(updateData);
@@ -191,7 +194,8 @@ router.delete("/:postId/comment/:commentId", async (req, res) => {
       post["userId"],
       post["text"],
       newData,
-      post["likesArray"]
+      post["likesArray"],
+      post["songData"]
     );
 
     res.json(updateData);
@@ -208,7 +212,8 @@ router.put("/:id", async (req, res) => {
     !req.body.userId ||
     !req.body.text ||
     !req.body.commentArray ||
-    !req.body.likeArray
+    !req.body.likeArray ||
+    !req.body.songData
   ) {
     res.status(404).json({ error: "Must supply all fields." });
     return;
@@ -227,7 +232,8 @@ router.put("/:id", async (req, res) => {
       postBody["userId"],
       postBody["text"],
       postBody["commentsArray"],
-      postBody["likesArray"]
+      postBody["likesArray"],
+      postBody["songData"]
     );
     res.json(updatePost);
   } catch (error) {
@@ -258,7 +264,8 @@ router.patch("/:id", async (req, res) => {
       oldPost["userId"],
       oldPost["text"],
       oldPost["commentsArray"],
-      oldPost["likesArray"]
+      oldPost["likesArray"],
+      oldPost["songData"]
     );
     res.json(updatePost);
   } catch (error) {

@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "seed": "node ./seed.js"
+    "seed": "node seed.js",
+    "format": "eslint"
   },
   "author": "JavaScripters",
   "license": "ISC",
@@ -25,5 +26,10 @@
     "morgan": "^1.9.1",
     "react-model": "^3.1.4",
     "uuid": "^8.3.1"
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.2.0",
+    "prettier": "^2.2.1"
   }
 }
