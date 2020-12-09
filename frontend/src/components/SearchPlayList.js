@@ -11,6 +11,8 @@ import {
 import SpotifyWebApi from 'spotify-web-api-js'
 import { AuthContext } from '../firebase/Auth'
 import AddPostModal from '../pages/AddPostModal'
+import SearchComponent  from './SearchComponent'
+import ShowErrorModal from './Modals/ShowErrorModal'
 
 let Spotify = require('spotify-web-api-js')
 // var s = new Spotify();
@@ -18,7 +20,7 @@ let Spotify = require('spotify-web-api-js')
 let spotifyApi = new SpotifyWebApi()
 
 spotifyApi.setAccessToken(
-    'BQD07fk89nMF8-Err92jW_UIG0cAJf9j8mk804H9BIw0bBESjUBXPyIc-Yy2OHx8QcPdB3ElTpVlBF_k7jo04ucdeYZLzghJySLyaKja6mzb8il-R8mBjPsWKIf5QtXN-b4yrIqG5_AD9QTMeoXUxTtzbS_BYVtJYv1fA9bpN2HVLYI0'
+    'BQB8wvjxNEWkPCbopReja7iCmXCcrUzboFD2kiHMiMU3roZOpC1Jh3YkTEqIuQCzh7Lc3uPkYLGp_aGFuLiO0FkFwE2WPZg-zM_GdYMokjpoc9pP04k_mlL2d0Ka7XyR3Nfwb2fWtMAmXxUjEi_6k4CRoKiHNuaKZdU9O_eVAXjCFKbd'
 )
 
 const useStyles = makeStyles({
@@ -71,13 +73,15 @@ const useStyles = makeStyles({
     },
 })
 
-const PlayListByLoveSongs = (props) => {
+const SearchPlayList = (props) => {
     const [playListData, setPlayListData] = useState(undefined)
     const classes = useStyles()
     const [hasError, setHasError] = useState(false)
     const [loading, setLoading] = useState(true)
     const [sharePost, setSharePost] = useState(null)
     const [showSharePostModal, setShowSharePostModal] = useState(null)
+    const [searchTerm, setSearchTerm ] = useState('Love')
+    const [errorModal, setErrorModal] = useState(false)
 
     const { currentUser } = useContext(AuthContext)
 
@@ -85,7 +89,7 @@ const PlayListByLoveSongs = (props) => {
     useEffect(() => {
         async function fetchData() {
             try {
-                spotifyApi.searchTracks('Love',{country:'us'}).then(
+                spotifyApi.searchTracks(searchTerm,{country:'US'}).then(
                     function (data) {
                         setPlayListData(data.tracks.items)
                         setLoading(false)
@@ -99,20 +103,28 @@ const PlayListByLoveSongs = (props) => {
             }
         }
         fetchData()
-    }, [])
+    }, [searchTerm])
 
     const handleOpenshareModal = (trackDetails) => {
         setShowSharePostModal(true)
         setSharePost(trackDetails)
         console.log(trackDetails)
+        setErrorModal(true)
     }
 
     const handleCloseModals = () => {
         setShowSharePostModal(false)
+        setErrorModal(false)
     }
+
+
+    const searchValue = async (value) => {
+        setSearchTerm(value);	
+    };
 
     const buildCard = (playList) => {
         return (
+
             <Grid item xs={12} sm={6} md={4} lg={4} xl={2} key={playList.id}>
                 <Card className={classes.card} variant="outlined">
                     <CardActionArea>
@@ -144,7 +156,7 @@ const PlayListByLoveSongs = (props) => {
                         allow="encrypted-media"
                     ></iframe>
                     <div className="e-card-actions e-card-vertical">
-                        <Button
+                    <Button
                             variant="contained"
                             color="secondary"
                             className={classes.buttonClass}
@@ -155,17 +167,6 @@ const PlayListByLoveSongs = (props) => {
                             share
                         </Button>
                     </div>
-                    {showSharePostModal && (
-                        <AddPostModal
-                            isOpen={showSharePostModal}
-                            handleClose={handleCloseModals}
-                            title={'Share Post'}
-                            data={null}
-                            currentUser={currentUser.uid}
-                            songData={sharePost}
-                            postId={null}
-                        />
-                    )}
                 </Card>
             </Grid>
         )
@@ -192,12 +193,35 @@ const PlayListByLoveSongs = (props) => {
     } else {
         return (
             <div class="main">
+            <br/>
+                <div>
+                    <SearchComponent searchValue={searchValue} searchTerm = {searchTerm} />
+                </div>
+                <br/>
                 <Grid container className={classes.grid} spacing={5}>
                     {card}
                 </Grid>
+                
+            {currentUser ? (showSharePostModal && (
+                <AddPostModal
+                    isOpen={showSharePostModal}
+                    handleClose={handleCloseModals}
+                    title={'Share Post'}
+                    data={null}
+                    currentUser={currentUser.uid}
+                    songData={sharePost}
+                    postId={null}
+                />
+            )) : errorModal && (
+                <ShowErrorModal
+                    isOpen={errorModal}
+                    handleClose={handleCloseModals}
+                    title={'Login Error'}
+                />
+            )}
             </div>
         )
     }
 }
 
-export default PlayListByLoveSongs
+export default SearchPlayList

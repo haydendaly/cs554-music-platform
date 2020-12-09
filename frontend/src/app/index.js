@@ -19,6 +19,9 @@ const PlayAlbum = lazy(() => import('../components/playAlbum'))
 const PlayListByLoveSongs = lazy(() =>
     import('../components/playListbyLoveSongs')
 )
+const SearchPlayList = lazy(() =>
+    import('../components/SearchPlayList')
+)
 const PostInsert = lazy(() => import('../pages/PostInsert'))
 const Home = lazy(() => import('../pages/Home'))
 const UserProfile = lazy(() => import('../pages/UserProfile'))
@@ -42,6 +45,7 @@ function App() {
                         <Route path="/signin" component={SignIn} />
                         <Route path="/signup" component={SignUp} />
                         <Route path="/playList" exact component={PlayAlbum} />
+                        <Route path="/searchPlayList" exact component={SearchPlayList} />
                         <Route
                             path="/playListbyLove"
                             exact
