@@ -12,12 +12,18 @@ import { AuthProvider } from '../firebase/Auth'
 import NavBar from '../components/NavBar'
 import Sidebar from '../components/Sidebar'
 import SidebarRight from '../components/SidebarRight'
+import { NoSchemaIntrospectionCustomRule } from 'graphql'
 
 const SignIn = lazy(() => import('../components/SignIn'))
 const SignUp = lazy(() => import('../components/SignUp'))
 const PlayAlbum = lazy(() => import('../components/playAlbum'))
+const PlayArtist = lazy(() => import('../components/Artist')
+)
 const PlayListByLoveSongs = lazy(() =>
     import('../components/playListbyLoveSongs')
+)
+const SearchPlayList = lazy(() =>
+    import('../components/SearchPlayList')
 )
 const PostInsert = lazy(() => import('../pages/PostInsert'))
 const Home = lazy(() => import('../pages/Home'))
@@ -42,6 +48,8 @@ function App() {
                         <Route path="/signin" component={SignIn} />
                         <Route path="/signup" component={SignUp} />
                         <Route path="/playList" exact component={PlayAlbum} />
+                        <Route path="/searchPlayList" exact component={SearchPlayList} />
+                        <Route path="/playTrack" exact component={PlayArtist} />
                         <Route
                             path="/playListbyLove"
                             exact
@@ -63,7 +71,6 @@ function App() {
                             exact
                             component={ChangePassword}
                         />
-
                         <Route path="/">
                             <Redirect to="/post" />
                         </Route>

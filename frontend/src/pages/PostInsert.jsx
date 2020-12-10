@@ -9,7 +9,7 @@ import {
     Button,
 } from '@material-ui/core'
 import { AuthContext } from '../firebase/Auth'
-import AddPostModal from '../pages/AddPostModal'
+import AddPostModal from '../components/Modals/AddPostModal'
 
 const useStyles = makeStyles((theme) => ({
     Button: {

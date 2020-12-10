@@ -11,6 +11,8 @@ import {
 import SpotifyWebApi from 'spotify-web-api-js'
 import { AuthContext } from '../firebase/Auth'
 import AddPostModal from './Modals/AddPostModal'
+import SearchComponent  from './SearchComponent'
+import ShowErrorModal from './Modals/ShowErrorModal'
 
 let Spotify = require('spotify-web-api-js')
 // var s = new Spotify();
@@ -18,7 +20,7 @@ let Spotify = require('spotify-web-api-js')
 let spotifyApi = new SpotifyWebApi()
 
 spotifyApi.setAccessToken(
-    'BQBclgNt0TcT10snXjsw5KbLGIxzuCjtTyLeU9mX-knZrueTkSrKnq1JJ-G_ncLoJUyhBIKfqn_YB2mwy5mWSHbxaTj3-BqgPPG-tRGDauzL-OkAkfJMyhsBaNi3Rj6FLPx2P5ESnf_S_eW6rOO7ZqVU4Ct8NQ35dnMJVHfOw9Rrm-P5'
+    'BQD4dH1FxEk_x75QeJq2Qlrk-lWu5Obvq4q4vB-D_B6hEF8xYdTPlRoQ7UawSPqqqE2wy0qJ-YO-WYA5NaheFM06FZfVWZqn3lDrQFKCX-inV4BWZLCo2fBxF8MAzD63CiUaTCAjFVK7rCEvpfnEEkXkriijfgHYJZ_wc8ZZaapwKKuC'
 )
 
 const useStyles = makeStyles({
@@ -41,6 +43,7 @@ const useStyles = makeStyles({
         flexGrow: 1,
         flexDirection: 'row',
     },
+
     modal: {
         top: '50%',
         left: '20%',
@@ -70,25 +73,25 @@ const useStyles = makeStyles({
     },
 })
 
-const PlayAlbum = (props) => {
-    const [albumData, setAlbumtData] = useState(undefined)
+const SearchPlayList = (props) => {
+    const [playListData, setPlayListData] = useState(undefined)
     const classes = useStyles()
     const [hasError, setHasError] = useState(false)
     const [loading, setLoading] = useState(true)
     const [sharePost, setSharePost] = useState(null)
     const [showSharePostModal, setShowSharePostModal] = useState(null)
-
-    let card = null
+    const [searchTerm, setSearchTerm ] = useState('Love')
+    const [errorModal, setErrorModal] = useState(false)
 
     const { currentUser } = useContext(AuthContext)
 
+    let card = null
     useEffect(() => {
-        console.log('on load useeffect')
         async function fetchData() {
             try {
-                spotifyApi.getAlbum('5U4W9E5WsYb2jUQWePT8Xm').then(
+                spotifyApi.searchTracks(searchTerm,{country:'US'}).then(
                     function (data) {
-                        setAlbumtData(data.tracks.items)
+                        setPlayListData(data.tracks.items)
                         setLoading(false)
                     },
                     function (err) {
@@ -100,24 +103,34 @@ const PlayAlbum = (props) => {
             }
         }
         fetchData()
-    }, [])
+    }, [searchTerm])
 
     const handleOpenshareModal = (trackDetails) => {
         setShowSharePostModal(true)
         setSharePost(trackDetails)
         console.log(trackDetails)
+        setErrorModal(true)
     }
 
     const handleCloseModals = () => {
         setShowSharePostModal(false)
+        setErrorModal(false)
     }
 
-    const buildCard = (album) => {
+
+    const searchValue = async (value) => {
+        setSearchTerm(value);	
+    };
+
+    const buildCard = (playList) => {
         return (
-            <Grid item xs={12} sm={6} md={4} lg={4} xl={2} key={album.id}>
+
+            <Grid item xs={12} sm={6} md={4} lg={4} xl={2} key={playList.id}>
                 <Card className={classes.card} variant="outlined">
                     <CardActionArea>
-                        <a href={album.external_urls.spotify}>Go to Spotify</a>
+                        <a href={playList.external_urls.spotify}>
+                            Go to Spotify
+                        </a>
                         <CardContent>
                             <Typography
                                 className={classes.titleHead}
@@ -125,15 +138,17 @@ const PlayAlbum = (props) => {
                                 variant="h6"
                                 component="h3"
                             >
-                                <span>{album.name}</span>
+                                <span>{playList.name}</span>
                                 <br />
-                                <span>Track Number: {album.track_number}</span>
+                                <span>Popularity: {playList.popularity}</span>
                             </Typography>
                         </CardContent>
                     </CardActionArea>
                     <iframe
                         id="playSong"
-                        src={'https://open.spotify.com/embed?uri=' + album.uri}
+                        src={
+                            'https://open.spotify.com/embed?uri=' + playList.uri
+                        }
                         width="300"
                         height="380"
                         frameborder="0"
@@ -141,39 +156,32 @@ const PlayAlbum = (props) => {
                         allow="encrypted-media"
                     ></iframe>
                     <div className="e-card-actions e-card-vertical">
-                        <Button
+                    <Button
                             variant="contained"
                             color="secondary"
                             className={classes.buttonClass}
                             onClick={() => {
-                                handleOpenshareModal(album)
+                                handleOpenshareModal(playList)
                             }}
                         >
                             share
                         </Button>
                     </div>
-                    {showSharePostModal && (
-                        <AddPostModal
-                            isOpen={showSharePostModal}
-                            handleClose={handleCloseModals}
-                            title={'Share Post'}
-                            data={null}
-                            currentUser={currentUser.uid}
-                            songData={sharePost}
-                            postId={null}
-                        />
-                    )}
                 </Card>
             </Grid>
         )
     }
-    if (albumData) {
-        console.log(albumData)
+    if (playListData) {
+        console.log(playListData)
         card =
-            albumData &&
-            albumData.map((album) => {
-                return buildCard(album)
-            })
+            playListData &&
+            playListData
+                .filter((x) =>
+                    x.available_markets.some((y) => y.includes('US'))
+                )
+                .map((playList) => {
+                    return buildCard(playList)
+                })
     }
 
     if (loading) {
@@ -182,38 +190,38 @@ const PlayAlbum = (props) => {
                 <h2>Loading....</h2>
             </div>
         )
-    }
-    if (hasError) {
-        return <div>{hasError}</div>
     } else {
         return (
             <div class="main">
-                <>
-                    {/* <Modal className={classes.modal} show={showSharePostModal} onHide={handleCloseModals}>
-			  <Modal.Header closeButton>
-				<Modal.Title>Modal heading</Modal.Title>
-			  </Modal.Header>
-			 
-			  <Modal.Body>
-			  <textarea className={classes.textFieldStyle} type='text' placeholder="Enter description here...." rows="2" /> 
-			  <textarea className={classes.textFieldStyle} value={sharePost? 'name:'+sharePost.name+' href:'+sharePost.external_urls.spotify+' id:'+sharePost.id : ''} rows="4"></textarea></Modal.Body>
-			  <Modal.Footer>
-				<Button variant="contained" color='secondary' onClick={handleCloseModals}>
-				  Close
-				</Button>
-				<Button variant="contained" color='primary'  onClick={handleCloseModals}>
-				  Save Changes
-				</Button>
-			  </Modal.Footer>
-			</Modal> */}
-                </>
-
+            <br/>
+                <div>
+                    <SearchComponent searchValue={searchValue} searchTerm = {searchTerm} />
+                </div>
+                <br/>
                 <Grid container className={classes.grid} spacing={5}>
                     {card}
                 </Grid>
+                
+            {currentUser ? (showSharePostModal && (
+                <AddPostModal
+                    isOpen={showSharePostModal}
+                    handleClose={handleCloseModals}
+                    title={'Share Post'}
+                    data={null}
+                    currentUser={currentUser.uid}
+                    songData={sharePost}
+                    postId={null}
+                />
+            )) : errorModal && (
+                <ShowErrorModal
+                    isOpen={errorModal}
+                    handleClose={handleCloseModals}
+                    title={'Login Error'}
+                />
+            )}
             </div>
         )
     }
 }
 
-export default PlayAlbum
+export default SearchPlayList

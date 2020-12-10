@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core'
 import SpotifyWebApi from 'spotify-web-api-js'
 import { AuthContext } from '../firebase/Auth'
-import AddPostModal from '../pages/AddPostModal'
+import AddPostModal from './Modals/AddPostModal'
 
 let Spotify = require('spotify-web-api-js')
 // var s = new Spotify();
@@ -18,7 +18,7 @@ let Spotify = require('spotify-web-api-js')
 let spotifyApi = new SpotifyWebApi()
 
 spotifyApi.setAccessToken(
-    'BQAary77s1KQcaVZ-ke2a_Q9dqMMnwQNLy_QttRBP8ZGyk37rAtOH8FJX-Ie0Y5Z5jX2v0NeKbP3tuPY5qD9a_oQgylKzktfu-Te69-B0pb30JWeRT5QBH6ZN5IAxuHS0qs76YQ5ngh_5WhVokEXkL3eZz3aWLg2aTa_Ai4jlM0IBwsG'
+    'BQBclgNt0TcT10snXjsw5KbLGIxzuCjtTyLeU9mX-knZrueTkSrKnq1JJ-G_ncLoJUyhBIKfqn_YB2mwy5mWSHbxaTj3-BqgPPG-tRGDauzL-OkAkfJMyhsBaNi3Rj6FLPx2P5ESnf_S_eW6rOO7ZqVU4Ct8NQ35dnMJVHfOw9Rrm-P5'
 )
 
 const useStyles = makeStyles({
@@ -85,7 +85,7 @@ const PlayListByLoveSongs = (props) => {
     useEffect(() => {
         async function fetchData() {
             try {
-                spotifyApi.searchTracks('Love').then(
+                spotifyApi.searchTracks('Love',{country:'us'}).then(
                     function (data) {
                         setPlayListData(data.tracks.items)
                         setLoading(false)
