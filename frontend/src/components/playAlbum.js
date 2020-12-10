@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core'
 import SpotifyWebApi from 'spotify-web-api-js'
 import { AuthContext } from '../firebase/Auth'
-import AddPostModal from '../pages/AddPostModal'
+import AddPostModal from './Modals/AddPostModal'
 
 let Spotify = require('spotify-web-api-js')
 // var s = new Spotify();
@@ -18,7 +18,7 @@ let Spotify = require('spotify-web-api-js')
 let spotifyApi = new SpotifyWebApi()
 
 spotifyApi.setAccessToken(
-    'BQB8wvjxNEWkPCbopReja7iCmXCcrUzboFD2kiHMiMU3roZOpC1Jh3YkTEqIuQCzh7Lc3uPkYLGp_aGFuLiO0FkFwE2WPZg-zM_GdYMokjpoc9pP04k_mlL2d0Ka7XyR3Nfwb2fWtMAmXxUjEi_6k4CRoKiHNuaKZdU9O_eVAXjCFKbd'
+    'BQBclgNt0TcT10snXjsw5KbLGIxzuCjtTyLeU9mX-knZrueTkSrKnq1JJ-G_ncLoJUyhBIKfqn_YB2mwy5mWSHbxaTj3-BqgPPG-tRGDauzL-OkAkfJMyhsBaNi3Rj6FLPx2P5ESnf_S_eW6rOO7ZqVU4Ct8NQ35dnMJVHfOw9Rrm-P5'
 )
 
 const useStyles = makeStyles({
@@ -86,7 +86,7 @@ const PlayAlbum = (props) => {
         console.log('on load useeffect')
         async function fetchData() {
             try {
-                spotifyApi.getAlbum('5U4W9E5WsYb2jUQWePT8Xm',{country:'us'}).then(
+                spotifyApi.getAlbum('5U4W9E5WsYb2jUQWePT8Xm').then(
                     function (data) {
                         setAlbumtData(data.tracks.items)
                         setLoading(false)

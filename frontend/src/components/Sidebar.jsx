@@ -85,6 +85,16 @@ const SideBar = () => {
                     </Link>
                 )}
             </div>
+            <div className="menu-row">
+                <Link to="/playTrack">
+                    <Icon icon={faSearch} className="menu-icon" />
+                </Link>
+                {width > 1100 && (
+                    <Link to="/post" className="menu-text">
+                        Play Tracks
+                    </Link>
+                )}
+            </div>
         </div>
     )
 }

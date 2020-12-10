@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core'
 import SpotifyWebApi from 'spotify-web-api-js'
 import { AuthContext } from '../firebase/Auth'
-import AddPostModal from '../pages/AddPostModal'
+import AddPostModal from './Modals/AddPostModal'
 import SearchComponent  from './SearchComponent'
 import ShowErrorModal from './Modals/ShowErrorModal'
 
@@ -20,7 +20,7 @@ let Spotify = require('spotify-web-api-js')
 let spotifyApi = new SpotifyWebApi()
 
 spotifyApi.setAccessToken(
-    'BQB8wvjxNEWkPCbopReja7iCmXCcrUzboFD2kiHMiMU3roZOpC1Jh3YkTEqIuQCzh7Lc3uPkYLGp_aGFuLiO0FkFwE2WPZg-zM_GdYMokjpoc9pP04k_mlL2d0Ka7XyR3Nfwb2fWtMAmXxUjEi_6k4CRoKiHNuaKZdU9O_eVAXjCFKbd'
+    'BQD4dH1FxEk_x75QeJq2Qlrk-lWu5Obvq4q4vB-D_B6hEF8xYdTPlRoQ7UawSPqqqE2wy0qJ-YO-WYA5NaheFM06FZfVWZqn3lDrQFKCX-inV4BWZLCo2fBxF8MAzD63CiUaTCAjFVK7rCEvpfnEEkXkriijfgHYJZ_wc8ZZaapwKKuC'
 )
 
 const useStyles = makeStyles({
