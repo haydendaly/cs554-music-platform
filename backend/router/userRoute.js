@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const data = require("../data");
 const usersData = data.users;
+const upload = require('../config/upload');
+const fs = require('fs').promises;
+const path = require('path');
 
 
 router.get("/", async (req, res) => {
@@ -92,6 +95,52 @@ router.patch("/:id", async (req, res) => {
     res.status(404).json({ error: "Cannot update user." });
   }
 });
+
+router.post("/photo/:id", upload.single('image'), async(req, res)=>{
+  if (!req.params.id){
+    res.status(404).json({ error: "Please provide user id." });
+    return;
+  }
+  
+  if (req.file) {
+    let data = await fs.readFile(path.join(__dirname, '..', 'uploads', req.file.filename))
+    let type = req.file.mimetype
+    const photoData = { photoData:
+      {data: data,
+      type: type}
+    }
+
+    try{
+      await usersData.updateUser(req.params.id, photoData)
+
+    }catch(e){
+      res.status(404).json({error: e})
+    }
+
+  }
+});
+
+router.get("photo/:id", async(req, res) =>{
+  if (!req.params.id){
+    res.status(404).json({ error: "Please provide user id." });
+    return;
+  }
+
+  try{
+    const user = await usersData.getUserById(req.params.id)
+    const photoData = user.photoData;
+
+    if (!photoData){
+      res.sendFile(path.join(__dirname, '..', 'public', 'img', 'default_profile.jpeg'));
+    } else{
+      res.contentType(photoData.type);
+      res.send(photoData.data);
+    }
+  } catch(e){
+    res.status(400).json({error: e });
+  }
+
+})
 
 
 module.exports = router;

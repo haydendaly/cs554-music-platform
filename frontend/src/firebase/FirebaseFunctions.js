@@ -16,6 +16,7 @@ async function doCreateUserWithEmailAndPassword(email, password, displayName) {
         id: user.uid,
         email: user.email,
         displayName: user.displayName,
+        photoUrl: user.photoURL
     }
     try {
         await axios.post('http://localhost:3000/api/user/create', newUser)
@@ -69,12 +70,26 @@ async function doSocialSignIn(provider) {
                 id: user.uid,
                 email: user.email,
                 displayName: user.displayName,
+                photoUrl: user.photoURL
             }
             try {
                 await axios.post('http://localhost:3000/api/user/create', newUser)
             } catch (e) {
                 console.log(e)
             }
+        } else {
+            // user already exist, update the displayName and photo
+            const updatedInfo = {
+                displayName: user.displayName,
+                photoUrl: user.photoURL
+            }
+
+            try{
+                await axios.patch(`http://localhost:3000/api/user/${user.uid}`, updatedInfo)
+            }catch(e){
+                console.log(e)
+            }
+
         }
     } else {
         // no users yet
@@ -87,6 +102,7 @@ async function doSocialSignIn(provider) {
             id: user.uid,
             email: user.email,
             displayName: user.displayName,
+            photoUrl: user.photoURL
         }
         try {
             await axios.post('http://localhost:3000/api/user/create', newUser)

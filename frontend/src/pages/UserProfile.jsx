@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { AuthContext } from '../firebase/Auth'
+import UploadImage from '../components/UploadImage'
 
 function UserProfile(props) {
     const { currentUser } = useContext(AuthContext)
@@ -131,6 +132,8 @@ function UserProfile(props) {
     } else if (user && props.page === 'EditProfile') {
         body = (
             <div>
+                <UploadImage />
+                
                 <form onSubmit={submitForm}>
                     <div className="form-group">
                         <label>

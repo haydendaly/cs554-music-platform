@@ -48,8 +48,9 @@ async function createUser(authUserData) {
     biography: "",
     websiteUrl: "",
     socialMedia: { facebook: "", instagram:"", twitter:"" },
-    profilePicId: "",
-    country: "United States"
+    photoUrl: authUserData.photoUrl,
+    country: "United States",
+    photoData: ""
   };
 
   let users = await usersCollection();

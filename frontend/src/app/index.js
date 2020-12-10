@@ -12,7 +12,7 @@ import { AuthProvider } from '../firebase/Auth'
 import NavBar from '../components/NavBar'
 import Sidebar from '../components/Sidebar'
 import SidebarRight from '../components/SidebarRight'
-import { NoSchemaIntrospectionCustomRule } from 'graphql'
+//import { NoSchemaIntrospectionCustomRule } from 'graphql'
 
 const SignIn = lazy(() => import('../components/SignIn'))
 const SignUp = lazy(() => import('../components/SignUp'))
