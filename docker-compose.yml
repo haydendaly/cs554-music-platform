@@ -1,20 +1,10 @@
 version: "3.3"
 services:
-  backend:
-    container_name: "backend"
-    build: ./backend
-    # logging:
-    #   driver: none
-    expose:
-      - 3000
-    ports:
-      - 3000:3000
-    tty: true
-
   frontend:
     build: ./frontend
-    # logging:
-    #   driver: none
+    container_name: frontend
+    logging:
+      driver: none
     expose:
       - 8000
     ports:
@@ -22,33 +12,41 @@ services:
 
   redis:
     image: redis:latest
-    ports:
-        - 6379:6379
-    volumes:
-        - ./config/redis.conf:/redis.conf
-    command: ["redis-server", "/redis.conf"]
+    container_name: cache
+    logging:
+      driver: none
+    expose:
+      - 6379
 
-  # mongodb:
-  #   image: mongo:latest
-  #   container_name: mongodb
-  #   hostname: mongodb
-  #   volumes:
-  #       - ./.docker/mongodb/mongod.conf:/etc/mongod.conf
-  #       - ./.docker/mongodb/initdb.d/:/docker-entrypoint-initdb.d/
-  #       - ./.docker/mongodb/data/db/:/data/db/
-  #       - ./.docker/mongodb/data/log/:/var/log/mongodb/
-  #   environment:
-  #       MONGO_INITDB_ROOT_USERNAME: admin
-  #       MONGO_INITDB_ROOT_PASSWORD: admin-pass
-  #       MONGO_INITDB_DATABASE: SpotifyTwitter
-  #   ports:
-  #       - "27017:27017"
-  #   command: ["-f", "/etc/mongod.conf"]
+  backend:
+    container_name: backend
+    build: ./backend
+    logging:
+      driver: none
+    links:
+      - redis
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    environment:
+      - REDIS_URL=redis://cache
+    tty: true
+
+  mongo:
+    image: mongo:latest
+    restart: always
+    logging:
+      driver: none
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin-pass
+      MONGO_INITDB_DATABASE: SpotifyTwitter
 
   nginx:
     image: nginx:1.13.7
-    # logging:
-    #   driver: none
+    logging:
+      driver: none
     ports:
       - '80:80'
     volumes:

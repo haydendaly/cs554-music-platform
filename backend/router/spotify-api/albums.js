@@ -16,7 +16,7 @@
 const express = require("express");
 const router = express.Router();
 const redis = require('redis');
-const client = redis.createClient();
+const client = process.env.REDIS_URL ? redis.createClient(process.env.REDIS_URL) : redis.createClient();
 const bluebird = require('bluebird')
 const flatten = require('flat');
 const unflatten = flatten.unflatten;
