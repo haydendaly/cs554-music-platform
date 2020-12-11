@@ -18,3 +18,57 @@
   height: 40px;
   margin-right: 40px;
 }
+.input-file{
+  
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.card {
+  background-color:  #333333;
+  max-width: 300px
+}
+
+.card-body p{
+  font-size: 15px
+}
+
+.card-title {
+  text-align: center;
+}
+.user-img {
+  padding-top: 10px;
+  padding-left: 20%;
+  
+}
+
+.edit-profile{
+  font-size: 15px;
+  background-color: #333333;
+  padding-left: 20%;
+  padding-right: 20%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.form-control{
+  font-size: 15px;
+}
+
+.edit-profile label{
+  width: 300px;
+}
+
+.edit-button{
+  color: white;
+}
+
+.card img{
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+}

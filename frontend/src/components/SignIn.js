@@ -37,12 +37,12 @@ function SignIn() {
     }
     return (
         <div class="main">
-            <div className="container">
+            <div className="container login">
                 <h1>Log in</h1>
                 <form onSubmit={handleLogin}>
-                    <div className="form-group">
-                        <label>
-                            Email:
+                    <div className="form-group row">
+                        <label className="col-sm-2 col-form-label">Email</label>
+                        <div className="col-sm-10">
                             <input
                                 className="form-control"
                                 name="email"
@@ -51,11 +51,13 @@ function SignIn() {
                                 placeholder="Email"
                                 required
                             />
-                        </label>
+                        </div>
                     </div>
-                    <div className="form-group">
-                        <label>
-                            Password:
+                    <div className="form-group row">
+                        <label className="col-sm-2 col-form-label">
+                            Password
+                        </label>
+                        <div className="col-sm-10">
                             <input
                                 className="form-control"
                                 name="password"
@@ -63,7 +65,7 @@ function SignIn() {
                                 placeholder="Password"
                                 required
                             />
-                        </label>
+                        </div>
                     </div>
                     <button type="submit" className="btn btn-primary">
                         Log in

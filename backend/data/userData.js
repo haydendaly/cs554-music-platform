@@ -50,7 +50,6 @@ async function createUser(authUserData) {
     _id: authUserData.id,
     displayName: authUserData.displayName,
     email: authUserData.email,
-    gender: "Not Specified",
     biography: "",
     websiteUrl: "",
     socialMedia: { facebook: "", instagram:"", twitter:"" },
