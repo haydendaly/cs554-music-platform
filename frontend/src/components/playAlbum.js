@@ -18,7 +18,7 @@ let Spotify = require('spotify-web-api-js')
 let spotifyApi = new SpotifyWebApi()
 
 spotifyApi.setAccessToken(
-    'BQBclgNt0TcT10snXjsw5KbLGIxzuCjtTyLeU9mX-knZrueTkSrKnq1JJ-G_ncLoJUyhBIKfqn_YB2mwy5mWSHbxaTj3-BqgPPG-tRGDauzL-OkAkfJMyhsBaNi3Rj6FLPx2P5ESnf_S_eW6rOO7ZqVU4Ct8NQ35dnMJVHfOw9Rrm-P5'
+    'BQC6gp3uLZ4Vh45o_OUYJcqtrb0MF3s1kTZiOAftAilLcr2WvRbd4SYSktxwROahQXDHXZq6twuonebLhuG5zDxKpx34UjcyzsYYoZnUeMg-7Q3Rkq_hjrI7jaZvdhFzaH-fSHGqouBdSMxB5WRyHPlMd41cyTT9EttEwSAG2Uel4Wz3'
 )
 
 const useStyles = makeStyles({
@@ -82,11 +82,12 @@ const PlayAlbum = (props) => {
 
     const { currentUser } = useContext(AuthContext)
 
+    //https://open.spotify.com/album/18FB0rct42g5hNr14l70GK?si=O71ANa53TVWU6JsnxRJ7_Q
     useEffect(() => {
         console.log('on load useeffect')
         async function fetchData() {
             try {
-                spotifyApi.getAlbum('5U4W9E5WsYb2jUQWePT8Xm').then(
+                spotifyApi.getAlbum('18FB0rct42g5hNr14l70GK').then(
                     function (data) {
                         setAlbumtData(data.tracks.items)
                         setLoading(false)

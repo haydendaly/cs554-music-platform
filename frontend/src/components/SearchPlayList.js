@@ -11,7 +11,7 @@ import {
 import SpotifyWebApi from 'spotify-web-api-js'
 import { AuthContext } from '../firebase/Auth'
 import AddPostModal from './Modals/AddPostModal'
-import SearchComponent  from './SearchComponent'
+import SearchComponent from './SearchComponent'
 import ShowErrorModal from './Modals/ShowErrorModal'
 
 let Spotify = require('spotify-web-api-js')
@@ -20,7 +20,7 @@ let Spotify = require('spotify-web-api-js')
 let spotifyApi = new SpotifyWebApi()
 
 spotifyApi.setAccessToken(
-    'BQD4dH1FxEk_x75QeJq2Qlrk-lWu5Obvq4q4vB-D_B6hEF8xYdTPlRoQ7UawSPqqqE2wy0qJ-YO-WYA5NaheFM06FZfVWZqn3lDrQFKCX-inV4BWZLCo2fBxF8MAzD63CiUaTCAjFVK7rCEvpfnEEkXkriijfgHYJZ_wc8ZZaapwKKuC'
+    'BQAg9L_c09vM1ThhLGRZt-FBwcS8-vx3JyNEFB7rQ3CQnLh2WPOUk9qkksbLzsvtlig7QGOFYpCuCHLBpqZZWIXtIAjgb33v3M55De3XoIg5jnDDKfLIMORo9sBFvt5rWMw7AhWaN3GWNgGpB5Tu7DTgl8efHYtYIK1oUGxks5GwYPLq'
 )
 
 const useStyles = makeStyles({
@@ -71,6 +71,9 @@ const useStyles = makeStyles({
     buttonClass: {
         marginLeft: '40%',
     },
+    errorDiv: {
+        color: 'red',
+    },
 })
 
 const SearchPlayList = (props) => {
@@ -80,7 +83,7 @@ const SearchPlayList = (props) => {
     const [loading, setLoading] = useState(true)
     const [sharePost, setSharePost] = useState(null)
     const [showSharePostModal, setShowSharePostModal] = useState(null)
-    const [searchTerm, setSearchTerm ] = useState('Love')
+    const [searchTerm, setSearchTerm] = useState('Happy')
     const [errorModal, setErrorModal] = useState(false)
 
     const { currentUser } = useContext(AuthContext)
@@ -89,7 +92,7 @@ const SearchPlayList = (props) => {
     useEffect(() => {
         async function fetchData() {
             try {
-                spotifyApi.searchTracks(searchTerm,{country:'US'}).then(
+                spotifyApi.searchTracks(searchTerm, { country: 'US' }).then(
                     function (data) {
                         setPlayListData(data.tracks.items)
                         setLoading(false)
@@ -117,20 +120,15 @@ const SearchPlayList = (props) => {
         setErrorModal(false)
     }
 
-
     const searchValue = async (value) => {
-        setSearchTerm(value);	
-    };
+        setSearchTerm(value)
+    }
 
     const buildCard = (playList) => {
         return (
-
             <Grid item xs={12} sm={6} md={4} lg={4} xl={2} key={playList.id}>
                 <Card className={classes.card} variant="outlined">
                     <CardActionArea>
-                        <a href={playList.external_urls.spotify}>
-                            Go to Spotify
-                        </a>
                         <CardContent>
                             <Typography
                                 className={classes.titleHead}
@@ -156,7 +154,7 @@ const SearchPlayList = (props) => {
                         allow="encrypted-media"
                     ></iframe>
                     <div className="e-card-actions e-card-vertical">
-                    <Button
+                        <Button
                             variant="contained"
                             color="secondary"
                             className={classes.buttonClass}
@@ -190,35 +188,55 @@ const SearchPlayList = (props) => {
                 <h2>Loading....</h2>
             </div>
         )
+    } else if (searchTerm && playListData.length <= 0) {
+        return (
+            <div class="main">
+                <div>
+                    <SearchComponent
+                        searchValue={searchValue}
+                        searchTerm={searchTerm}
+                    />
+                    <br />
+                    <div className={classes.errorDiv}>
+                        {'error: No result found for this search.'}
+                    </div>
+                </div>
+            </div>
+        )
     } else {
         return (
             <div class="main">
-            <br/>
+                <br />
                 <div>
-                    <SearchComponent searchValue={searchValue} searchTerm = {searchTerm} />
+                    <SearchComponent
+                        searchValue={searchValue}
+                        searchTerm={searchTerm}
+                    />
                 </div>
-                <br/>
+                <br />
                 <Grid container className={classes.grid} spacing={5}>
                     {card}
                 </Grid>
-                
-            {currentUser ? (showSharePostModal && (
-                <AddPostModal
-                    isOpen={showSharePostModal}
-                    handleClose={handleCloseModals}
-                    title={'Share Post'}
-                    data={null}
-                    currentUser={currentUser.uid}
-                    songData={sharePost}
-                    postId={null}
-                />
-            )) : errorModal && (
-                <ShowErrorModal
-                    isOpen={errorModal}
-                    handleClose={handleCloseModals}
-                    title={'Login Error'}
-                />
-            )}
+
+                {currentUser
+                    ? showSharePostModal && (
+                          <AddPostModal
+                              isOpen={showSharePostModal}
+                              handleClose={handleCloseModals}
+                              title={'Share Post'}
+                              data={null}
+                              currentUser={currentUser.uid}
+                              songData={sharePost}
+                              postId={null}
+                          />
+                      )
+                    : errorModal && (
+                          <ShowErrorModal
+                              isOpen={errorModal}
+                              handleClose={handleCloseModals}
+                              title={'Login Error'}
+                          />
+                      )}
             </div>
         )
     }

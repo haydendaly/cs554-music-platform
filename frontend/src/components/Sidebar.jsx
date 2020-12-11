@@ -8,7 +8,7 @@ import {
     faPlus,
     faList,
     faHeart,
-    faSearch
+    faSearch,
 } from '@fortawesome/free-solid-svg-icons'
 
 import { useWindowDimensions } from '../functions/dimensions'
@@ -61,37 +61,27 @@ const SideBar = () => {
                 </Link>
                 {width > 1100 && (
                     <Link to="/post" className="menu-text">
-                        Playlist
+                        Play By Album
                     </Link>
                 )}
             </div>
             <div className="menu-row">
-                <Link to="/playListbyLove">
-                    <Icon icon={faHeart} className="menu-icon" />
-                </Link>
-                {width > 1100 && (
-                    <Link to="/post" className="menu-text">
-                        Love Songs
-                    </Link>
-                )}
-            </div>
-            <div className="menu-row">
-                <Link to="/searchPlayList">
+                <Link to="/searchTracks">
                     <Icon icon={faSearch} className="menu-icon" />
                 </Link>
                 {width > 1100 && (
                     <Link to="/post" className="menu-text">
-                        Search Play List
+                        Search Tracks
                     </Link>
                 )}
             </div>
             <div className="menu-row">
-                <Link to="/playTrack">
+                <Link to="/artistPlayList">
                     <Icon icon={faSearch} className="menu-icon" />
                 </Link>
                 {width > 1100 && (
                     <Link to="/post" className="menu-text">
-                        Play Tracks
+                        Play By Artist
                     </Link>
                 )}
             </div>
