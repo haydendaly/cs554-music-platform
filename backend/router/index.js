@@ -15,12 +15,8 @@ const constructorMethod = (app) => {
   app.use('/spotify-api/playlists', spotifyPlaylistRoutes);
   app.use('/spotify-api/tracks', spotifyTracksRoutes);
 
-  app.use('/test', (req, res) => {
-    res.send('Hello test!');
-  });
-
-  app.use('/', (req, res) => {
-    res.send('Hello there!');
+  app.use("*", (req, res) => {
+    res.sendStatus(404);
   });
 }
 
