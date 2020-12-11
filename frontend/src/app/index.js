@@ -12,6 +12,7 @@ import { AuthProvider } from '../firebase/Auth'
 import NavBar from '../components/NavBar'
 import Sidebar from '../components/Sidebar'
 import SidebarRight from '../components/SidebarRight'
+import { NoSchemaIntrospectionCustomRule } from 'graphql'
 
 const SignIn = lazy(() => import('../components/SignIn'))
 const SignUp = lazy(() => import('../components/SignUp'))
@@ -45,11 +46,15 @@ function App() {
                         <Route path="/signup" component={SignUp} />
                         <Route path="/playList" exact component={PlayAlbum} />
                         <Route
-                            path="/searchPlayList"
+                            path="/searchTracks"
                             exact
                             component={SearchPlayList}
                         />
-                        <Route path="/playTrack" exact component={PlayArtist} />
+                        <Route
+                            path="/artistPlayList"
+                            exact
+                            component={PlayArtist}
+                        />
                         <Route
                             path="/playListbyLove"
                             exact

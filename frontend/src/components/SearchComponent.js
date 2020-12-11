@@ -14,7 +14,7 @@ const SearchComponent = (props) => {
             className="center"
         >
             <label>
-                <span>Search Shows: </span>
+                <span>Search: </span>
                 <input
                     autoComplete="off"
                     type="text"

@@ -20,7 +20,7 @@ let Spotify = require('spotify-web-api-js')
 let spotifyApi = new SpotifyWebApi()
 
 spotifyApi.setAccessToken(
-    'BQD4dH1FxEk_x75QeJq2Qlrk-lWu5Obvq4q4vB-D_B6hEF8xYdTPlRoQ7UawSPqqqE2wy0qJ-YO-WYA5NaheFM06FZfVWZqn3lDrQFKCX-inV4BWZLCo2fBxF8MAzD63CiUaTCAjFVK7rCEvpfnEEkXkriijfgHYJZ_wc8ZZaapwKKuC'
+    'BQC2_U99dHI9wVjzAPhqRhRbRZDCanzT8CFetZAajMA_qPQxI-kVTum90y7dHRkADr90jl-_HEK6rk1fmeIJPhL2w-R44GZwG4nslxfq3x_gz1P08NI9fdTGAcNxmah3nd75cObZDx-mGMfoQixV_fZ-q9voMt-oXwbAKkvd1oEiMnWw'
 )
 
 const useStyles = makeStyles({
@@ -71,6 +71,9 @@ const useStyles = makeStyles({
     buttonClass: {
         marginLeft: '40%',
     },
+    errorDiv: {
+        color: 'red',
+    },
 })
 
 const SearchPlayList = (props) => {
@@ -80,7 +83,7 @@ const SearchPlayList = (props) => {
     const [loading, setLoading] = useState(true)
     const [sharePost, setSharePost] = useState(null)
     const [showSharePostModal, setShowSharePostModal] = useState(null)
-    const [searchTerm, setSearchTerm] = useState('Love')
+    const [searchTerm, setSearchTerm] = useState('Happy')
     const [errorModal, setErrorModal] = useState(false)
 
     const { currentUser } = useContext(AuthContext)
@@ -123,12 +126,9 @@ const SearchPlayList = (props) => {
 
     const buildCard = (playList) => {
         return (
-            <Grid item xs={12} sm={6} md={4} lg={4} xl={2} key={playList.id}>
+            <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={playList.id}>
                 <Card className={classes.card} variant="outlined">
                     <CardActionArea>
-                        <a href={playList.external_urls.spotify}>
-                            Go to Spotify
-                        </a>
                         <CardContent>
                             <Typography
                                 className={classes.titleHead}
@@ -186,6 +186,21 @@ const SearchPlayList = (props) => {
         return (
             <div>
                 <h2>Loading....</h2>
+            </div>
+        )
+    } else if (searchTerm && playListData.length <= 0) {
+        return (
+            <div class="main">
+                <div>
+                    <SearchComponent
+                        searchValue={searchValue}
+                        searchTerm={searchTerm}
+                    />
+                    <br />
+                    <div className={classes.errorDiv}>
+                        {'error: No result found for this search.'}
+                    </div>
+                </div>
             </div>
         )
     } else {
