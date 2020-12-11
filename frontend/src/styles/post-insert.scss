@@ -1,0 +1,103 @@
+.post-main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.post-list {
+    max-width: 800px;
+    overflow-y: scroll;
+}
+
+.post-new-button {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+}
+
+.post-post {
+    background-color: #191919;
+    width: 600px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    overflow: hidden;
+    font-size: 16px;
+}
+
+.post-header {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.post-header-info {
+    display: flex;
+    flex-direction: row;
+}
+
+.post-header-options {
+    display: flex;
+    flex-direction: row;
+}
+
+.post-header-button {
+    color: #999;
+    display: flex;
+    flex-direction: row;
+    font-size: 20px;
+}
+
+.post-user-icon {
+    height: 50px;
+    width: 50px;
+    margin-left: 10px;
+    border-radius: 25px;
+    overflow: hidden;
+}
+
+.post-header-text {
+    margin-left: 10px;
+    font-size: 17px;
+}
+
+.post-user-name {
+    font-weight: 600;
+    margin-bottom: 0px;
+}
+
+.post-header-date {
+    margin-bottom: 0px;
+}
+
+.post-body {
+    padding: 10px;
+}
+
+.post-song {
+    height: 100px;
+    width: 100%;
+}
+
+.post-footer {
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.post-button {
+    color: #999;
+    display: flex;
+    flex-direction: row;
+    font-size: 20px;
+    justify-content: space-between;
+    width: 45px;
+}
+
+.post-comments {
+    width: 100%;
+}
