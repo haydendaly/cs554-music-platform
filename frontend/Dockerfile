@@ -10,3 +10,4 @@ COPY . .
 
 EXPOSE 8000
 CMD ["serve", "-s", "build", "-l", "8000"]
+# CMD ["npm", "run", "start-linux"]

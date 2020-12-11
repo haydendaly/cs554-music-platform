@@ -24,6 +24,12 @@ async function getAllUsers() {
   return allUserData;
 }
 
+async function getAllUserIds(){
+  const users = await usersCollection();
+  const allUserIds = await users.find({}, {_id:1}).map(function(item){ return item._id; }).toArray();
+  return allUserIds;
+}
+
 async function getUserById(id) {
   id = getValidId(id);
   const users = await usersCollection();
@@ -44,12 +50,12 @@ async function createUser(authUserData) {
     _id: authUserData.id,
     displayName: authUserData.displayName,
     email: authUserData.email,
-    gender: "Not Specified",
     biography: "",
     websiteUrl: "",
     socialMedia: { facebook: "", instagram:"", twitter:"" },
-    profilePicId: "",
-    country: "United States"
+    photoUrl: authUserData.photoUrl,
+    country: "United States",
+    photoData: ""
   };
 
   let users = await usersCollection();
@@ -91,6 +97,7 @@ async function deleteUser(id) {
 
 module.exports = {
   getAllUsers,
+  getAllUserIds,
   getUserById,
   createUser,
   updateUser,
