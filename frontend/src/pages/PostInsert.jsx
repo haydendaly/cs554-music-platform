@@ -1,93 +1,25 @@
 import React, { useContext } from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import { Button } from '@material-ui/core'
+import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import {
-    makeStyles,
-    Card,
-    CardContent,
-    Typography,
-    Button,
-} from '@material-ui/core'
+    faThumbsUp,
+    faComments,
+    faTrash,
+    faPencilAlt,
+} from '@fortawesome/free-solid-svg-icons'
 import { AuthContext } from '../firebase/Auth'
 import AddPostModal from '../components/Modals/AddPostModal'
 
-const useStyles = makeStyles((theme) => ({
-    Button: {
-        marginleft: '.5%',
-        marginRight: '.5%',
-    },
-    card: {
-        marginTop: '5%',
-        maxWidth: '50%',
-        height: '100px',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        borderRadius: 5,
-        border: '1px solid #1e8678',
-        boxShadow:
-            '0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);',
-    },
-    classLike: {
-        marginButtom: '0em',
-        height: '2em',
-        with: '1em',
-        marginLeft: '470px',
-        marginRight: '1%',
-    },
-    toprightCornerParent: {
-        display: 'flex',
-    },
-
-    toprightCornerButton: {
-        // display :"flex",
-        marginleft: 'auto',
-        // top: "2px",
-        // right: "2px",
-        // zindex: "100"
-    },
-    textFieldStyle: {
-        left: '.5%',
-        right: '.5%',
-        top: '.5%',
-        bottom: '25%',
-        width: '90%',
-        margin: 'auto',
-        background: 'white',
-    },
-    root: {
-        display: 'flex',
-        maxWidth: '100%',
-    },
-    details: {
-        display: 'flex',
-        flexDirection: 'column',
-        width: '50%',
-    },
-    content: {
-        flex: '1 0 auto',
-    },
-    cover: {
-        width: '50%',
-    },
-    controls: {
-        display: 'flex',
-        alignItems: 'center',
-        paddingLeft: theme.spacing(1),
-        paddingBottom: theme.spacing(1),
-    },
-    playIcon: {
-        height: 38,
-        width: 38,
-    },
-}))
 function PostInsert() {
-    const classes = useStyles()
     const { currentUser } = useContext(AuthContext)
 
     const [post, setPost] = useState(null)
     const [loading, setLoading] = useState(true)
 
     const [comment, setCommentData] = useState(undefined)
+    const [openComment, setOpenComment] = useState(undefined)
     const [postData, setPostData] = useState(null)
     const [editPostData, seteditPostData] = useState(false)
     const [postId, setPostId] = useState(null)
@@ -112,12 +44,6 @@ function PostInsert() {
             console.log(`error found : ${e}`)
         }
     }
-
-    /***
-     * Handle comment hide/show
-     */
-    const isCommentExpand = (commentTap) => {}
-
     /***
      * Retrieve comment data from textfield
      */
@@ -297,16 +223,14 @@ function PostInsert() {
     }
 
     return (
-        <div className="main">
-            <br />
-            <div>
+        <div className="post-main">
+            <div className="post-new-button">
                 {/* show add/edit post popup */}
                 <center>
                     {' '}
                     <button onClick={() => showAddPostModal()}>Add Post</button>
                 </center>
             </div>
-            <br />
             {showAddModal && (
                 <AddPostModal
                     isOpen={showAddModal}
@@ -320,156 +244,132 @@ function PostInsert() {
             )}
 
             {/* display post */}
-            <ul>
-                {' '}
+            <div className="post-list">
                 {post && post.length > 0 ? (
-                    post.map((product) => (
-                        <li key={product._id} className="list__item product">
-                            <div>
-                                {product.songData ? (
-                                    <Card className={classes.root}>
-                                        <div className={classes.details}>
-                                            <CardContent
-                                                className={classes.content}
-                                            >
-                                                <Typography
-                                                    component="h5"
-                                                    variant="h5"
-                                                >
-                                                    {product.songData.name}
-                                                </Typography>
-                                                <Typography
-                                                    variant="subtitle1"
-                                                    color="textSecondary"
-                                                >
-                                                    {product.songData.id}
-                                                </Typography>
-                                                <Typography
-                                                    variant="subtitle1"
-                                                    color="textSecondary"
-                                                >
-                                                    <a
-                                                        href={
-                                                            product.songData
-                                                                .href
-                                                        }
-                                                    >
-                                                        {product.songData.href}
-                                                    </a>
-                                                </Typography>
-                                                <iframe
-                                                    id="playSong"
-                                                    src={
-                                                        'https://open.spotify.com/embed?uri=' +
-                                                        product.songData.uri
-                                                    }
-                                                    width="300"
-                                                    height="380"
-                                                    frameborder="0"
-                                                    allowtransparency="true"
-                                                ></iframe>
-                                            </CardContent>
-                                        </div>
-                                    </Card>
-                                ) : (
-                                    ''
-                                )}
-
-                                <Card className={classes.root}>
-                                    <CardContent>
-                                        <Typography
-                                            gutterBottom
-                                            variant="h6"
-                                            component="h2"
-                                        >
-                                            {product.text}
-                                        </Typography>
-                                        <Typography
-                                            gutterBottom
-                                            variant="h6"
-                                            component="h2"
-                                        >
-                                            <div
-                                                class={
-                                                    classes.toprightCornerParent
-                                                }
-                                                hidden={hideEditMode(product)}
-                                            >
-                                                <Button
-                                                    id={'edit' + product._id}
-                                                    className={
-                                                        classes.toprightCornerButton
-                                                    }
-                                                    variant="contained"
-                                                    color="primary"
-                                                    size="medium"
-                                                    onClick={() =>
-                                                        editPost(product)
-                                                    }
-                                                >
-                                                    Edit
-                                                </Button>
-                                                <Button
-                                                    id={'delete' + product._id}
-                                                    className={
-                                                        classes.toprightCornerButton
-                                                    }
-                                                    variant="contained"
-                                                    color="primary"
-                                                    size="medium"
-                                                    onClick={() =>
-                                                        deletePost(product)
-                                                    }
-                                                >
-                                                    Delete
-                                                </Button>
-                                            </div>
-                                        </Typography>
-                                    </CardContent>
-                                </Card>
-
-                                <Button
-                                    id={'like' + product._id}
-                                    className={classes.classLike}
-                                    variant="contained"
-                                    color={
-                                        isLikedByUser(product)
-                                            ? 'primary'
-                                            : 'inherit'
+                    post.map((postItem) => (
+                        <div key={postItem._id} className="post-post shadow">
+                            <div className="post-header">
+                                <div className="post-header-info">
+                                    <img
+                                        className="post-user-icon shadow"
+                                        src="https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
+                                        alt={`User: ${postItem.userId}`}
+                                    />
+                                    <div className="post-header-text">
+                                        <p className="post-user-name">
+                                            Temporary Username
+                                        </p>
+                                        <p className="post-header-date">
+                                            Monday at 3:45pm
+                                        </p>
+                                    </div>
+                                </div>
+                                <div
+                                    className="post-header-options"
+                                    hidden={hideEditMode(postItem)}
+                                >
+                                    <div
+                                        onClick={() => editPost(postItem)}
+                                        className="post-button"
+                                    >
+                                        <Icon
+                                            icon={faPencilAlt}
+                                            className="menu-icon"
+                                        />
+                                    </div>
+                                    <div
+                                        onClick={() => deletePost(postItem)}
+                                        className="post-button"
+                                    >
+                                        <Icon
+                                            icon={faTrash}
+                                            className="menu-icon"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <p className="post-body">{postItem.text}</p>
+                            {postItem.songData && (
+                                <div className="post-song">
+                                    <a href={postItem.songData.href}>
+                                        {postItem.songData.name}
+                                    </a>
+                                    <iframe
+                                        title={postItem.songData.name}
+                                        id="playSong"
+                                        src={`https://open.spotify.com/embed?uri=${postItem.songData.uri}`}
+                                        width="300"
+                                        height="380"
+                                        frameborder="0"
+                                        allowtransparency="true"
+                                    />
+                                </div>
+                            )}
+                            <div className="post-footer">
+                                <div
+                                    onClick={() => handleLike(postItem)}
+                                    className="post-button"
+                                    style={
+                                        isLikedByUser(postItem)
+                                            ? { color: '#fff' }
+                                            : {}
                                     }
-                                    size="medium"
-                                    onClick={() => handleLike(product)}
                                 >
-                                    {product.likesArray
-                                        ? product.likesArray.length
-                                        : 0}{' '}
-                                    Like
-                                </Button>
-                                <Button
-                                    id={'comment' + product._id}
-                                    variant="contained"
-                                    color="secondary"
-                                    size="medium"
-                                    onClick={() => isCommentExpand(product)}
+                                    <Icon
+                                        icon={faThumbsUp}
+                                        className="menu-icon"
+                                    />
+                                    <p>
+                                        {postItem.likesArray
+                                            ? postItem.likesArray.length
+                                            : 0}
+                                    </p>
+                                </div>
+                                <div
+                                    onClick={() =>
+                                        setOpenComment(
+                                            openComment === postItem._id
+                                                ? undefined
+                                                : postItem._id
+                                        )
+                                    }
+                                    className="post-button"
                                 >
-                                    {product.commentsArray
-                                        ? product.commentsArray.length
-                                        : 0}{' '}
-                                    Comment
-                                </Button>
-
-                                <ul>
-                                    {product['commentsArray'] &&
-                                    product['commentsArray'].length > 0 ? (
-                                        product['commentsArray'].map(
+                                    <Icon
+                                        icon={faComments}
+                                        className="menu-icon"
+                                    />
+                                    <p>
+                                        {postItem.commentsArray
+                                            ? postItem.commentsArray.length
+                                            : 0}
+                                    </p>
+                                </div>
+                            </div>
+                            {openComment && openComment === postItem._id && (
+                                <div className="post-comments">
+                                    <textarea
+                                        id={'commentField' + postItem._id}
+                                        type="text"
+                                        placeholder="Enter Comment here...."
+                                        rows="2"
+                                        onChange={handleCommentTextField}
+                                    />
+                                    <Button
+                                        variant="contained"
+                                        color="secondary"
+                                        size="medium"
+                                        type="reset"
+                                        defaultValue="Reset"
+                                        onClick={() => saveComment(postItem)}
+                                    >
+                                        Enter
+                                    </Button>
+                                    {postItem['commentsArray'] &&
+                                        postItem['commentsArray'].length > 0 &&
+                                        postItem['commentsArray'].map(
                                             (commentItem) => (
-                                                <li
-                                                    className={
-                                                        classes.classLike
-                                                    }
-                                                    key={commentItem._id}
-                                                    className="list__item product"
-                                                >
+                                                <div key={commentItem._id}>
                                                     {commentItem['commentText']}
                                                     <div
                                                         hidden={hideEditMode(
@@ -486,7 +386,7 @@ function PostInsert() {
                                                             size="medium"
                                                             onClick={() =>
                                                                 deleteComment(
-                                                                    product,
+                                                                    postItem,
                                                                     commentItem
                                                                 )
                                                             }
@@ -494,41 +394,17 @@ function PostInsert() {
                                                             Delete
                                                         </Button>
                                                     </div>
-                                                </li>
+                                                </div>
                                             )
-                                        )
-                                    ) : (
-                                        <p>No Comment</p>
-                                    )}
-                                </ul>
-
-                                <textarea
-                                    className={classes.textFieldStyle}
-                                    id={'commentField' + product._id}
-                                    type="text"
-                                    placeholder="Enter Comment here...."
-                                    rows="2"
-                                    onChange={handleCommentTextField}
-                                />
-                                <Button
-                                    variant="contained"
-                                    color="secondary"
-                                    size="medium"
-                                    type="reset"
-                                    defaultValue="Reset"
-                                    onClick={() => saveComment(product)}
-                                >
-                                    Enter
-                                </Button>
-                                <br />
-                                <br />
-                            </div>
-                        </li>
+                                        )}
+                                </div>
+                            )}
+                        </div>
                     ))
                 ) : (
-                    <p>No Post</p>
+                    <p>No Posts</p>
                 )}
-            </ul>
+            </div>
         </div>
     )
 }

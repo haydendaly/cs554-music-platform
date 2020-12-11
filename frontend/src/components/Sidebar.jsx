@@ -50,7 +50,7 @@ const SideBar = () => {
                     <Icon icon={faPlus} className="menu-icon" />
                 </Link>
                 {width > 1100 && (
-                    <Link to="/post" className="menu-text">
+                    <Link to="/post/create" className="menu-text">
                         Add Post
                     </Link>
                 )}
@@ -60,7 +60,7 @@ const SideBar = () => {
                     <Icon icon={faList} className="menu-icon" />
                 </Link>
                 {width > 1100 && (
-                    <Link to="/post" className="menu-text">
+                    <Link to="/playList" className="menu-text">
                         Playlist
                     </Link>
                 )}
@@ -70,7 +70,7 @@ const SideBar = () => {
                     <Icon icon={faHeart} className="menu-icon" />
                 </Link>
                 {width > 1100 && (
-                    <Link to="/post" className="menu-text">
+                    <Link to="/playListbyLove" className="menu-text">
                         Love Songs
                     </Link>
                 )}
@@ -80,7 +80,7 @@ const SideBar = () => {
                     <Icon icon={faSearch} className="menu-icon" />
                 </Link>
                 {width > 1100 && (
-                    <Link to="/post" className="menu-text">
+                    <Link to="/searchPlaylist" className="menu-text">
                         Search Play List
                     </Link>
                 )}
@@ -90,7 +90,7 @@ const SideBar = () => {
                     <Icon icon={faSearch} className="menu-icon" />
                 </Link>
                 {width > 1100 && (
-                    <Link to="/post" className="menu-text">
+                    <Link to="/playTrack" className="menu-text">
                         Play Tracks
                     </Link>
                 )}
