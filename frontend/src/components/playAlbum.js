@@ -194,7 +194,7 @@ const PlayAlbum = (props) => {
 			  <Modal.Header closeButton>
 				<Modal.Title>Modal heading</Modal.Title>
 			  </Modal.Header>
-			 
+
 			  <Modal.Body>
 			  <textarea className={classes.textFieldStyle} type='text' placeholder="Enter description here...." rows="2" /> 
 			  <textarea className={classes.textFieldStyle} value={sharePost? 'name:'+sharePost.name+' href:'+sharePost.external_urls.spotify+' id:'+sharePost.id : ''} rows="4"></textarea></Modal.Body>
