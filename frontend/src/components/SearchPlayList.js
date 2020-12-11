@@ -20,7 +20,7 @@ let Spotify = require('spotify-web-api-js')
 let spotifyApi = new SpotifyWebApi()
 
 spotifyApi.setAccessToken(
-    'BQAm0xnzbiDvCo52MJQSOo5ahTWuw2FcoX91qEbTlvA-fIBbX6ojo9yk3_NkG_vZyTN2WbjktjlhWGb2sYz8efc0Zp_kP7uDPg7A5sGcU3UZ8POwdAUjb12qXLhCLyO069O0G-sREHaIkV4NNcCyvNZ8c7PTcv9yZM90w4Gjw_JAFUU1'
+    'BQC2_U99dHI9wVjzAPhqRhRbRZDCanzT8CFetZAajMA_qPQxI-kVTum90y7dHRkADr90jl-_HEK6rk1fmeIJPhL2w-R44GZwG4nslxfq3x_gz1P08NI9fdTGAcNxmah3nd75cObZDx-mGMfoQixV_fZ-q9voMt-oXwbAKkvd1oEiMnWw'
 )
 
 const useStyles = makeStyles({
@@ -126,7 +126,7 @@ const SearchPlayList = (props) => {
 
     const buildCard = (playList) => {
         return (
-            <Grid item xs={12} sm={6} md={4} lg={4} xl={2} key={playList.id}>
+            <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={playList.id}>
                 <Card className={classes.card} variant="outlined">
                     <CardActionArea>
                         <CardContent>

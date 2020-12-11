@@ -8,7 +8,7 @@ import {
     makeStyles,
     Button,
     CardMedia,
-    Link
+    Link,
 } from '@material-ui/core'
 import SpotifyWebApi from 'spotify-web-api-js'
 import { AuthContext } from '../firebase/Auth'
