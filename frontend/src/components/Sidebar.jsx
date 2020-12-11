@@ -7,7 +7,6 @@ import {
     faUser,
     faPlus,
     faList,
-    faHeart,
     faSearch,
 } from '@fortawesome/free-solid-svg-icons'
 
@@ -50,7 +49,7 @@ const SideBar = () => {
                     <Icon icon={faPlus} className="menu-icon" />
                 </Link>
                 {width > 1100 && (
-                    <Link to="/post" className="menu-text">
+                    <Link to="/post/create" className="menu-text">
                         Add Post
                     </Link>
                 )}
