@@ -1,0 +1,45 @@
+.sidenav-right {
+    height: 100%;
+    width: 300px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: #191919;
+    overflow-x: hidden;
+    padding-top: 20px;
+  }
+  
+  .search {
+    background-color: #fff;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 40px;
+    width: 260px;
+    margin-left: 20px;
+    padding-left: 10px;
+    border-radius: 10px;
+  }
+  
+  .search-input {
+    font-size: 16px;
+    padding: 16px;
+    border: none;
+    outline: none;
+    width: 260px;
+    background: none;
+  }
+  
+  .search-results {
+    margin: 20px;
+    padding: 10px;
+    background-color: #272727;
+  }
+  
+  .recommended {
+    margin: 20px;
+    padding: 20px;
+    background-color: #272727;
+    border-radius: 20px;
+  }

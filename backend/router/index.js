@@ -1,3 +1,6 @@
+const post = require("./postRoute");
+const user = require("./userRoute");
+const login = require('./login')
 const spotifyArtistsRoutes = require('./spotify-api/artists');
 const spotifyAlbumsRoutes = require('./spotify-api/albums');
 const spotifySearchRoutes = require('./spotify-api/search');
@@ -7,6 +10,10 @@ const spotifyPlaylistRoutes = require('./spotify-api/playlists');
 const spotifyTracksRoutes = require('./spotify-api/tracks');
 
 const constructorMethod = (app) => {
+  app.use("/", login);
+  app.use("/api/post", post);
+  app.use("/api/user", user);
+  
   app.use('/spotify-api/artists', spotifyArtistsRoutes);
   app.use('/spotify-api/albums', spotifyAlbumsRoutes);
   app.use('/spotify-api/search', spotifySearchRoutes);
@@ -18,6 +25,7 @@ const constructorMethod = (app) => {
   app.use("*", (req, res) => {
     res.sendStatus(404);
   });
+
 }
 
 module.exports = constructorMethod;
