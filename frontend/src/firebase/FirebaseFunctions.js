@@ -57,7 +57,7 @@ async function doSocialSignIn(provider) {
 
     if (allUsers) {
         const existingIds = Object.keys(allUsers)
-        console.log("alluser:", allUsers);
+        console.log('alluser:', allUsers)
         // users exist but current user is a new user to project
         if (!existingIds.includes(user.uid)) {
             await firebase.database().ref('/users').child(user.uid).set({
@@ -71,7 +71,10 @@ async function doSocialSignIn(provider) {
                 displayName: user.displayName,
             }
             try {
-                await axios.post('http://localhost:3000/api/user/create', newUser)
+                await axios.post(
+                    'http://localhost:3000/api/user/create',
+                    newUser
+                )
             } catch (e) {
                 console.log(e)
             }

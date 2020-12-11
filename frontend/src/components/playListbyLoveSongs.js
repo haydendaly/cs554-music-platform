@@ -85,7 +85,7 @@ const PlayListByLoveSongs = (props) => {
     useEffect(() => {
         async function fetchData() {
             try {
-                spotifyApi.searchTracks('Love',{country:'us'}).then(
+                spotifyApi.searchTracks('Love', { country: 'us' }).then(
                     function (data) {
                         setPlayListData(data.tracks.items)
                         setLoading(false)

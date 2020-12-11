@@ -11,7 +11,7 @@ import {
 import SpotifyWebApi from 'spotify-web-api-js'
 import { AuthContext } from '../firebase/Auth'
 import AddPostModal from './Modals/AddPostModal'
-import SearchComponent  from './SearchComponent'
+import SearchComponent from './SearchComponent'
 import ShowErrorModal from './Modals/ShowErrorModal'
 
 let Spotify = require('spotify-web-api-js')
@@ -80,7 +80,7 @@ const SearchPlayList = (props) => {
     const [loading, setLoading] = useState(true)
     const [sharePost, setSharePost] = useState(null)
     const [showSharePostModal, setShowSharePostModal] = useState(null)
-    const [searchTerm, setSearchTerm ] = useState('Love')
+    const [searchTerm, setSearchTerm] = useState('Love')
     const [errorModal, setErrorModal] = useState(false)
 
     const { currentUser } = useContext(AuthContext)
@@ -89,7 +89,7 @@ const SearchPlayList = (props) => {
     useEffect(() => {
         async function fetchData() {
             try {
-                spotifyApi.searchTracks(searchTerm,{country:'US'}).then(
+                spotifyApi.searchTracks(searchTerm, { country: 'US' }).then(
                     function (data) {
                         setPlayListData(data.tracks.items)
                         setLoading(false)
@@ -117,14 +117,12 @@ const SearchPlayList = (props) => {
         setErrorModal(false)
     }
 
-
     const searchValue = async (value) => {
-        setSearchTerm(value);	
-    };
+        setSearchTerm(value)
+    }
 
     const buildCard = (playList) => {
         return (
-
             <Grid item xs={12} sm={6} md={4} lg={4} xl={2} key={playList.id}>
                 <Card className={classes.card} variant="outlined">
                     <CardActionArea>
@@ -156,7 +154,7 @@ const SearchPlayList = (props) => {
                         allow="encrypted-media"
                     ></iframe>
                     <div className="e-card-actions e-card-vertical">
-                    <Button
+                        <Button
                             variant="contained"
                             color="secondary"
                             className={classes.buttonClass}
@@ -193,32 +191,37 @@ const SearchPlayList = (props) => {
     } else {
         return (
             <div class="main">
-            <br/>
+                <br />
                 <div>
-                    <SearchComponent searchValue={searchValue} searchTerm = {searchTerm} />
+                    <SearchComponent
+                        searchValue={searchValue}
+                        searchTerm={searchTerm}
+                    />
                 </div>
-                <br/>
+                <br />
                 <Grid container className={classes.grid} spacing={5}>
                     {card}
                 </Grid>
-                
-            {currentUser ? (showSharePostModal && (
-                <AddPostModal
-                    isOpen={showSharePostModal}
-                    handleClose={handleCloseModals}
-                    title={'Share Post'}
-                    data={null}
-                    currentUser={currentUser.uid}
-                    songData={sharePost}
-                    postId={null}
-                />
-            )) : errorModal && (
-                <ShowErrorModal
-                    isOpen={errorModal}
-                    handleClose={handleCloseModals}
-                    title={'Login Error'}
-                />
-            )}
+
+                {currentUser
+                    ? showSharePostModal && (
+                          <AddPostModal
+                              isOpen={showSharePostModal}
+                              handleClose={handleCloseModals}
+                              title={'Share Post'}
+                              data={null}
+                              currentUser={currentUser.uid}
+                              songData={sharePost}
+                              postId={null}
+                          />
+                      )
+                    : errorModal && (
+                          <ShowErrorModal
+                              isOpen={errorModal}
+                              handleClose={handleCloseModals}
+                              title={'Login Error'}
+                          />
+                      )}
             </div>
         )
     }
