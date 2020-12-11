@@ -36,13 +36,13 @@ function SignUp() {
 
     return (
         <div className="main">
-            <div className="container">
+            <div className="container signup">
                 <h1>Sign up</h1>
                 {pwMatch && <h4 className="error">{pwMatch}</h4>}
                 <form onSubmit={handleSignUp}>
-                    <div className="form-group">
-                        <label>
-                            Name:
+                    <div className="form-group row">
+                        <label className="col-sm-2 col-form-label">Name</label>
+                        <div className="col-sm-10">
                             <input
                                 className="form-control"
                                 required
@@ -50,11 +50,11 @@ function SignUp() {
                                 type="text"
                                 placeholder="Name"
                             />
-                        </label>
+                        </div>
                     </div>
-                    <div className="form-group">
-                        <label>
-                            Email:
+                    <div className="form-group row">
+                        <label className="col-sm-2 col-form-label">Email</label>
+                        <div className="col-sm-10">
                             <input
                                 className="form-control"
                                 required
@@ -62,11 +62,13 @@ function SignUp() {
                                 type="email"
                                 placeholder="Email"
                             />
-                        </label>
+                        </div>
                     </div>
-                    <div className="form-group">
-                        <label>
-                            Password:
+                    <div className="form-group row">
+                        <label className="col-sm-2 col-form-label">
+                            Password
+                        </label>
+                        <div className="col-sm-10">
                             <input
                                 className="form-control"
                                 id="passwordOne"
@@ -75,11 +77,13 @@ function SignUp() {
                                 placeholder="Password"
                                 required
                             />
-                        </label>
+                        </div>
                     </div>
-                    <div className="form-group">
-                        <label>
-                            Confirm Password:
+                    <div className="form-group row">
+                        <label className="col-sm-2 col-form-label">
+                            Confirm Password
+                        </label>
+                        <div className="col-sm-10">
                             <input
                                 className="form-control"
                                 name="passwordTwo"
@@ -87,9 +91,14 @@ function SignUp() {
                                 placeholder="Confirm Password"
                                 required
                             />
-                        </label>
+                        </div>
                     </div>
-                    <button id="submitButton" name="submitButton" type="submit">
+                    <button
+                        className="btn btn-primary"
+                        id="submitButton"
+                        name="submitButton"
+                        type="submit"
+                    >
                         Sign Up
                     </button>
                 </form>

@@ -1,0 +1,36 @@
+.forgotPassword {
+	background: none !important;
+	border: none !important;
+	text-decoration: underline;
+  margin-left: 5px;
+  font-size: 15px;
+	color: white;
+}
+
+.forgotPassword:hover {
+	text-decoration: none;
+	color: dodgerblue;
+}
+
+.login {	
+	text-align: left;
+	font-size: 20px;
+	padding-left: 20%;
+	padding-top: 10px;
+}
+
+.login .form-control {
+	max-width: 300px;
+}
+
+.signup {	
+	text-align: left;
+	font-size: 20px;
+	padding-left: 20%;
+	padding-top: 10px;
+}
+
+.signup .form-control {
+	max-width: 300px;
+}
+
