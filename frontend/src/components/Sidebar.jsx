@@ -8,7 +8,7 @@ import {
     faPlus,
     faList,
     faHeart,
-    faSearch
+    faSearch,
 } from '@fortawesome/free-solid-svg-icons'
 
 import { useWindowDimensions } from '../functions/dimensions'

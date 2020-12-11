@@ -1,3 +1,4 @@
+const userData = require('./userData');
 
 const { v1: uuidv4 } = require("uuid");
 function getValidId(id) {
@@ -23,11 +24,14 @@ async function getCommentById(commentId, commentArray) {
 
 async function addComment(userId, commentText) {
 userId = getValidId(userId);
+const user = await userData.getUserById(userId);
 
 let schema = {
   _id: uuidv4(),
   userId : userId,
-  commentText : commentText
+  commentText : commentText,
+  displayName: user.displayName,
+  photoUrl: user.photoUrl
 };
 
 return schema;

@@ -2,18 +2,19 @@ import React, { useContext } from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { AuthContext } from '../firebase/Auth'
-import UploadImage from '../components/UploadImage'
 
 function UserProfile(props) {
     const { currentUser } = useContext(AuthContext)
 
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
-
+    const [selectedFile, setSelectedFile] = useState(null)
+    const [photo, setPhoto] = useState(0)
     /***
      * Render current user
      */
     useEffect(() => {
+        console.log('useEffect fired')
         const getUserData = async () => {
             try {
                 const { data } = await axios.get(
@@ -22,12 +23,13 @@ function UserProfile(props) {
                 console.log(data)
                 setUser(data)
                 setLoading(false)
+                setPhoto(0)
             } catch (e) {
                 console.log(`error found : ${e}`)
             }
         }
         getUserData()
-    }, [currentUser])
+    }, [currentUser, photo])
 
     const submitForm = async (e) => {
         e.preventDefault()
@@ -64,11 +66,47 @@ function UserProfile(props) {
         }
     }
 
+    const fileSelectHandler = (e) => {
+        console.log(e.target.files[0])
+        setSelectedFile(e.target.files[0])
+    }
+
+    const fileUploadHandler = async () => {
+        try {
+            let formData = new FormData()
+            formData.append('image', selectedFile, selectedFile.name)
+            const success = await axios.post(
+                `http://localhost:3000/api/user/photo/${currentUser.uid}`,
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                }
+            )
+            console.log(success)
+            alert('Profile Picture Updated!')
+            setPhoto(1)
+            
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
     let body = null
 
     if (user && props.page === 'ShowProfile') {
         body = (
             <div>
+                {user.photoUrl ? ( // photoUrl is from social media signin
+                    <img src={user.photoUrl} alt="avatar"></img>
+                ) : (
+                    <img
+                        src={`http://localhost:3000/api/user/photo/${user._id}`}
+                        alt="avatar"
+                    ></img>
+                )}
+
                 <p>Display Name: {user.displayName}</p>
                 <p>Email: {user.email}</p>
                 <p>Gender: {user.gender}</p>
@@ -132,8 +170,21 @@ function UserProfile(props) {
     } else if (user && props.page === 'EditProfile') {
         body = (
             <div>
-                <UploadImage />
-                
+                {user.photoUrl ? (
+                    <img src={user.photoUrl} alt="avatar"></img>
+                ) : (
+                    <img
+                        src={`http://localhost:3000/api/user/photo/${user._id}`}
+                        alt="avatar"
+                    ></img>
+                )}
+
+                {user.photoUrl ? null : (
+                    <div>
+                        <input type="file" onChange={fileSelectHandler} />
+                        <button onClick={fileUploadHandler}>Upload</button>
+                    </div>
+                )}
                 <form onSubmit={submitForm}>
                     <div className="form-group">
                         <label>

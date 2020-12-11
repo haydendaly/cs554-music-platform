@@ -16,7 +16,7 @@ async function doCreateUserWithEmailAndPassword(email, password, displayName) {
         id: user.uid,
         email: user.email,
         displayName: user.displayName,
-        photoUrl: user.photoURL
+        photoUrl: user.photoURL,
     }
     try {
         await axios.post('http://localhost:3000/api/user/create', newUser)
@@ -37,6 +37,22 @@ async function doChangePassword(email, oldPassword, newPassword) {
 
 async function doSignInWithEmailAndPassword(email, password) {
     await firebase.auth().signInWithEmailAndPassword(email, password)
+    const user = firebase.auth().currentUser
+    let { data } = await axios.get('http://localhost:3000/api/user/ids')
+
+    if (!data.includes(user.uid)) {
+        const newUser = {
+            id: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+            photoUrl: user.photoURL,
+        }
+        try {
+            await axios.post('http://localhost:3000/api/user/create', newUser)
+        } catch (e) {
+            console.log(e)
+        }
+    }
 }
 
 async function doSocialSignIn(provider) {
@@ -48,61 +64,14 @@ async function doSocialSignIn(provider) {
     }
     await firebase.auth().signInWithPopup(socialProvider)
     const user = firebase.auth().currentUser
-    let allUsers = null
-    await firebase
-        .database()
-        .ref('/users')
-        .once('value', function (result) {
-            allUsers = result.val()
-        })
-
-    if (allUsers) {
-        const existingIds = Object.keys(allUsers)
-        console.log("alluser:", allUsers);
-        // users exist but current user is a new user to project
-        if (!existingIds.includes(user.uid)) {
-            await firebase.database().ref('/users').child(user.uid).set({
-                email: user.email,
-                displayName: user.displayName,
-            })
-
-            const newUser = {
-                id: user.uid,
-                email: user.email,
-                displayName: user.displayName,
-                photoUrl: user.photoURL
-            }
-            try {
-                await axios.post('http://localhost:3000/api/user/create', newUser)
-            } catch (e) {
-                console.log(e)
-            }
-        } else {
-            // user already exist, update the displayName and photo
-            const updatedInfo = {
-                displayName: user.displayName,
-                photoUrl: user.photoURL
-            }
-
-            try{
-                await axios.patch(`http://localhost:3000/api/user/${user.uid}`, updatedInfo)
-            }catch(e){
-                console.log(e)
-            }
-
-        }
-    } else {
-        // no users yet
-        await firebase.database().ref('/users').child(user.uid).set({
-            email: user.email,
-            displayName: user.displayName,
-        })
-
+    let { data } = await axios.get('http://localhost:3000/api/user/ids')
+    console.log(data)
+    if (!data.includes(user.uid)) {
         const newUser = {
             id: user.uid,
             email: user.email,
             displayName: user.displayName,
-            photoUrl: user.photoURL
+            photoUrl: user.photoURL,
         }
         try {
             await axios.post('http://localhost:3000/api/user/create', newUser)
