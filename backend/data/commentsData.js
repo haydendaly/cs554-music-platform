@@ -31,7 +31,6 @@ let schema = {
   userId : userId,
   commentText : commentText,
   displayName: user.displayName,
-  photoUrl: user.photoUrl
 };
 
 return schema;
