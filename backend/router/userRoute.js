@@ -140,10 +140,16 @@ router.get("/photo/:id", async(req, res) =>{
   try{
     const user = await usersData.getUserById(req.params.id)
     const photoData = user.photoData;
+
+    // user uploaded photo has highest priority
+    // then the social media photo
+    // then the default photo
     if (photoData){    
       res.contentType(photoData.type);
       res.send(photoData.data.buffer);
-    } else{
+    } else if(user.photoUrl){
+      res.redirect(user.photoUrl);
+    } else {
       res.sendFile(path.join(__dirname, '..', 'public', 'img', 'default_profile.jpeg'));
     }
   

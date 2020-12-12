@@ -110,7 +110,7 @@ function UserProfile(props) {
             <div>
                 <div className="card mt-3">
                     <img
-                        src={user.photoUrl ? user.photoUrl : imgUrl}
+                        src={imgUrl}
                         alt="avatar"
                         className="card-img-top img-circle avatar"
                     ></img>
@@ -188,28 +188,26 @@ function UserProfile(props) {
                         <div className="col col-sm-4">
                             <div className="user-img">
                                 <img
-                                    src={user.photoUrl ? user.photoUrl : imgUrl}
+                                    src={imgUrl}
                                     alt="avatar"
                                     className="avatar img-circle avatar-lg"
                                     width="150px"
                                 ></img>
 
-                                {user.photoUrl ? null : ( // if user use social signin, photo cannot be changed
-                                    <div>
-                                        <input
-                                            type="file"
-                                            onChange={fileSelectHandler}
-                                            className="input-file"
-                                        />
-                                        <br />
-                                        <button
-                                            className="btn btn-primary"
-                                            onClick={fileUploadHandler}
-                                        >
-                                            Upload
-                                        </button>
-                                    </div>
-                                )}
+                                <div>
+                                    <input
+                                        type="file"
+                                        onChange={fileSelectHandler}
+                                        className="input-file"
+                                    />
+                                    <br />
+                                    <button
+                                        className="btn btn-primary"
+                                        onClick={fileUploadHandler}
+                                    >
+                                        Upload
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         <div className="col">

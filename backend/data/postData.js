@@ -57,7 +57,6 @@ async function createPost(postParam) {
     userId,
     songData,
     displayName: user.displayName,
-    photoUrl: user.photoUrl
   };
 
   let postObj = await postCollectionObj();
