@@ -37,7 +37,10 @@ const spotifyApi = require('./authorization');
     Endpoint structure example: http://localhost:3000/spotify-api/search?q=king%20gizzard&type=artist&market=US
 */
 router.get('/', async (req, res) => {
-    const { q, type, market, limit, offset, include_external } = req.query;
+    const { access_token, q, type, market, limit, offset, include_external } = req.query;
+
+    if (!access_token) res.status(400).json({ error: 'Required query parameter \'access_token\' not provided' });
+    spotifyApi.setAccessToken(access_token);
 
     if (!q) return res.status(400).json({ error: 'Required query parameter \'q\' not provided' });
     if (!type) return res.status(400).json({ error: 'Required query parameter \'type\' not provided' });

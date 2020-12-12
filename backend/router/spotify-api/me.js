@@ -21,6 +21,11 @@ const spotifyApi = require('./authorization');
     Endpoint structure: localhost:3000/spotify-api/me
 */
 router.get('/', async (req, res) => {
+    const { access_token } = req.query;
+
+    if (!access_token) res.status(400).json({ error: 'Required query parameter \'access_token\' not provided' });
+    spotifyApi.setAccessToken(access_token);
+
     spotifyApi.getMe().then(
         (data) => {
             res.json(data.body);
@@ -40,8 +45,10 @@ router.get('/', async (req, res) => {
     Endpoint structure: localhost:3000/spotify-api/me/playlists
 */
 router.get('/playlists', async (req, res) => {
+    const { access_token, limit, offset } = req.query
 
-    const { limit, offset } = req.query
+    if (!access_token) res.status(400).json({ error: 'Required query parameter \'access_token\' not provided' });
+    spotifyApi.setAccessToken(access_token);
 
     let optQueryParams = {};
     if (limit) optQueryParams.limit = limit;

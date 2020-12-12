@@ -38,7 +38,10 @@ const spotifyApi = require('./authorization');
 */
 router.get('/:id', async (req, res) => {
     const albumID = req.params.id;
-    const { market } = req.query;
+    const { access_token, market } = req.query;
+
+    if (!access_token) res.status(400).json({ error: 'Required query parameter \'access_token\' not provided' });
+    spotifyApi.setAccessToken(access_token);
 
     let optQueryParams = {};
     if (market) optQueryParams.market = market;
@@ -76,7 +79,10 @@ router.get('/:id', async (req, res) => {
 */
 router.get('/:id/tracks', async (req, res) => {
     const albumID = req.params.id;
-    const { limit, offset, market } = req.query;
+    const { access_token, limit, offset, market } = req.query;
+
+    if (!access_token) res.status(400).json({ error: 'Required query parameter \'access_token\' not provided' });
+    spotifyApi.setAccessToken(access_token);
 
     let optQueryParams = {}
     if (limit) optQueryParams.limit = limit;
@@ -115,7 +121,10 @@ router.get('/:id/tracks', async (req, res) => {
   Endpoint structure example: localhost:3000/spotify-api/albums?ids=31jHyTSpj8nWQgV45gvZA3,4G9ANFGk9579p2uirMbVT0
 */
 router.get('/', async (req, res) => {
-    const { ids, market } = req.query;
+    const { access_token, ids, market } = req.query;
+
+    if (!access_token) res.status(400).json({ error: 'Required query parameter \'access_token\' not provided' });
+    spotifyApi.setAccessToken(access_token);
 
     if (!ids) return res.status(400).json({ error: 'Required query parameter \'ids\' not provided' });
 
