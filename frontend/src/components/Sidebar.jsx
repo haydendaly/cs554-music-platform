@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { AuthContext } from '../firebase/Auth'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import {
@@ -8,15 +9,23 @@ import {
     faPlus,
     faList,
     faSearch,
+    faSignInAlt,
+    faUserPlus,
+    faSignOutAlt
 } from '@fortawesome/free-solid-svg-icons'
 
 import { useWindowDimensions } from '../functions/dimensions'
 
+import { doSignOut } from '../firebase/FirebaseFunctions'
+
 const SideBar = () => {
     const { width } = useWindowDimensions()
+    const {currentUser} = useContext(AuthContext)
+    let body = null;
 
-    return (
-        <div
+    if(currentUser){
+        body = (
+            <div
             className="sidenav shadow"
             style={width <= 1100 ? { width: 55 } : {}}
         >
@@ -84,8 +93,59 @@ const SideBar = () => {
                     </Link>
                 )}
             </div>
+            
+            <div className="menu-row">
+                <Link to="#">
+                    <Icon icon={faSignOutAlt} className="menu-icon" onClick={doSignOut}/>
+                </Link>
+                
+                {width > 1100 && (
+                    <Link to="#" onClick={doSignOut} className="menu-text">
+                        Sign Out
+                    </Link>
+                )}
+            </div>
+
+        </div>
+        )
+    } else {
+       body = ( <div className="sidenav shadow"
+        style={ width <= 1100 ? { width: 55 } : {}}>
+            
+            <div className="header">
+                <Icon icon={faMusic} color="#fff" size="large" />
+                {width > 1100 && <h1 className="header-text">SongShare</h1>}
+            </div>
+
+            <div className="menu-row">
+                <Link to="/signin">
+                    <Icon icon={faSignInAlt} className="menu-icon" />
+                </Link>
+                {width > 1100 && (
+                    <Link to="/signin" className="menu-text">
+                        Sign In
+                    </Link>
+                )}
+            </div>
+            <div className="menu-row">
+                <Link to="/signup">
+                    <Icon icon={faUserPlus} className="menu-icon" />
+                </Link>
+                {width > 1100 && (
+                    <Link to="/signup" className="menu-text">
+                        Sign Up
+                    </Link>
+                )}
+            </div>
+        </div> );
+    }
+
+    return (
+        <div>
+            {body}
         </div>
     )
 }
+
 
 export default SideBar
