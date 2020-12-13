@@ -38,7 +38,7 @@ router.get('/:id', async (req, res) => {
     const artistID = req.params.id;
     const { access_token } = req.query;
 
-    if (!access_token) res.status(400).json({ error: 'Required query parameter \'access_token\' not provided' });
+    if (!access_token) return res.status(400).json({ error: 'Required query parameter \'access_token\' not provided' });
     spotifyApi.setAccessToken(access_token);
 
     const cacheKey = `spotify-api/artists/${artistID}`;
@@ -86,7 +86,7 @@ router.get('/:id/albums', async (req, res) => {
     const artistID = req.params.id;
     const { access_token, limit, offset, country, include_groups } = req.query
 
-    if (!access_token) res.status(400).json({ error: 'Required query parameter \'access_token\' not provided' });
+    if (!access_token) return res.status(400).json({ error: 'Required query parameter \'access_token\' not provided' });
     spotifyApi.setAccessToken(access_token);
 
     let optQueryParams = {}

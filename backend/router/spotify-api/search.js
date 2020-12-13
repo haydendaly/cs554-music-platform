@@ -39,7 +39,7 @@ const spotifyApi = require('./authorization');
 router.get('/', async (req, res) => {
     const { access_token, q, type, market, limit, offset, include_external } = req.query;
 
-    if (!access_token) res.status(400).json({ error: 'Required query parameter \'access_token\' not provided' });
+    if (!access_token) return res.status(400).json({ error: 'Required query parameter \'access_token\' not provided' });
     spotifyApi.setAccessToken(access_token);
 
     if (!q) return res.status(400).json({ error: 'Required query parameter \'q\' not provided' });

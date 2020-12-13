@@ -30,7 +30,7 @@ router.get('/:id', async (req, res) => {
     const playlistID = req.params.id;
     const { access_token, fields, market, additional_types } = req.query;
 
-    if (!access_token) res.status(400).json({ error: 'Required query parameter \'access_token\' not provided' });
+    if (!access_token) return res.status(400).json({ error: 'Required query parameter \'access_token\' not provided' });
     spotifyApi.setAccessToken(access_token);
 
     let optQueryParams = {};
@@ -67,7 +67,7 @@ router.get('/:id/tracks', async (req, res) => {
     const playlistID = req.params.id;
     const { access_token, fields, limit, offset, market, additional_types } = req.query;
 
-    if (!access_token) res.status(400).json({ error: 'Required query parameter \'access_token\' not provided' });
+    if (!access_token) return res.status(400).json({ error: 'Required query parameter \'access_token\' not provided' });
     spotifyApi.setAccessToken(access_token);
 
     let optQueryParams = {};
