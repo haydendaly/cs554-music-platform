@@ -10,6 +10,7 @@ function UserProfile(props) {
 
     const [selectedFile, setSelectedFile] = useState(null)
     const [imgUrl, setImgUrl] = useState(null)
+    const [error, setError] = useState(null)
 
     useEffect(() => {
         console.log('useEffect fired')
@@ -29,10 +30,11 @@ function UserProfile(props) {
                     }?${new Date().getTime()}`
                 )
             } catch (e) {
+                setError('Unable to retrive data from server')
                 console.log(`error found : ${e}`)
             }
         }
-        console.log(currentUser)
+
         if (currentUser) {
             getUserData()
         }
@@ -43,11 +45,24 @@ function UserProfile(props) {
         const {
             displayName,
             websiteUrl,
+            country,
             facebook,
             instagram,
             twitter,
             biography,
         } = e.target.elements
+
+        const name = displayName.value
+
+        const isValidName =
+            /^[A-Za-z .']+$/i.test(name) && /^[A-Za-z]/i.test(name)
+
+        if (!isValidName) {
+            setError(
+                'Name need to start with letter and cannot contain special characters (space and . are allowed)'
+            )
+            return false
+        }
 
         const updateData = {
             displayName: displayName.value,
@@ -58,6 +73,7 @@ function UserProfile(props) {
                 twitter: twitter.value,
             },
             biography: biography.value,
+            country: country.value,
         }
         console.log(updateData)
         try {
@@ -67,6 +83,7 @@ function UserProfile(props) {
             )
             setUser(data)
             alert('Profile has been updated')
+            window.location.replace('/usershowprofile')
         } catch (error) {
             console.log(error)
             alert(`Unable to update user: ${e}`)
@@ -117,14 +134,14 @@ function UserProfile(props) {
                     <div className="card-body">
                         <h5 className="card-title">{user.displayName}</h5>
 
-                        <p className="card-title">{user.email}</p>
+                        <p className="content">{user.email}</p>
                         {user.country ? (
-                            <p className="card-title">{user.country}</p>
+                            <p className="content">{user.country}</p>
                         ) : null}
                         {user.biography ? (
                             <div>
                                 <span className="info-tag">About</span>{' '}
-                                <p>{user.biography}</p>
+                                <p className="content">{user.biography}</p>
                             </div>
                         ) : null}
                         {user.websiteUrl ? (
@@ -132,7 +149,14 @@ function UserProfile(props) {
                                 <span className="info-tag">
                                     Personal Website
                                 </span>{' '}
-                                <p>{user.websiteUrl}</p>
+                                <div className="webUrl">
+                                    <a
+                                        className="content"
+                                        href={user.websiteUrl}
+                                    >
+                                        {user.websiteUrl}
+                                    </a>
+                                </div>
                             </div>
                         ) : null}
 
@@ -182,9 +206,9 @@ function UserProfile(props) {
                             )}
                         </ul>
 
-                        <div className="card-title">
+                        <div className="webUrl">
                             <a
-                                className="edit-button card-title"
+                                className="content edit-button"
                                 href="/usereditprofile"
                             >
                                 <i className="fas fa-user-edit"></i>
@@ -225,6 +249,7 @@ function UserProfile(props) {
                         </div>
                         <div className="col">
                             <div className="edit-profile">
+                                {error && <p className="error">{error}</p>}
                                 <form onSubmit={submitForm}>
                                     <div className="form-group">
                                         <label>
@@ -265,7 +290,18 @@ function UserProfile(props) {
                                             />
                                         </label>
                                     </div>
-
+                                    <div className="form-group">
+                                        <label>
+                                            Country
+                                            <input
+                                                className="form-control"
+                                                name="country"
+                                                id="country"
+                                                type="text"
+                                                defaultValue={user.country}
+                                            />
+                                        </label>
+                                    </div>
                                     <div className="form-group">
                                         <label>
                                             Facebook
@@ -347,8 +383,10 @@ function UserProfile(props) {
 
     if (user) {
         return <div className="main">{body}</div>
+    } else if (currentUser && !user) {
+        return <div className="main no-login">{error}</div>
     } else {
-        return <div>Please Login</div>
+        return <div className="main no-login">Please Login</div>
     }
 }
 

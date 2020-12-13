@@ -14,7 +14,6 @@ import { AuthContext } from '../firebase/Auth'
 import AddPostModal from '../components/Modals/AddPostModal'
 import { useWindowDimensions } from '../functions/dimensions'
 
-
 function PostInsert() {
     const { currentUser } = useContext(AuthContext)
     const { width } = useWindowDimensions()
@@ -43,9 +42,9 @@ function PostInsert() {
     const getAllPost = async () => {
         try {
             const { data } = await axios.get('http://localhost:3000/api/post')
-            data.sort(function(item1, item2){
-                return new Date(item2.timeStamp) - new Date(item1.timeStamp);
-              });
+            data.sort(function (item1, item2) {
+                return new Date(item2.timeStamp) - new Date(item1.timeStamp)
+            })
             setPost(data)
             setLoading(false)
             console.log(data)
@@ -237,7 +236,7 @@ function PostInsert() {
             >
                 <Icon icon={faPlus} className="menu-icon" />
             </div>
-            
+
             {showAddModal && (
                 <AddPostModal
                     isOpen={showAddModal}
@@ -271,7 +270,7 @@ function PostInsert() {
                                             {postItem.displayName}
                                         </p>
                                         <p className="post-header-date">
-                                        {postItem.timeStamp}
+                                            {postItem.timeStamp}
                                         </p>
                                     </div>
                                 </div>
@@ -358,63 +357,110 @@ function PostInsert() {
                                 </div>
                             </div>
                             <div className="post-list">
-                            {openComment && openComment === postItem._id && (
-                                <div>
-                                    <textarea
-                                        className="post-comments"
-                                        id={'commentField' + postItem._id}
-                                        type="text"
-                                        placeholder="Enter Comment here...."
-                                        rows="2"
-                                        onChange={handleCommentTextField}
-                                    />
+                                {openComment && openComment === postItem._id && (
+                                    <div>
+                                        <textarea
+                                            className="post-comments"
+                                            id={'commentField' + postItem._id}
+                                            type="text"
+                                            placeholder="Enter Comment here...."
+                                            rows="2"
+                                            onChange={handleCommentTextField}
+                                        />
 
-                                    <Button 
-                                        className="post-comments-add-button"
-                                        variant="contained"
-                                        color="secondary"
-                                        size="medium"
-                                        type="reset"
-                                        defaultValue="Reset"
-                                        onClick={() => saveComment(postItem)}
-                                    >
-                                        Enter
-                                    </Button>
-                                            
-                                    {postItem['commentsArray'] && postItem['commentsArray'].length > 0 ? 
-                                        postItem['commentsArray'].sort(function(item1, item2){
-                                            return new Date(item2.timeStamp) - new Date(item1.timeStamp);
-                                          }).map(
-                                            (commentItem) => (
-                                                <div key={commentItem._id} className="post-post shadow">
-                                                    <div className="post-header">
-                                                        <div className="post-header-info">
-                                                            <img className="post-user-icon shadow"
-                                                                src={`http://localhost:3000/api/user/photo/${commentItem.userId}`}
-                                                                alt={`User: ${commentItem.userId}`}/>
-                                                            <div className="post-header-text">
-                                                                <p className="post-user-name">{commentItem.displayName}</p>
-                                                                <p className="post-header-date">{commentItem.timeStamp}</p>
+                                        <Button
+                                            className="post-comments-add-button"
+                                            variant="contained"
+                                            color="secondary"
+                                            size="medium"
+                                            type="reset"
+                                            defaultValue="Reset"
+                                            onClick={() =>
+                                                saveComment(postItem)
+                                            }
+                                        >
+                                            Enter
+                                        </Button>
+
+                                        {postItem['commentsArray'] &&
+                                        postItem['commentsArray'].length > 0 ? (
+                                            postItem['commentsArray']
+                                                .sort(function (item1, item2) {
+                                                    return (
+                                                        new Date(
+                                                            item2.timeStamp
+                                                        ) -
+                                                        new Date(
+                                                            item1.timeStamp
+                                                        )
+                                                    )
+                                                })
+                                                .map((commentItem) => (
+                                                    <div
+                                                        key={commentItem._id}
+                                                        className="post-post shadow"
+                                                    >
+                                                        <div className="post-header">
+                                                            <div className="post-header-info">
+                                                                <img
+                                                                    className="post-user-icon shadow"
+                                                                    src={`http://localhost:3000/api/user/photo/${commentItem.userId}`}
+                                                                    alt={`User: ${commentItem.userId}`}
+                                                                />
+                                                                <div className="post-header-text">
+                                                                    <p className="post-user-name">
+                                                                        {
+                                                                            commentItem.displayName
+                                                                        }
+                                                                    </p>
+                                                                    <p className="post-header-date">
+                                                                        {
+                                                                            commentItem.timeStamp
+                                                                        }
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                className="post-header-options"
+                                                                hidden={hideEditMode(
+                                                                    commentItem
+                                                                )}
+                                                            >
+                                                                <div
+                                                                    onClick={() =>
+                                                                        deleteComment(
+                                                                            postItem,
+                                                                            commentItem
+                                                                        )
+                                                                    }
+                                                                    className="post-button"
+                                                                >
+                                                                    <Icon
+                                                                        icon={
+                                                                            faTrash
+                                                                        }
+                                                                        className="menu-icon"
+                                                                    />
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <div className="post-header-options" hidden={hideEditMode(commentItem)}> 
-                                                            <div onClick={() => deleteComment(postItem, commentItem)} className="post-button">
-                                                                <Icon icon={faTrash} className="menu-icon"/>
-                                                            </div>
-                                                        </div>
-                                                    </div> 
-                                                    <p className="post-body">{commentItem.commentText}</p>
-                                                </div>
-                                            )
-                                         ) :
-                                         <p> No comments </p> } 
-                                 </div>
-                             )}
+                                                        <p className="post-body">
+                                                            {
+                                                                commentItem.commentText
+                                                            }
+                                                        </p>
+                                                    </div>
+                                                ))
+                                        ) : (
+                                            <p> No comments </p>
+                                        )}
+                                    </div>
+                                )}
                             </div>
-                           
                         </div>
                     ))
-                ) : ( <p>No Posts</p>
+                ) : (
+                    <p>No Posts</p>
                 )}
             </div>
         </div>
