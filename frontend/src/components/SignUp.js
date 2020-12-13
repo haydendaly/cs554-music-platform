@@ -6,7 +6,7 @@ import SocialSignIn from './SocialSignIn'
 function SignUp() {
     const { currentUser } = useContext(AuthContext)
     const [error, setError] = useState('')
-    
+
     const handleSignUp = async (e) => {
         e.preventDefault()
         const {
@@ -20,13 +20,15 @@ function SignUp() {
             return false
         }
 
-        
+        const isValidName =
+            /^[A-Za-z .']+$/i.test(displayName) &&
+            /^[A-Za-z]/i.test(displayName)
 
-        const isValidName = /^[A-Za-z .']+$/i.test(displayName) && /^[A-Za-z]/i.test(displayName);
-
-        if( !isValidName){
-            setError('Name need to start with letter and cannot contain special characters (space and . are allowed)')
-            return false;
+        if (!isValidName) {
+            setError(
+                'Name need to start with letter and cannot contain special characters (space and . are allowed)'
+            )
+            return false
         }
 
         try {

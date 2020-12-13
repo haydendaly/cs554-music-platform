@@ -10,7 +10,7 @@ function UserProfile(props) {
 
     const [selectedFile, setSelectedFile] = useState(null)
     const [imgUrl, setImgUrl] = useState(null)
-    const [ error, setError] = useState(null)
+    const [error, setError] = useState(null)
 
     useEffect(() => {
         console.log('useEffect fired')
@@ -50,14 +50,17 @@ function UserProfile(props) {
             twitter,
             biography,
         } = e.target.elements
-        
+
         const name = displayName.value
 
-        const isValidName = /^[A-Za-z .']+$/i.test(name) && /^[A-Za-z]/i.test(name);
+        const isValidName =
+            /^[A-Za-z .']+$/i.test(name) && /^[A-Za-z]/i.test(name)
 
-        if( !isValidName){
-            setError('Name need to start with letter and cannot contain special characters (space and . are allowed)')
-            return false;
+        if (!isValidName) {
+            setError(
+                'Name need to start with letter and cannot contain special characters (space and . are allowed)'
+            )
+            return false
         }
 
         const updateData = {
@@ -79,7 +82,7 @@ function UserProfile(props) {
             )
             setUser(data)
             alert('Profile has been updated')
-            window.location.replace("/usershowprofile")
+            window.location.replace('/usershowprofile')
         } catch (error) {
             console.log(error)
             alert(`Unable to update user: ${e}`)
@@ -146,7 +149,12 @@ function UserProfile(props) {
                                     Personal Website
                                 </span>{' '}
                                 <div className="webUrl">
-                                    <a className="content"  href={user.websiteUrl}>{user.websiteUrl}</a>
+                                    <a
+                                        className="content"
+                                        href={user.websiteUrl}
+                                    >
+                                        {user.websiteUrl}
+                                    </a>
                                 </div>
                             </div>
                         ) : null}
