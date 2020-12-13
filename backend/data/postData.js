@@ -57,6 +57,7 @@ async function createPost(postParam) {
     userId,
     songData,
     displayName: user.displayName,
+    timeStamp : new Date().toUTCString()
   };
 
   let postObj = await postCollectionObj();
