@@ -8,12 +8,15 @@ import {
     faComments,
     faTrash,
     faPencilAlt,
+    faPlus,
 } from '@fortawesome/free-solid-svg-icons'
 import { AuthContext } from '../firebase/Auth'
 import AddPostModal from '../components/Modals/AddPostModal'
+import { useWindowDimensions } from '../functions/dimensions'
 
 function PostInsert() {
     const { currentUser } = useContext(AuthContext)
+    const { width } = useWindowDimensions()
 
     const [post, setPost] = useState(null)
     const [loading, setLoading] = useState(true)
@@ -40,6 +43,7 @@ function PostInsert() {
             const { data } = await axios.get('http://localhost:3000/api/post')
             setPost(data)
             setLoading(false)
+            console.log(data)
         } catch (e) {
             console.log(`error found : ${e}`)
         }
@@ -212,24 +216,21 @@ function PostInsert() {
     }
 
     const hideEditMode = (currentData) => {
-        if (
+        return !(
             currentUser &&
             currentUser.uid &&
             currentUser.uid === currentData.userId
-        ) {
-            return false
-        }
-        return true
+        )
     }
 
     return (
         <div className="post-main">
-            <div className="post-new-button">
-                {/* show add/edit post popup */}
-                <center>
-                    {' '}
-                    <button onClick={() => showAddPostModal()}>Add Post</button>
-                </center>
+            <div
+                className="post-new-button shadow"
+                onClick={() => showAddPostModal()}
+                style={{ right: width > 1400 ? 360 : 70 }}
+            >
+                <Icon icon={faPlus} className="menu-icon" />
             </div>
             {showAddModal && (
                 <AddPostModal
@@ -247,7 +248,11 @@ function PostInsert() {
             <div className="post-list">
                 {post && post.length > 0 ? (
                     post.map((postItem) => (
-                        <div key={postItem._id} className="post-post shadow">
+                        <div
+                            key={postItem._id}
+                            className="post-post shadow"
+                            style={{ width: width > 1400 ? 800 : width * 0.6 }}
+                        >
                             <div className="post-header">
                                 <div className="post-header-info">
                                     <img

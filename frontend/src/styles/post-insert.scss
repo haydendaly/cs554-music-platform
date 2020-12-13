@@ -5,19 +5,25 @@
 }
 
 .post-list {
-    max-width: 800px;
     overflow-y: scroll;
+    background-color: none;
 }
 
 .post-new-button {
     position: fixed;
     bottom: 10px;
-    right: 10px;
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FF0000;
 }
 
 .post-post {
     background-color: #191919;
-    width: 600px;
+    max-width: 760px;
     margin-top: 20px;
     margin-bottom: 20px;
     border-radius: 20px;
