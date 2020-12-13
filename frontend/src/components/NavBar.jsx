@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
-import Logo from './Logo'
 import Navigation from './Navigation'
 
 const Container = styled.div.attrs({
@@ -19,7 +18,6 @@ class NavBar extends Component {
         return (
             <Container>
                 <Nav>
-                    <Logo />
                     <Navigation />
                 </Nav>
             </Container>
