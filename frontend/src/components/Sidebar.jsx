@@ -11,7 +11,7 @@ import {
     faSearch,
     faSignInAlt,
     faUserPlus,
-    faSignOutAlt
+    faSignOutAlt,
 } from '@fortawesome/free-solid-svg-icons'
 
 import { useWindowDimensions } from '../functions/dimensions'
@@ -20,132 +20,133 @@ import { doSignOut } from '../firebase/FirebaseFunctions'
 
 const SideBar = () => {
     const { width } = useWindowDimensions()
-    const {currentUser} = useContext(AuthContext)
-    let body = null;
+    const { currentUser } = useContext(AuthContext)
+    let body = null
 
-    if(currentUser){
+    if (currentUser) {
         body = (
             <div
-            className="sidenav shadow"
-            style={width <= 1100 ? { width: 55 } : {}}
-        >
-            <div className="header">
-                <Icon icon={faMusic} color="#fff" size="large" />
-                {width > 1100 && <h1 className="header-text">SongShare</h1>}
-            </div>
-            <div className="menu-row">
-                <Link to="/post">
-                    <Icon icon={faHome} className="menu-icon" />
-                </Link>
-                {width > 1100 && (
-                    <Link to="/post" className="menu-text">
-                        About
+                className="sidenav shadow"
+                style={width <= 1100 ? { width: 55 } : {}}
+            >
+                <div className="header">
+                    <Icon icon={faMusic} color="#fff" size="large" />
+                    {width > 1100 && <h1 className="header-text">SongShare</h1>}
+                </div>
+                <div className="menu-row">
+                    <Link to="/post">
+                        <Icon icon={faHome} className="menu-icon" />
                     </Link>
-                )}
-            </div>
-            <div className="menu-row">
-                <Link to="/usershowprofile">
-                    <Icon icon={faUser} className="menu-icon" />
-                </Link>
-                {width > 1100 && (
-                    <Link to="/usershowprofile" className="menu-text">
-                        User Profile
+                    {width > 1100 && (
+                        <Link to="/post" className="menu-text">
+                            About
+                        </Link>
+                    )}
+                </div>
+                <div className="menu-row">
+                    <Link to="/usershowprofile">
+                        <Icon icon={faUser} className="menu-icon" />
                     </Link>
-                )}
-            </div>
-            <div className="menu-row">
-                <Link to="/post/create">
-                    <Icon icon={faPlus} className="menu-icon" />
-                </Link>
-                {width > 1100 && (
-                    <Link to="/post/create" className="menu-text">
-                        Add Post
+                    {width > 1100 && (
+                        <Link to="/usershowprofile" className="menu-text">
+                            User Profile
+                        </Link>
+                    )}
+                </div>
+                <div className="menu-row">
+                    <Link to="/post/create">
+                        <Icon icon={faPlus} className="menu-icon" />
                     </Link>
-                )}
-            </div>
-            <div className="menu-row">
-                <Link to="/playList">
-                    <Icon icon={faList} className="menu-icon" />
-                </Link>
-                {width > 1100 && (
-                    <Link to="/playList" className="menu-text">
-                        Play By Album
+                    {width > 1100 && (
+                        <Link to="/post/create" className="menu-text">
+                            Add Post
+                        </Link>
+                    )}
+                </div>
+                <div className="menu-row">
+                    <Link to="/playList">
+                        <Icon icon={faList} className="menu-icon" />
                     </Link>
-                )}
-            </div>
-            <div className="menu-row">
-                <Link to="/searchTracks">
-                    <Icon icon={faSearch} className="menu-icon" />
-                </Link>
-                {width > 1100 && (
-                    <Link to="/searchTracks" className="menu-text">
-                        Search Tracks
+                    {width > 1100 && (
+                        <Link to="/playList" className="menu-text">
+                            Play By Album
+                        </Link>
+                    )}
+                </div>
+                <div className="menu-row">
+                    <Link to="/searchTracks">
+                        <Icon icon={faSearch} className="menu-icon" />
                     </Link>
-                )}
-            </div>
-            <div className="menu-row">
-                <Link to="/artistPlayList">
-                    <Icon icon={faSearch} className="menu-icon" />
-                </Link>
-                {width > 1100 && (
-                    <Link to="/artistPlayList" className="menu-text">
-                        Play By Artist
+                    {width > 1100 && (
+                        <Link to="/searchTracks" className="menu-text">
+                            Search Tracks
+                        </Link>
+                    )}
+                </div>
+                <div className="menu-row">
+                    <Link to="/artistPlayList">
+                        <Icon icon={faSearch} className="menu-icon" />
                     </Link>
-                )}
-            </div>
-            
-            <div className="menu-row">
-                <Link to="#">
-                    <Icon icon={faSignOutAlt} className="menu-icon" onClick={doSignOut}/>
-                </Link>
-                
-                {width > 1100 && (
-                    <Link to="#" onClick={doSignOut} className="menu-text">
-                        Sign Out
-                    </Link>
-                )}
-            </div>
+                    {width > 1100 && (
+                        <Link to="/artistPlayList" className="menu-text">
+                            Play By Artist
+                        </Link>
+                    )}
+                </div>
 
-        </div>
+                <div className="menu-row">
+                    <Link to="#">
+                        <Icon
+                            icon={faSignOutAlt}
+                            className="menu-icon"
+                            onClick={doSignOut}
+                        />
+                    </Link>
+
+                    {width > 1100 && (
+                        <Link to="#" onClick={doSignOut} className="menu-text">
+                            Sign Out
+                        </Link>
+                    )}
+                </div>
+            </div>
         )
     } else {
-       body = ( <div className="sidenav shadow"
-        style={ width <= 1100 ? { width: 55 } : {}}>
-            
-            <div className="header">
-                <Icon icon={faMusic} color="#fff" size="large" />
-                {width > 1100 && <h1 className="header-text">SongShare</h1>}
-            </div>
+        body = (
+            <div
+                className="sidenav shadow"
+                style={width <= 1100 ? { width: 55 } : {}}
+            >
+                <div className="header">
+                    <Icon icon={faMusic} color="#fff" size="large" />
+                    {width > 1100 && <h1 className="header-text">SongShare</h1>}
+                </div>
 
-            <div className="menu-row">
-                <Link to="/signin">
-                    <Icon icon={faSignInAlt} className="menu-icon" />
-                </Link>
-                {width > 1100 && (
-                    <Link to="/signin" className="menu-text">
-                        Sign In
+                <div className="menu-row">
+                    <Link to="/signin">
+                        <Icon icon={faSignInAlt} className="menu-icon" />
                     </Link>
-                )}
-            </div>
-            <div className="menu-row">
-                <Link to="/signup">
-                    <Icon icon={faUserPlus} className="menu-icon" />
-                </Link>
-                {width > 1100 && (
-                    <Link to="/signup" className="menu-text">
-                        Sign Up
+                    {width > 1100 && (
+                        <Link to="/signin" className="menu-text">
+                            Sign In
+                        </Link>
+                    )}
+                </div>
+                <div className="menu-row">
+                    <Link to="/signup">
+                        <Icon icon={faUserPlus} className="menu-icon" />
                     </Link>
-                )}
+                    {width > 1100 && (
+                        <Link to="/signup" className="menu-text">
+                            Sign Up
+                        </Link>
+                    )}
+                </div>
             </div>
-        </div> );
+        )
     }
 
-    return (
-        <div>
-            {body}
-        </div>
-    )
+    return <div>{body}</div>
 }
-
 
 export default SideBar

@@ -15,7 +15,7 @@ async function doCreateUserWithEmailAndPassword(email, password, displayName) {
         photoUrl: user.photoURL,
     }
     try {
-        console.log(newUser);
+        console.log(newUser)
         await axios.post('http://localhost:3000/api/user/create', newUser)
     } catch (e) {
         console.log(e)
