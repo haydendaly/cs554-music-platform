@@ -118,10 +118,24 @@ function UserProfile(props) {
                         <h5 className="card-title">{user.displayName}</h5>
 
                         <p className="card-title">{user.email}</p>
+                        {user.country ? (
+                            <p className="card-title">{user.country}</p>
+                        ) : null}
+                        {user.biography ? (
+                            <div>
+                                <span className="info-tag">About</span>{' '}
+                                <p>{user.biography}</p>
+                            </div>
+                        ) : null}
+                        {user.websiteUrl ? (
+                            <div>
+                                <span className="info-tag">
+                                    Personal Website
+                                </span>{' '}
+                                <p>{user.websiteUrl}</p>
+                            </div>
+                        ) : null}
 
-                        <p>About: {user.biography}</p>
-                        <p>Personal Website: {user.websiteUrl}</p>
-                        <p>Country: {user.country}</p>
                         <ul className="social-icons">
                             {user.socialMedia.facebook === '' ? null : (
                                 <li key="facebook">
@@ -193,21 +207,20 @@ function UserProfile(props) {
                                     className="avatar img-circle avatar-lg"
                                     width="150px"
                                 ></img>
-
-                                <div>
-                                    <input
-                                        type="file"
-                                        onChange={fileSelectHandler}
-                                        className="input-file"
-                                    />
-                                    <br />
-                                    <button
-                                        className="btn btn-primary"
-                                        onClick={fileUploadHandler}
-                                    >
-                                        Upload
-                                    </button>
-                                </div>
+                            </div>
+                            <div className="img-upload">
+                                <input
+                                    type="file"
+                                    onChange={fileSelectHandler}
+                                    className="input-file"
+                                />
+                                <br />
+                                <button
+                                    className="btn btn-light"
+                                    onClick={fileUploadHandler}
+                                >
+                                    Upload
+                                </button>
                             </div>
                         </div>
                         <div className="col">
@@ -310,7 +323,7 @@ function UserProfile(props) {
                                     </div>
 
                                     <button
-                                        className="btn btn-primary"
+                                        className="btn btn-light"
                                         type="submit"
                                     >
                                         Update Profile

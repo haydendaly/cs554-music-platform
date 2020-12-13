@@ -33,13 +33,15 @@ function ChangePassword() {
     }
     if (currentUser.providerData[0].providerId === 'password') {
         return (
-            <div className="container">
+            <div className="container authorize">
                 {pwMatch && <h4 className="error">{pwMatch}</h4>}
                 <h2>Change Password</h2>
                 <form onSubmit={submitForm}>
-                    <div className="form-group">
-                        <label>
-                            Current Password:
+                    <div className="form-group row">
+                        <label className="col-sm-2 col-form-label">
+                            Current Password
+                        </label>
+                        <div className="col-sm-10">
                             <input
                                 className="form-control"
                                 name="currentPassword"
@@ -48,12 +50,14 @@ function ChangePassword() {
                                 placeholder="Current Password"
                                 required
                             />
-                        </label>
+                        </div>
                     </div>
 
-                    <div className="form-group">
-                        <label>
-                            New Password:
+                    <div className="form-group row">
+                        <label className="col-sm-2 col-form-label">
+                            New Password
+                        </label>
+                        <div className="col-sm-10">
                             <input
                                 className="form-control"
                                 name="newPasswordOne"
@@ -62,11 +66,13 @@ function ChangePassword() {
                                 placeholder="Password"
                                 required
                             />
-                        </label>
+                        </div>
                     </div>
-                    <div className="form-group">
-                        <label>
-                            Confirm New Password:
+                    <div className="form-group row">
+                        <label className="col-sm-2 col-form-label">
+                            Confirm New Password
+                        </label>
+                        <div className="col-sm-10">
                             <input
                                 className="form-control"
                                 name="newPasswordTwo"
@@ -75,7 +81,7 @@ function ChangePassword() {
                                 placeholder="Confirm Password"
                                 required
                             />
-                        </label>
+                        </div>
                     </div>
 
                     <button className="btn btn-primary" type="submit">

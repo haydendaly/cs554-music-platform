@@ -1,6 +1,5 @@
 const dbCollections = require("../config/collection");
 const usersCollection= dbCollections.users;
-const { v1: uuidv4 } = require("uuid");
 
 function getValidId(id) {
   if (!id) {
@@ -19,7 +18,7 @@ async function getAllUsers() {
   const allUserData = await users.find({}).toArray();
 
   if (allUserData === null) {
-    throw `No user found in database`;
+    throw 'No user found in database';
   }
   return allUserData;
 }
@@ -27,6 +26,9 @@ async function getAllUsers() {
 async function getAllUserIds(){
   const users = await usersCollection();
   const allUserIds = await users.find({}, {_id:1}).map(function(item){ return item._id; }).toArray();
+  if (allUserIds === null){
+    throw 'No user found in database';
+  }
   return allUserIds;
 }
 

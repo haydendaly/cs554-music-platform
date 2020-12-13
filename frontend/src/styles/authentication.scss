@@ -9,28 +9,96 @@
 
 .forgotPassword:hover {
 	text-decoration: none;
-	color: dodgerblue;
+	font-weight: bold;
 }
 
-.login {	
+.authorize {	
 	text-align: left;
-	font-size: 20px;
-	padding-left: 20%;
+	font-size: 15px;
+	justify-content: center;
 	padding-top: 10px;
+	padding-bottom: 10px;
+	background-color: #191919;
+	max-width: 500px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	
 }
 
-.login .form-control {
+.authorize h1{
+	font-size: 1.8em;
+	text-align: center;
+	padding-bottom: 10px;
+}
+
+.authorize form{
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+.authorize .form-control {
 	max-width: 300px;
 }
 
-.signup {	
-	text-align: left;
-	font-size: 20px;
-	padding-left: 20%;
-	padding-top: 10px;
+.authorize .submit-button{
+	// margin-left: 10px;
+	// margin-right: -50%;
+	display: flex;
+  justify-content: center;
+
+
+	
+}
+.social{
+	//text-align: center;
+	margin-bottom: 10px;
+	text-align: center;
 }
 
-.signup .form-control {
-	max-width: 300px;
+.social button{
+	padding-left: 30px;
+	padding-right: 30px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	background-color: white;
+	font-weight: bold;
+	border: none;
+	border-radius: 5px;
 }
 
+.navigation {
+	background: #232323;
+}
+
+.navigation ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.navigation li{
+	display: inline;
+	margin-right: 20px;
+	font-size: 25px;
+	// padding-top: 5px;
+	// padding-bottom: 5px;
+	// padding-left: 10px;
+	// padding-right: 10px;
+
+}
+
+.navigation a:link,
+.navigation a:visited {
+	color: white;
+	text-decoration: none;
+}
+
+.active {
+	font-weight: bold;
+	color: #61DBFB !important;
+}
+
+.error {
+	font-weight: bold;
+	color: red !important;
+}
