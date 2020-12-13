@@ -30,10 +30,11 @@ function UserProfile(props) {
                     }?${new Date().getTime()}`
                 )
             } catch (e) {
+                setError('Unable to retrive data from server');
                 console.log(`error found : ${e}`)
             }
         }
-        console.log(currentUser)
+        
         if (currentUser) {
             getUserData()
         }
@@ -382,6 +383,8 @@ function UserProfile(props) {
 
     if (user) {
         return <div className="main">{body}</div>
+    } else if(currentUser && !user ) {
+        return <div className="main no-login">{error}</div>
     } else {
         return <div className="main no-login">Please Login</div>
     }

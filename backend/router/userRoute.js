@@ -46,8 +46,7 @@ router.post("/create", async (req, res) => {
     !req.body ||
     !req.body.id ||
     !req.body.displayName||
-    !req.body.email ||
-    !req.body.photoUrl
+    !req.body.email
   ) {
     res.status(404).json({ error: "Must supply all fields." });
     return;

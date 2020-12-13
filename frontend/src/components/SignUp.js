@@ -21,8 +21,8 @@ function SignUp() {
         }
 
         const isValidName =
-            /^[A-Za-z .']+$/i.test(displayName) &&
-            /^[A-Za-z]/i.test(displayName)
+            /^[A-Za-z .']+$/i.test(displayName.value) &&
+            /^[A-Za-z]/i.test(displayName.value)
 
         if (!isValidName) {
             setError(
