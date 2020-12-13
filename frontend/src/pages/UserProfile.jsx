@@ -118,10 +118,24 @@ function UserProfile(props) {
                         <h5 className="card-title">{user.displayName}</h5>
 
                         <p className="card-title">{user.email}</p>
-                        {user.country? (<p className="card-title">{user.country}</p>): null}
-                        {user.biography? (<div><span className="info-tag">About</span> <p>{user.biography}</p></div>): null}
-                        {user.websiteUrl? (<div><span className="info-tag">Personal Website</span> <p>{user.websiteUrl}</p></div>): null}
-                        
+                        {user.country ? (
+                            <p className="card-title">{user.country}</p>
+                        ) : null}
+                        {user.biography ? (
+                            <div>
+                                <span className="info-tag">About</span>{' '}
+                                <p>{user.biography}</p>
+                            </div>
+                        ) : null}
+                        {user.websiteUrl ? (
+                            <div>
+                                <span className="info-tag">
+                                    Personal Website
+                                </span>{' '}
+                                <p>{user.websiteUrl}</p>
+                            </div>
+                        ) : null}
+
                         <ul className="social-icons">
                             {user.socialMedia.facebook === '' ? null : (
                                 <li key="facebook">
@@ -208,7 +222,6 @@ function UserProfile(props) {
                                     Upload
                                 </button>
                             </div>
-                            
                         </div>
                         <div className="col">
                             <div className="edit-profile">

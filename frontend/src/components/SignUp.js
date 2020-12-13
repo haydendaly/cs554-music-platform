@@ -94,14 +94,14 @@ function SignUp() {
                         </div>
                     </div>
                     <div className="submit-button">
-                    <button
-                        className="btn btn-light"
-                        id="submitButton"
-                        name="submitButton"
-                        type="submit"
-                    >
-                        Sign Up
-                    </button>
+                        <button
+                            className="btn btn-light"
+                            id="submitButton"
+                            name="submitButton"
+                            type="submit"
+                        >
+                            Sign Up
+                        </button>
                     </div>
                 </form>
                 <br />
