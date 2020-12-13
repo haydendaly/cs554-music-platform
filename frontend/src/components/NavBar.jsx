@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
-import Logo from './Logo'
 import Navigation from './Navigation'
 
 const Container = styled.div.attrs({
@@ -12,6 +11,7 @@ const Nav = styled.nav.attrs({
     className: 'navbar navbar-expand-lg navbar-dark',
 })`
     margin-bottom: 20 px;
+    margin-left: 65px;
 `
 
 class NavBar extends Component {
@@ -19,7 +19,7 @@ class NavBar extends Component {
         return (
             <Container>
                 <Nav>
-                    <Logo />
+                    <i class="fas fa-music mr-3"></i>
                     <Navigation />
                 </Nav>
             </Container>

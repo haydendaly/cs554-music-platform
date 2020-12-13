@@ -7,11 +7,7 @@ async function doCreateUserWithEmailAndPassword(email, password, displayName) {
         .auth()
         .currentUser.updateProfile({ displayName: displayName })
     let user = firebase.auth().currentUser
-    await firebase.database().ref('/users').child(user.uid).set({
-        email: user.email,
-        displayName: user.displayName,
-    })
-
+    // add user info to backend
     const newUser = {
         id: user.uid,
         email: user.email,
@@ -39,7 +35,7 @@ async function doSignInWithEmailAndPassword(email, password) {
     await firebase.auth().signInWithEmailAndPassword(email, password)
     const user = firebase.auth().currentUser
     let { data } = await axios.get('http://localhost:3000/api/user/ids')
-
+    // add user to backend if information doesn't exist
     if (!data.includes(user.uid)) {
         const newUser = {
             id: user.uid,

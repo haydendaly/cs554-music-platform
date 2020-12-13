@@ -69,6 +69,7 @@
   color: white;
 }
 
+
 .card img{
   border-radius: 50%;
   width: 100px;
@@ -84,10 +85,35 @@
   text-align: center;
   display: flex;
   justify-content: center;
-  
 }
+
+.content{
+  color: #c4c4c4;
+  text-align: center;
+}
+
+.card{
+  border-radius: 20px;
+}
+
 .card p{
   text-align: center;
+}
+
+.card-body a{
+  font-size: 15px;
+  display: flex;
+  margin: 0 auto;
+}
+
+.card-body a:hover{
+  text-decoration: none !important;
+  color: white;
+  font-weight: bold;
+}
+
+.edit-profile{
+  border-radius: 20px;
 }
 
 .edit-profile a{
@@ -99,4 +125,17 @@
 	background-size: 200%;
 	transition: 0.5s ease-out;
 	color: white;
+}
+
+.no-login{
+  font-size: 20px;
+  text-align: center;
+}
+
+.webUrl{
+  display: flex;
+}
+
+.webUrl .edit-button{
+  font-size: 25px;
 }
