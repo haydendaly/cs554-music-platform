@@ -12,6 +12,7 @@ import { AuthProvider } from '../firebase/Auth'
 import NavBar from '../components/NavBar'
 import Sidebar from '../components/Sidebar'
 import SidebarRight from '../components/SidebarRight'
+import { SpotifyProvider } from '../functions/Spotify'
 
 const SignIn = lazy(() => import('../components/SignIn'))
 const SignUp = lazy(() => import('../components/SignUp'))
@@ -29,58 +30,68 @@ const ChangePassword = lazy(() => import('../components/ChangePassword'))
 function App() {
     return (
         <AuthProvider>
-            <Router>
-                <NavBar />
-                <Sidebar />
-                <SidebarRight />
-                <Suspense fallback={<p>Loading...</p>}>
-                    <Switch>
-                        <Route
-                            path="/post/create"
-                            exact
-                            component={PostInsert}
-                        />
-                        <Route path="/post" exact component={Home} />
-                        <Route path="/signin" component={SignIn} />
-                        <Route path="/signup" component={SignUp} />
-                        <Route path="/playList" exact component={PlayAlbum} />
-                        <Route
-                            path="/searchTracks"
-                            exact
-                            component={SearchPlayList}
-                        />
-                        <Route
-                            path="/artistPlayList"
-                            exact
-                            component={PlayArtist}
-                        />
-                        <Route
-                            path="/playListbyLove"
-                            exact
-                            component={PlayListByLoveSongs}
-                        />
+            <SpotifyProvider>
+                <Router>
+                    <NavBar />
+                    <Sidebar />
+                    <SidebarRight />
+                    <Suspense fallback={<p>Loading...</p>}>
+                        <Switch>
+                            <Route
+                                path="/post/create"
+                                exact
+                                component={PostInsert}
+                            />
+                            <Route path="/post" exact component={Home} />
+                            <Route path="/signin" component={SignIn} />
+                            <Route path="/signup" component={SignUp} />
+                            <Route
+                                path="/playList"
+                                exact
+                                component={PlayAlbum}
+                            />
+                            <Route
+                                path="/searchTracks"
+                                exact
+                                component={SearchPlayList}
+                            />
+                            <Route
+                                path="/artistPlayList"
+                                exact
+                                component={PlayArtist}
+                            />
+                            <Route
+                                path="/playListbyLove"
+                                exact
+                                component={PlayListByLoveSongs}
+                            />
 
-                        <Route
-                            path="/usershowprofile"
-                            exact
-                            component={() => <UserProfile page="ShowProfile" />}
-                        />
-                        <Route
-                            path="/usereditprofile"
-                            exact
-                            component={() => <UserProfile page="EditProfile" />}
-                        />
-                        <Route
-                            path="/userupdatepassword"
-                            exact
-                            component={ChangePassword}
-                        />
-                        <Route path="/">
-                            <Redirect to="/post" />
-                        </Route>
-                    </Switch>
-                </Suspense>
-            </Router>
+                            <Route
+                                path="/usershowprofile"
+                                exact
+                                component={() => (
+                                    <UserProfile page="ShowProfile" />
+                                )}
+                            />
+                            <Route
+                                path="/usereditprofile"
+                                exact
+                                component={() => (
+                                    <UserProfile page="EditProfile" />
+                                )}
+                            />
+                            <Route
+                                path="/userupdatepassword"
+                                exact
+                                component={ChangePassword}
+                            />
+                            <Route path="/">
+                                <Redirect to="/post" />
+                            </Route>
+                        </Switch>
+                    </Suspense>
+                </Router>
+            </SpotifyProvider>
         </AuthProvider>
     )
 }
