@@ -1,18 +1,17 @@
 .post-main {
     width: 100%;
-    display: flex;
-    justify-content: center;
+    display: block;
+    align-items: center;
+    margin-left: 20%;
 }
 
 .post-list {
-    max-width: 800px;
     overflow-y: scroll;
 }
 
 .post-new-button {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
+    display: block;
+    width: 100%;
 }
 
 .post-post {
@@ -74,11 +73,13 @@
 
 .post-body {
     padding: 10px;
+    margin-right: 0.5%;
 }
 
 .post-song {
-    height: 100px;
+    height: 100%;
     width: 100%;
+    overflow: auto;
 }
 
 .post-footer {
@@ -99,5 +100,10 @@
 }
 
 .post-comments {
-    width: 100%;
+    margin-left: 5%;
+    width: 80%;
+}
+
+.post-comments-add-button {
+    margin-right: 5%;
 }

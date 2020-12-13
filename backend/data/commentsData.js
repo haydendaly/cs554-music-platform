@@ -31,6 +31,7 @@ let schema = {
   userId : userId,
   commentText : commentText,
   displayName: user.displayName,
+  timeStamp : new Date().toUTCString()
 };
 
 return schema;
