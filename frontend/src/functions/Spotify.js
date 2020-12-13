@@ -15,6 +15,7 @@ export const SpotifyProvider = ({ children }) => {
     const { currentUser } = useContext(AuthContext)
     // const [user, setUser] = useState(null)
 
+    const [cachedRefreshTokenData, setCachedRefreshTokenData] = useState({})
     const [isSpotifyAuthed, setIsSpotifyAuthed] = useState(false)
     const [accessToken, setAccessToken] = useState('')
     const [refreshToken, setRefreshToken] = useState('')
@@ -64,6 +65,7 @@ export const SpotifyProvider = ({ children }) => {
     }
 
     const refreshAccessToken = async () => {
+        console.log('REFRESHING ACCESS TOKEN WITH: ', refreshToken)
         const bodyqs = qs.stringify({
             grant_type: 'refresh_token',
             refresh_token: refreshToken,
@@ -99,26 +101,25 @@ export const SpotifyProvider = ({ children }) => {
     /* useEffect to determine if code exists in the redis cache to bypass need to reauthorize */
     useEffect(() => {
         console.log('base useEffect fired')
-        console.log(getRefreshTokenFromCache())
-        const data = getRefreshTokenFromCache()
-        let exists = data.exists
-        let refresh_token = data.refresh_token
-        console.log('exists???? ', exists)
-        console.log('refresh token from cache: ', refresh_token)
-        if (exists) {
-            setRefreshToken(refresh_token)
-            setIsSpotifyAuthed(true)
-        } else {
-            setIsSpotifyAuthed(false)
+        const fetchData = async () => {
+            const data = await getRefreshTokenFromCache();
+            // setCachedRefreshTokenData(data)
+            console.log('dataFRomCache: ', data)
+            if (data.exists) {
+                setIsSpotifyAuthed(true)
+                setRefreshToken(data.refresh_token)
+            } else {
+                setIsSpotifyAuthed(false)
+            }
         }
+        fetchData();
     }, [])
 
     useEffect(() => {
-        console.log('isSpotifyAuthed useEffect fired')
-        if (isSpotifyAuthed) {
-            refreshAccessToken()
-        }
-    }, [isSpotifyAuthed])
+        if (isSpotifyAuthed && refreshToken !== '')
+        refreshAccessToken()
+    }, [refreshToken])
+
 
     useEffect(() => {
         const queries = qs.parse(window.location.search, {
@@ -140,8 +141,8 @@ export const SpotifyProvider = ({ children }) => {
     return accessToken === '' ? (
         <SpotifyAuth setAccessToken={setAccessToken} />
     ) : (
-        <SpotifyContext.Provider value={{ accessToken }}>
-            {children}
-        </SpotifyContext.Provider>
-    )
+            <SpotifyContext.Provider value={{ accessToken }}>
+                {children}
+            </SpotifyContext.Provider>
+        )
 }
