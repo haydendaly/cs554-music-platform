@@ -36,8 +36,8 @@ function SignUp() {
 
     return (
         <div className="main">
-            <div className="container signup">
-                <h1>Sign up</h1>
+            <div className="container authorize">
+                <h1>Sign Up</h1>
                 {pwMatch && <h4 className="error">{pwMatch}</h4>}
                 <form onSubmit={handleSignUp}>
                     <div className="form-group row">
@@ -93,14 +93,16 @@ function SignUp() {
                             />
                         </div>
                     </div>
+                    <div className="submit-button">
                     <button
-                        className="btn btn-primary"
+                        className="btn btn-light"
                         id="submitButton"
                         name="submitButton"
                         type="submit"
                     >
                         Sign Up
                     </button>
+                    </div>
                 </form>
                 <br />
                 <SocialSignIn />

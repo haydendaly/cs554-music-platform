@@ -13,11 +13,6 @@ const NavigationAuth = () => {
         <nav className="navigation">
             <ul>
                 <li>
-                    <NavLink exact to="/home" activeClassName="active">
-                        Home
-                    </NavLink>
-                </li>
-                <li>
                     <SignOutButton />
                 </li>
             </ul>
@@ -31,13 +26,13 @@ const NavigationNonAuth = () => {
             <ul>
                 <li>
                     <NavLink exact to="/signup" activeClassName="active">
-                        Sign-up
+                        Sign Up
                     </NavLink>
                 </li>
 
                 <li>
                     <NavLink exact to="/signin" activeClassName="active">
-                        Sign-In
+                        Sign In
                     </NavLink>
                 </li>
             </ul>

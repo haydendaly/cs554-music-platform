@@ -37,8 +37,8 @@ function SignIn() {
     }
     return (
         <div class="main">
-            <div className="container login">
-                <h1>Log in</h1>
+            <div className="container authorize">
+                <h1>Log In To Your Account</h1>
                 <form onSubmit={handleLogin}>
                     <div className="form-group row">
                         <label className="col-sm-2 col-form-label">Email</label>
@@ -67,13 +67,15 @@ function SignIn() {
                             />
                         </div>
                     </div>
-                    <button type="submit" className="btn btn-primary">
-                        Log in
+                    <div className="submit-button">
+                    <button type="submit" className="btn btn-light">
+                        Log In
                     </button>
 
                     <button className="forgotPassword" onClick={passwordReset}>
                         Forgot Password
                     </button>
+                    </div>
                 </form>
 
                 <br />
