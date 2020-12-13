@@ -9,7 +9,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import { AuthProvider } from '../firebase/Auth'
 // import { PlayAlbum } from "../components";
-import NavBar from '../components/NavBar'
 import Sidebar from '../components/Sidebar'
 import SidebarRight from '../components/SidebarRight'
 
@@ -30,7 +29,6 @@ function App() {
     return (
         <AuthProvider>
             <Router>
-                <NavBar />
                 <Sidebar />
                 <SidebarRight />
                 <Suspense fallback={<p>Loading...</p>}>
