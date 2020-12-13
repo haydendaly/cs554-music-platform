@@ -1,7 +1,8 @@
 .post-main {
     width: 100%;
-    display: flex;
-    justify-content: center;
+    display: block;
+    align-items: center;
+    margin-left: 20%;
 }
 
 .post-list {
@@ -80,11 +81,13 @@
 
 .post-body {
     padding: 10px;
+    margin-right: 0.5%;
 }
 
 .post-song {
-    height: 100px;
+    height: 100%;
     width: 100%;
+    overflow: auto;
 }
 
 .post-footer {
@@ -105,5 +108,10 @@
 }
 
 .post-comments {
-    width: 100%;
+    margin-left: 5%;
+    width: 80%;
+}
+
+.post-comments-add-button {
+    margin-right: 5%;
 }
