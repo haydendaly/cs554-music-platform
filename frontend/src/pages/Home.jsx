@@ -56,7 +56,7 @@ function Home(props) {
         // }
     }, [currentSpotifyUser])
 
-    if (user && spotifyAccessToken) {
+    if (user) {
         return (
             <div class="main">
                 <p>Welcome, {user.displayName}</p>

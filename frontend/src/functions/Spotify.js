@@ -13,9 +13,7 @@ const redirect_uri = 'http://localhost:8000/spotify' // Your redirect uri
 
 export const SpotifyProvider = ({ children }) => {
     const { currentUser } = useContext(AuthContext)
-    // const [user, setUser] = useState(null)
 
-    const [cachedRefreshTokenData, setCachedRefreshTokenData] = useState({})
     const [isSpotifyAuthed, setIsSpotifyAuthed] = useState(false)
     const [accessToken, setAccessToken] = useState('')
     const [refreshToken, setRefreshToken] = useState('')
@@ -61,7 +59,6 @@ export const SpotifyProvider = ({ children }) => {
             })
 
         setAccessToken(access_token)
-        // isRefreshTokenCached();
     }
 
     const refreshAccessToken = async () => {
@@ -103,7 +100,6 @@ export const SpotifyProvider = ({ children }) => {
         console.log('base useEffect fired')
         const fetchData = async () => {
             const data = await getRefreshTokenFromCache();
-            // setCachedRefreshTokenData(data)
             console.log('dataFRomCache: ', data)
             if (data.exists) {
                 setIsSpotifyAuthed(true)
@@ -116,8 +112,9 @@ export const SpotifyProvider = ({ children }) => {
     }, [])
 
     useEffect(() => {
-        if (isSpotifyAuthed && refreshToken !== '')
-        refreshAccessToken()
+        if (isSpotifyAuthed && refreshToken !== '') {
+            refreshAccessToken()
+        }
     }, [refreshToken])
 
 
@@ -138,6 +135,7 @@ export const SpotifyProvider = ({ children }) => {
         }
     }, [spotifyCode])
 
+
     return accessToken === '' ? (
         <SpotifyAuth setAccessToken={setAccessToken} />
     ) : (
@@ -145,4 +143,6 @@ export const SpotifyProvider = ({ children }) => {
                 {children}
             </SpotifyContext.Provider>
         )
+
+
 }
