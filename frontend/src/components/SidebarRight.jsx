@@ -77,10 +77,9 @@ const SideBarRight = () => {
                         <Icon
                             icon={faSearch}
                             color="#444"
-                            size="medium"
                             onClick={() => setOpen(false)}
                         />
-                        <label for="search-all" />
+                        <label htmlFor="search-all" />
                         <input
                             id="search-all"
                             className="search-input"
@@ -110,7 +109,6 @@ const SideBarRight = () => {
                     <Icon
                         icon={faSearch}
                         color="#fff"
-                        size="medium"
                         style={{ marginLeft: 12 }}
                     />
                 </div>

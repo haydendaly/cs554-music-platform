@@ -13,7 +13,6 @@ function Home(props) {
 
     /* useEffect to obtain current user */
     useEffect(() => {
-        console.log('useEffect fired')
         setUser(null)
 
         const getUserData = async () => {
@@ -27,7 +26,6 @@ function Home(props) {
                 console.log(`error found : ${e}`)
             }
         }
-        console.log(currentUser)
         if (currentUser) {
             getUserData()
         }
@@ -35,8 +33,6 @@ function Home(props) {
 
     /* useEffect to obtain current spotify user */
     useEffect(() => {
-        console.log('useEffect fired')
-        console.log('access token: ', accessToken)
         setSpotifyAccessToken(accessToken)
 
         // const getUserData = async () => {

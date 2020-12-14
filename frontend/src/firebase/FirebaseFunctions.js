@@ -15,7 +15,6 @@ async function doCreateUserWithEmailAndPassword(email, password, displayName) {
         photoUrl: user.photoURL,
     }
     try {
-        console.log(newUser)
         await axios.post('http://localhost:3000/api/user/create', newUser)
     } catch (e) {
         console.log(e)
@@ -62,7 +61,6 @@ async function doSocialSignIn(provider) {
     await firebase.auth().signInWithPopup(socialProvider)
     const user = firebase.auth().currentUser
     let { data } = await axios.get('http://localhost:3000/api/user/ids')
-    console.log(data)
     if (!data.includes(user.uid)) {
         const newUser = {
             id: user.uid,

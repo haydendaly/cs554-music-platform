@@ -47,7 +47,6 @@ function PostInsert() {
             })
             setPost(data)
             setLoading(false)
-            console.log(data)
         } catch (e) {
             console.log(`error found : ${e}`)
         }
@@ -234,7 +233,7 @@ function PostInsert() {
                 onClick={() => showAddPostModal()}
                 style={{ right: width > 1400 ? 360 : 70 }}
             >
-                <Icon icon={faPlus} className="menu-icon" />
+                <Icon icon={faPlus} />
             </div>
 
             {showAddModal && (

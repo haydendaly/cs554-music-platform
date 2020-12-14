@@ -30,7 +30,7 @@ const SideBar = () => {
                 style={width <= 1400 ? { width: 55 } : {}}
             >
                 <div className="header">
-                    <Icon icon={faMusic} color="#fff" size="large" />
+                    <Icon icon={faMusic} color="#fff" />
                     {width > 1400 && <h1 className="header-text">SongShare</h1>}
                 </div>
                 <Link to="/posts" className="menu-row" aria-label="Home" style={location.pathname === "/posts" ? { color: "#fff"} : {}}>
@@ -39,8 +39,8 @@ const SideBar = () => {
                         "Home"
                     )}
                 </Link>
-                <Link to="/profile" className="menu-row" aria-label="User Profile">
-                    <Icon icon={faUser} className="menu-icon" style={location.pathname === "/profile" ? { color: "#fff", marginLeft: 3 } : { marginLeft: 3 }} />
+                <Link to="/profile" className="menu-row" aria-label="User Profile" style={location.pathname === "/profile" ? { color: "#fff", marginLeft: 3 } : { marginLeft: 3 }}>
+                    <Icon icon={faUser} className="menu-icon" />
                     {width > 1400 && (
                             "User Profile"
                     )}

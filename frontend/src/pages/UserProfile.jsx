@@ -15,7 +15,6 @@ function UserProfile(props) {
     const [error, setError] = useState(null)
 
     useEffect(() => {
-        console.log('useEffect fired')
         setUser(null)
 
         const getUserData = async () => {
@@ -23,7 +22,6 @@ function UserProfile(props) {
                 const { data } = await axios.get(
                     `http://localhost:3000/api/user/${currentUser.uid}`
                 )
-                console.log(data)
                 setUser(data)
 
                 setImgUrl(
@@ -126,7 +124,7 @@ function UserProfile(props) {
 
     if (user && props.page === 'ShowProfile') {
         body = (
-            <div>
+            <div className="user-main">
                 <div className="card mt-3">
                     <img
                         src={imgUrl}

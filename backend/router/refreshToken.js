@@ -46,10 +46,7 @@ router.post('/set/:userId', async (req, res) => {
 */
 router.get('/get/:userId', async (req, res) => {
     const userId = req.params.userId;
-    console.log(userId);
-
     const isCached = await client.existsAsync(`spotify-refresh-token-${userId}`);
-    console.log(isCached);
 
     if (isCached === 1) {
         const cachedData = await client.getAsync(`spotify-refresh-token-${userId}`);

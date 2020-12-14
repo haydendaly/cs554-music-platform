@@ -48,17 +48,19 @@ function SignUp() {
 
     return (
         <div className="main">
-            <div className="container authorize">
+            <div className="container authorize shadow">
                 <h1>Sign Up</h1>
                 {error && <p className="error">{error}</p>}
                 <form onSubmit={handleSignUp}>
                     <div className="form-group row">
                         <label className="col-sm-2 col-form-label">Name</label>
                         <div className="col-sm-10">
+                            <label htmlFor="displayName" />
                             <input
                                 className="form-control"
                                 required
                                 name="displayName"
+                                id="displayName"
                                 type="text"
                                 placeholder="Name"
                             />
@@ -67,10 +69,12 @@ function SignUp() {
                     <div className="form-group row">
                         <label className="col-sm-2 col-form-label">Email</label>
                         <div className="col-sm-10">
+                            <label htmlFor="email-signup" />
                             <input
                                 className="form-control"
                                 required
                                 name="email"
+                                id="email-signup"
                                 type="email"
                                 placeholder="Email"
                             />
@@ -81,6 +85,7 @@ function SignUp() {
                             Password
                         </label>
                         <div className="col-sm-10">
+                            <label htmlFor="passwordOne" />
                             <input
                                 className="form-control"
                                 id="passwordOne"
@@ -96,9 +101,11 @@ function SignUp() {
                             Confirm Password
                         </label>
                         <div className="col-sm-10">
+                            <label htmlFor="passwordTwo" />
                             <input
                                 className="form-control"
                                 name="passwordTwo"
+                                id="passwordTwo"
                                 type="password"
                                 placeholder="Confirm Password"
                                 required
