@@ -1,6 +1,8 @@
 import React, { useContext } from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
+
 import { AuthContext } from '../firebase/Auth'
 
 function UserProfile(props) {
@@ -13,19 +15,17 @@ function UserProfile(props) {
     const [error, setError] = useState(null)
 
     useEffect(() => {
-        console.log('useEffect fired')
         setUser(null)
 
         const getUserData = async () => {
             try {
                 const { data } = await axios.get(
-                    `http://localhost:3000/api/user/${currentUser.uid}`
+                    `http://${window.location.hostname}:3000/api/user/${currentUser.uid}`
                 )
-                console.log(data)
                 setUser(data)
 
                 setImgUrl(
-                    `http://localhost:3000/api/user/photo/${
+                    `http://${window.location.hostname}:3000/api/user/photo/${
                         currentUser.uid
                     }?${new Date().getTime()}`
                 )
@@ -78,12 +78,12 @@ function UserProfile(props) {
         console.log(updateData)
         try {
             const { data } = await axios.patch(
-                `http://localhost:3000/api/user/${user._id}`,
+                `http://${window.location.hostname}:3000/api/user/${user._id}`,
                 updateData
             )
             setUser(data)
             alert('Profile has been updated')
-            window.location.replace('/usershowprofile')
+            window.location.replace('/profile')
         } catch (error) {
             console.log(error)
             alert(`Unable to update user: ${e}`)
@@ -100,7 +100,7 @@ function UserProfile(props) {
             let formData = new FormData()
             formData.append('image', selectedFile, selectedFile.name)
             const success = await axios.post(
-                `http://localhost:3000/api/user/photo/${currentUser.uid}`,
+                `http://${window.location.hostname}:3000/api/user/photo/${currentUser.uid}`,
                 formData,
                 {
                     headers: {
@@ -111,7 +111,7 @@ function UserProfile(props) {
             console.log(success)
             alert('Profile Picture Updated!')
             setImgUrl(
-                `http://localhost:3000/api/user/photo/${
+                `http://${window.location.hostname}:3000/api/user/photo/${
                     currentUser.uid
                 }?${new Date().getTime()}`
             ) // force page re-render
@@ -124,7 +124,7 @@ function UserProfile(props) {
 
     if (user && props.page === 'ShowProfile') {
         body = (
-            <div>
+            <div className="user-main">
                 <div className="card mt-3">
                     <img
                         src={imgUrl}
@@ -132,7 +132,7 @@ function UserProfile(props) {
                         className="card-img-top img-circle avatar"
                     ></img>
                     <div className="card-body">
-                        <h5 className="card-title">{user.displayName}</h5>
+                        <p className="card-title">{user.displayName}</p>
 
                         <p className="content">{user.email}</p>
                         {user.country ? (
@@ -153,6 +153,7 @@ function UserProfile(props) {
                                     <a
                                         className="content"
                                         href={user.websiteUrl}
+                                        aria-label="Personal Website"
                                     >
                                         {user.websiteUrl}
                                     </a>
@@ -167,6 +168,7 @@ function UserProfile(props) {
                                         href={user.socialMedia.facebook}
                                         target="_blank"
                                         rel="noreferrer"
+                                        aria-label="Facebook Account"
                                     >
                                         <img
                                             src="/imgs/social_media_icon/Facebook.png"
@@ -182,6 +184,7 @@ function UserProfile(props) {
                                         href={user.socialMedia.instagram}
                                         target="_blank"
                                         rel="noreferrer"
+                                        aria-label="Instagram Account"
                                     >
                                         <img
                                             src="/imgs/social_media_icon/Instagram.png"
@@ -196,6 +199,7 @@ function UserProfile(props) {
                                         href={user.socialMedia.twitter}
                                         target="_blank"
                                         rel="noreferrer"
+                                        aria-label="Twitter Account"
                                     >
                                         <img
                                             src="/imgs/social_media_icon/Twitter.png"
@@ -207,12 +211,13 @@ function UserProfile(props) {
                         </ul>
 
                         <div className="webUrl">
-                            <a
+                            <Link
                                 className="content edit-button"
-                                href="/usereditprofile"
+                                to="/profile/edit"
+                                aria-label="Edit Profile"
                             >
                                 <i className="fas fa-user-edit"></i>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -230,7 +235,7 @@ function UserProfile(props) {
                                     alt="avatar"
                                     className="avatar img-circle avatar-lg"
                                     width="150px"
-                                ></img>
+                                />
                             </div>
                             <div className="img-upload">
                                 <input
@@ -366,13 +371,11 @@ function UserProfile(props) {
                                     </button>
                                 </form>
                                 <br />
-                                <a href="/usershowprofile">
-                                    Back To My Profile
-                                </a>
+                                <Link to="/profile">Back To My Profile</Link>
                                 <br />
-                                <a href="/userupdatepassword">
+                                <Link to="/profile/password">
                                     Change Password
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     </div>

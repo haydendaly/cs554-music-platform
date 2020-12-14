@@ -8,7 +8,6 @@ import {
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import { AuthProvider } from '../firebase/Auth'
-// import { PlayAlbum } from "../components";
 import Sidebar from '../components/Sidebar'
 import SidebarRight from '../components/SidebarRight'
 import { SpotifyProvider } from '../functions/Spotify'
@@ -21,8 +20,8 @@ const PlayListByLoveSongs = lazy(() =>
     import('../components/playListbyLoveSongs')
 )
 const SearchPlayList = lazy(() => import('../components/SearchPlayList'))
-const PostInsert = lazy(() => import('../pages/PostInsert'))
 const Home = lazy(() => import('../pages/Home'))
+const PostInsert = lazy(() => import('../pages/PostInsert'))
 const UserProfile = lazy(() => import('../pages/UserProfile'))
 const ChangePassword = lazy(() => import('../components/ChangePassword'))
 
@@ -35,12 +34,8 @@ function App() {
                     <SidebarRight />
                     <Suspense fallback={<p>Loading...</p>}>
                         <Switch>
-                            <Route
-                                path="/post/create"
-                                exact
-                                component={PostInsert}
-                            />
-                            <Route path="/post" exact component={Home} />
+                            <Route path="/" exact component={Home} />
+                            <Route path="/posts" exact component={PostInsert} />
                             <Route path="/signin" component={SignIn} />
                             <Route path="/signup" component={SignUp} />
                             <Route
@@ -64,26 +59,26 @@ function App() {
                                 component={PlayListByLoveSongs}
                             />
                             <Route
-                                path="/usershowprofile"
-                                exact
-                                component={() => (
-                                    <UserProfile page="ShowProfile" />
-                                )}
-                            />
-                            <Route
-                                path="/usereditprofile"
+                                path="/profile/edit"
                                 exact
                                 component={() => (
                                     <UserProfile page="EditProfile" />
                                 )}
                             />
                             <Route
-                                path="/userupdatepassword"
+                                path="/profile/password"
                                 exact
                                 component={ChangePassword}
                             />
+                            <Route
+                                path="/profile"
+                                exact
+                                component={() => (
+                                    <UserProfile page="ShowProfile" />
+                                )}
+                            />
                             <Route path="/">
-                                <Redirect to="/post" />
+                                <Redirect to="/" />
                             </Route>
                         </Switch>
                     </Suspense>

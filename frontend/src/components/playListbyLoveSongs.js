@@ -104,7 +104,6 @@ const PlayListByLoveSongs = (props) => {
     const handleOpenshareModal = (trackDetails) => {
         setShowSharePostModal(true)
         setSharePost(trackDetails)
-        console.log(trackDetails)
     }
 
     const handleCloseModals = () => {
@@ -171,7 +170,6 @@ const PlayListByLoveSongs = (props) => {
         )
     }
     if (playListData) {
-        console.log(playListData)
         card =
             playListData &&
             playListData

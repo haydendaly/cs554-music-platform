@@ -29,7 +29,7 @@ const useSidebarRight = () => {
     }, [search])
 
     useEffect(() => {
-        if (width >= 1100) {
+        if (width >= 1400) {
             setOpen(false)
         }
     }, [width])
@@ -69,18 +69,19 @@ const SideBarRight = () => {
     return (
         <div
             className="sidenav-right shadow"
-            style={width > 1100 || open ? {} : { width: 55 }}
+            style={width > 1400 || open ? {} : { width: 55 }}
         >
-            {width > 1100 || open ? (
+            {width > 1400 || open ? (
                 <div>
                     <div className="search">
                         <Icon
                             icon={faSearch}
                             color="#444"
-                            size="medium"
                             onClick={() => setOpen(false)}
                         />
+                        <label htmlFor="search-all" />
                         <input
+                            id="search-all"
                             className="search-input"
                             placeholder="Search"
                             value={search}
@@ -108,7 +109,6 @@ const SideBarRight = () => {
                     <Icon
                         icon={faSearch}
                         color="#fff"
-                        size="medium"
                         style={{ marginLeft: 12 }}
                     />
                 </div>

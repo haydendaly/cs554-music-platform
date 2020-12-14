@@ -1,7 +1,7 @@
 const MongoClient = require("mongodb").MongoClient;
 const settings = {
   mongoConfig: {
-    serverUrl: "mongodb://localhost:27017/",
+    serverUrl: process.env.MONGO_SERVER_URL ? process.env.MONGO_SERVER_URL : "mongodb://localhost:27017/",
     database: "SpotifyTwitter"
   },
 };

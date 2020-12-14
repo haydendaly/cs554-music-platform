@@ -36,13 +36,14 @@ function SignIn() {
         return <Redirect to="/home" />
     }
     return (
-        <div class="main">
-            <div className="container authorize">
+        <div className="main">
+            <div className="container authorize shadow">
                 <h1>Log In To Your Account</h1>
                 <form onSubmit={handleLogin}>
                     <div className="form-group row">
                         <label className="col-sm-2 col-form-label">Email</label>
                         <div className="col-sm-10">
+                            <label htmlFor="email" />
                             <input
                                 className="form-control"
                                 name="email"
@@ -58,9 +59,11 @@ function SignIn() {
                             Password
                         </label>
                         <div className="col-sm-10">
+                            <label htmlFor="password" />
                             <input
                                 className="form-control"
                                 name="password"
+                                id="password"
                                 type="password"
                                 placeholder="Password"
                                 required

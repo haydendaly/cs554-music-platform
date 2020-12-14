@@ -5,7 +5,6 @@ import { doChangePassword } from '../firebase/FirebaseFunctions'
 function ChangePassword() {
     const { currentUser } = useContext(AuthContext)
     const [pwMatch, setPwMatch] = useState('')
-    console.log(currentUser)
 
     const submitForm = async (event) => {
         event.preventDefault()

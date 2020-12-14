@@ -99,7 +99,6 @@ const PlayAlbum = (props) => {
 
     const { currentUser } = useContext(AuthContext)
     useEffect(() => {
-        console.log('on load useeffect')
         async function fetchData() {
             try {
                 spotifyApi.getAlbum(albumId).then(
@@ -122,7 +121,6 @@ const PlayAlbum = (props) => {
         setShowSharePostModal(true)
         setSharePost(trackDetails)
         setErrorModal(true)
-        console.log(trackDetails)
     }
 
     const handleCloseModals = () => {
