@@ -1,4 +1,6 @@
 import React, { useEffect, useState, createContext, useContext } from 'react'
+import SignIn from '../components/SignIn'
+import SignUp from '../components/SignUp'
 import SpotifyAuth from '../components/SpotifyAuth'
 import qs from 'qs'
 import _ from 'lodash'
@@ -24,7 +26,6 @@ export const SpotifyProvider = ({ children }) => {
 
     /* Get auth and refresh token after the user authorizes the app*/
     const getTokens = async (code) => {
-        console.log('code: ', code)
         const bodyqs = qs.stringify({
             code,
             redirect_uri,
@@ -56,7 +57,11 @@ export const SpotifyProvider = ({ children }) => {
                 console.log(error)
             })
 
+
         setAccessToken(access_token)
+        setRefreshToken(refresh_token)
+        setLoadingSpotifyAuthCheck(false)
+        setIsSpotifyAuthed(true)
     }
 
     // Obtain a new access token given the refresh token state
@@ -94,24 +99,30 @@ export const SpotifyProvider = ({ children }) => {
 
     /* useEffect to determine if code exists in the redis cache to bypass need to reauthorize */
     useEffect(() => {
+        if (!currentUser) {
+            return
+        }
         const fetchData = async () => {
             const data = await getRefreshTokenFromCache();
             if (data.exists) {
                 setIsSpotifyAuthed(true)
                 setRefreshToken(data.refresh_token)
+                // refreshAccessToken()
             } else {
                 setIsSpotifyAuthed(false)
             }
             setLoadingSpotifyAuthCheck(false)
         }
         fetchData();
-    }, [])
+        // eslint-disable-next-line
+    }, [currentUser])
 
     useEffect(() => {
         if (isSpotifyAuthed && refreshToken !== '') {
             refreshAccessToken()
         }
-    }, [refreshToken])
+        // eslint-disable-next-line
+    }, [refreshToken, isSpotifyAuthed])
 
 
     /* useEffect to obtain authorization code (different from authorization token) from the URL params*/
@@ -123,6 +134,7 @@ export const SpotifyProvider = ({ children }) => {
             const { code } = queries
             setSpotifyCode(code)
         }
+        // eslint-disable-next-line
     }, [window.location.search])
 
     /* useEffect to Parse Redirect Back From Spotify*/
@@ -130,11 +142,19 @@ export const SpotifyProvider = ({ children }) => {
         if (spotifyCode !== '') {
             getTokens(spotifyCode)
         }
+        // eslint-disable-next-line
     }, [spotifyCode])
 
 
-
-    if (!loadingSpotifyAuthCheck && !isSpotifyAuthed) {
+    if (!currentUser) {
+        return (
+            <div>
+                <SignIn />
+                <SignUp />
+            </div>
+        )
+    }
+    else if (!loadingSpotifyAuthCheck && !isSpotifyAuthed && refreshToken === '') {
         return (
             <SpotifyAuth setAccessToken={setAccessToken} />
         )
