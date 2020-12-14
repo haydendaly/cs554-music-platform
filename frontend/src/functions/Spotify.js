@@ -57,7 +57,6 @@ export const SpotifyProvider = ({ children }) => {
                 console.log(error)
             })
 
-
         setAccessToken(access_token)
         setRefreshToken(refresh_token)
         setLoadingSpotifyAuthCheck(false)
@@ -103,7 +102,7 @@ export const SpotifyProvider = ({ children }) => {
             return
         }
         const fetchData = async () => {
-            const data = await getRefreshTokenFromCache();
+            const data = await getRefreshTokenFromCache()
             if (data.exists) {
                 setIsSpotifyAuthed(true)
                 setRefreshToken(data.refresh_token)
@@ -113,7 +112,7 @@ export const SpotifyProvider = ({ children }) => {
             }
             setLoadingSpotifyAuthCheck(false)
         }
-        fetchData();
+        fetchData()
         // eslint-disable-next-line
     }, [currentUser])
 
@@ -123,7 +122,6 @@ export const SpotifyProvider = ({ children }) => {
         }
         // eslint-disable-next-line
     }, [refreshToken, isSpotifyAuthed])
-
 
     /* useEffect to obtain authorization code (different from authorization token) from the URL params*/
     useEffect(() => {
@@ -145,7 +143,6 @@ export const SpotifyProvider = ({ children }) => {
         // eslint-disable-next-line
     }, [spotifyCode])
 
-
     if (!currentUser) {
         return (
             <div>
@@ -153,21 +150,23 @@ export const SpotifyProvider = ({ children }) => {
                 <SignUp />
             </div>
         )
-    }
-    else if (!loadingSpotifyAuthCheck && !isSpotifyAuthed && refreshToken === '') {
-        return (
-            <SpotifyAuth setAccessToken={setAccessToken} />
-        )
-    } else if (!loadingSpotifyAuthCheck && isSpotifyAuthed && accessToken !== '') {
+    } else if (
+        !loadingSpotifyAuthCheck &&
+        !isSpotifyAuthed &&
+        refreshToken === ''
+    ) {
+        return <SpotifyAuth setAccessToken={setAccessToken} />
+    } else if (
+        !loadingSpotifyAuthCheck &&
+        isSpotifyAuthed &&
+        accessToken !== ''
+    ) {
         return (
             <SpotifyContext.Provider value={{ accessToken }}>
                 {children}
             </SpotifyContext.Provider>
         )
     } else {
-        return (
-            <div>Loading....</div>
-        )
+        return <div>Loading....</div>
     }
-
 }

@@ -6,7 +6,7 @@ import { SpotifyContext } from '../functions/Spotify'
 
 function Home(props) {
     const { currentUser } = useContext(AuthContext)
-    const { currentSpotifyUser } = useContext(SpotifyContext)
+    const { accessToken } = useContext(SpotifyContext)
 
     const [user, setUser] = useState(null)
     const [spotifyAccessToken, setSpotifyAccessToken] = useState(null)
@@ -36,8 +36,8 @@ function Home(props) {
     /* useEffect to obtain current spotify user */
     useEffect(() => {
         console.log('useEffect fired')
-        console.log('currentspotifyuser: ', currentSpotifyUser)
-        setSpotifyAccessToken(null)
+        console.log('access token: ', accessToken)
+        setSpotifyAccessToken(accessToken)
 
         // const getUserData = async () => {
         //     try {
@@ -54,7 +54,7 @@ function Home(props) {
         // if (currentSpotifyUser) {
         //     getUserData()
         // }
-    }, [currentSpotifyUser])
+    }, [accessToken])
 
     if (user) {
         return (

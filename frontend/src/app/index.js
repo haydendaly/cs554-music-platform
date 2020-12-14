@@ -13,7 +13,6 @@ import Sidebar from '../components/Sidebar'
 import SidebarRight from '../components/SidebarRight'
 import { SpotifyProvider } from '../functions/Spotify'
 
-
 const SignIn = lazy(() => import('../components/SignIn'))
 const SignUp = lazy(() => import('../components/SignUp'))
 const PlayAlbum = lazy(() => import('../components/playAlbum'))
@@ -32,7 +31,6 @@ function App() {
         <AuthProvider>
             <SpotifyProvider>
                 <Router>
-                    <NavBar />
                     <Sidebar />
                     <SidebarRight />
                     <Suspense fallback={<p>Loading...</p>}>
