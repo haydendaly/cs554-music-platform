@@ -40,7 +40,9 @@ function PostInsert() {
 
     const getAllPost = async () => {
         try {
-            const { data } = await axios.get('http://localhost:3000/api/post')
+            const { data } = await axios.get(
+                `http://${window.location.hostname}:3000/api/post`
+            )
             data.sort(function (item1, item2) {
                 return new Date(item2.timeStamp) - new Date(item1.timeStamp)
             })
@@ -65,7 +67,7 @@ function PostInsert() {
         if (currentUser && currentUser.uid) {
             try {
                 const { commentData } = await axios.post(
-                    `http://localhost:3000/api/post/${commentPost._id}/comment`,
+                    `http://${window.location.hostname}:3000/api/post/${commentPost._id}/comment`,
                     {
                         userId: currentUser.uid,
                         commentText: comment,
@@ -100,7 +102,7 @@ function PostInsert() {
         ) {
             try {
                 const { data } = await axios.delete(
-                    `http://localhost:3000/api/post/${argPost._id}/comment/${argComment._id}`
+                    `http://${window.location.hostname}:3000/api/post/${argPost._id}/comment/${argComment._id}`
                 )
                 getAllPost()
             } catch (error) {
@@ -108,7 +110,7 @@ function PostInsert() {
             }
         } else {
             console.log(
-                `currentUser=${currentUser.uid}, commentUser=${argComment.userId}, postId= http://localhost:3000/api/post/${argPost._id}/comment/${argComment._id}`
+                `currentUser=${currentUser.uid}, commentUser=${argComment.userId}, postId= http://${window.location.hostname}:3000/api/post/${argPost._id}/comment/${argComment._id}`
             )
         }
     }
@@ -127,14 +129,14 @@ function PostInsert() {
 
                 if (!data) {
                     const { likeData } = await axios.post(
-                        `http://localhost:3000/api/post/${likedpost._id}/likes`,
+                        `http://${window.location.hostname}:3000/api/post/${likedpost._id}/likes`,
                         {
                             userId: currentUser.uid,
                         }
                     )
                 } else {
                     const { likeData } = await axios.delete(
-                        `http://localhost:3000/api/post/${likedpost._id}/likes/${data._id}`
+                        `http://${window.location.hostname}:3000/api/post/${likedpost._id}/likes/${data._id}`
                     )
                 }
                 getAllPost()
@@ -190,7 +192,7 @@ function PostInsert() {
         ) {
             try {
                 const { data } = await axios.delete(
-                    `http://localhost:3000/api/post/${argPost._id}`
+                    `http://${window.location.hostname}:3000/api/post/${argPost._id}`
                 )
                 getAllPost()
             } catch (error) {
@@ -260,7 +262,7 @@ function PostInsert() {
                                 <div className="post-header-info">
                                     <img
                                         className="post-user-icon shadow"
-                                        src={`http://localhost:3000/api/user/photo/${postItem.userId}`}
+                                        src={`http://${window.location.hostname}:3000/api/user/photo/${postItem.userId}`}
                                         alt={`User: ${postItem.userId}`}
                                     />
                                     <div className="post-header-text">
@@ -413,7 +415,7 @@ function PostInsert() {
                                                                 <div className="post-header-info">
                                                                     <img
                                                                         className="post-user-icon shadow"
-                                                                        src={`http://localhost:3000/api/user/photo/${commentItem.userId}`}
+                                                                        src={`http://${window.location.hostname}:3000/api/user/photo/${commentItem.userId}`}
                                                                         alt={`User: ${commentItem.userId}`}
                                                                     />
                                                                     <div className="post-header-text">

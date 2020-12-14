@@ -18,7 +18,7 @@ function Home(props) {
         const getUserData = async () => {
             try {
                 const { data } = await axios.get(
-                    `http://localhost:3000/api/user/${currentUser.uid}`
+                    `http://${window.location.hostname}:3000/api/user/${currentUser.uid}`
                 )
                 console.log(data)
                 setUser(data)
@@ -38,7 +38,7 @@ function Home(props) {
         // const getUserData = async () => {
         //     try {
         //         const { data } = await axios.get(
-        //             `http://localhost:3000/api/user/${currentUser.uid}`
+        //             `http://${window.location.hostname}:3000/api/user/${currentUser.uid}`
         //         )
         //         console.log(data)
         //         setUser(data)

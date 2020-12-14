@@ -11,18 +11,15 @@ export const SpotifyContext = createContext()
 
 const client_id = 'd1f357b5e08e444682e89704869b769c' // Your client id
 const client_secret = '898b527f70c84fa0b09d45bfbdbb4635' // Your secret
-const redirect_uri = 'http://localhost:8000/spotify' // Your redirect uri
 
 export const SpotifyProvider = ({ children }) => {
+    const redirect_uri = `http://${window.location.host}/spotify` // Your redirect uri
     const { currentUser } = useContext(AuthContext)
-
     const [loadingSpotifyAuthCheck, setLoadingSpotifyAuthCheck] = useState(true)
     const [isSpotifyAuthed, setIsSpotifyAuthed] = useState(false)
     const [accessToken, setAccessToken] = useState('')
     const [refreshToken, setRefreshToken] = useState('')
-    const [spotifyCode, setSpotifyCode] = useState(
-        /*localStorage.getItem('code') ||*/ ''
-    )
+    const [spotifyCode, setSpotifyCode] = useState('')
 
     /* Get auth and refresh token after the user authorizes the app*/
     const getTokens = async (code) => {
@@ -51,7 +48,7 @@ export const SpotifyProvider = ({ children }) => {
         // Store refresh_token in redis cache using the backend route
         await axios
             .post(
-                `http://localhost:3000/refreshToken/set/${currentUser.uid}?refresh_token=${refresh_token}`
+                `http://${window.location.hostname}:3000/refreshToken/set/${currentUser.uid}?refresh_token=${refresh_token}`
             )
             .then((error) => {
                 console.log(error)
@@ -91,7 +88,7 @@ export const SpotifyProvider = ({ children }) => {
     // data is returned as {exists: false} OR {exists: true, refresh_token=123}
     const getRefreshTokenFromCache = async () => {
         const cachedData = await axios.get(
-            `http://localhost:3000/refreshToken/get/${currentUser.uid}`
+            `http://${window.location.hostname}:3000/refreshToken/get/${currentUser.uid}`
         )
         return cachedData.data
     }

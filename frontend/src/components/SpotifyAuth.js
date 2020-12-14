@@ -4,7 +4,7 @@ import qs from 'qs'
 const getLink = () => {
     const client_id = 'd1f357b5e08e444682e89704869b769c' // Your client id
     // const client_secret = '898b527f70c84fa0b09d45bfbdbb4635'; // Your secret
-    const redirect_uri = 'http://localhost:8000/spotify' // Your redirect uri
+    const redirect_uri = `http://${window.location.host}/spotify` // Your redirect uri
 
     const scope =
         'user-read-recently-played user-read-playback-state user-top-read app-remote-control user-read-currently-playing user-follow-read user-read-playback-position playlist-read-private user-read-email user-read-private user-library-read streaming'

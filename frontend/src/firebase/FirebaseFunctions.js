@@ -15,7 +15,10 @@ async function doCreateUserWithEmailAndPassword(email, password, displayName) {
         photoUrl: user.photoURL,
     }
     try {
-        await axios.post('http://localhost:3000/api/user/create', newUser)
+        await axios.post(
+            `http://${window.location.hostname}:3000/api/user/create`,
+            newUser
+        )
     } catch (e) {
         console.log(e)
     }
@@ -34,7 +37,9 @@ async function doChangePassword(email, oldPassword, newPassword) {
 async function doSignInWithEmailAndPassword(email, password) {
     await firebase.auth().signInWithEmailAndPassword(email, password)
     const user = firebase.auth().currentUser
-    let { data } = await axios.get('http://localhost:3000/api/user/ids')
+    let { data } = await axios.get(
+        `http://${window.location.hostname}:3000/api/user/ids`
+    )
     // add user to backend if information doesn't exist
     if (!data.includes(user.uid)) {
         const newUser = {
@@ -44,7 +49,10 @@ async function doSignInWithEmailAndPassword(email, password) {
             photoUrl: user.photoURL,
         }
         try {
-            await axios.post('http://localhost:3000/api/user/create', newUser)
+            await axios.post(
+                `http://${window.location.hostname}:3000/api/user/create`,
+                newUser
+            )
         } catch (e) {
             console.log(e)
         }
@@ -60,7 +68,9 @@ async function doSocialSignIn(provider) {
     }
     await firebase.auth().signInWithPopup(socialProvider)
     const user = firebase.auth().currentUser
-    let { data } = await axios.get('http://localhost:3000/api/user/ids')
+    let { data } = await axios.get(
+        `http://${window.location.hostname}:3000/api/user/ids`
+    )
     if (!data.includes(user.uid)) {
         const newUser = {
             id: user.uid,
@@ -69,7 +79,10 @@ async function doSocialSignIn(provider) {
             photoUrl: user.photoURL,
         }
         try {
-            await axios.post('http://localhost:3000/api/user/create', newUser)
+            await axios.post(
+                `http://${window.location.hostname}:3000/api/user/create`,
+                newUser
+            )
         } catch (e) {
             console.log(e)
         }

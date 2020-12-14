@@ -20,12 +20,12 @@ function UserProfile(props) {
         const getUserData = async () => {
             try {
                 const { data } = await axios.get(
-                    `http://localhost:3000/api/user/${currentUser.uid}`
+                    `http://${window.location.hostname}:3000/api/user/${currentUser.uid}`
                 )
                 setUser(data)
 
                 setImgUrl(
-                    `http://localhost:3000/api/user/photo/${
+                    `http://${window.location.hostname}:3000/api/user/photo/${
                         currentUser.uid
                     }?${new Date().getTime()}`
                 )
@@ -78,7 +78,7 @@ function UserProfile(props) {
         console.log(updateData)
         try {
             const { data } = await axios.patch(
-                `http://localhost:3000/api/user/${user._id}`,
+                `http://${window.location.hostname}:3000/api/user/${user._id}`,
                 updateData
             )
             setUser(data)
@@ -100,7 +100,7 @@ function UserProfile(props) {
             let formData = new FormData()
             formData.append('image', selectedFile, selectedFile.name)
             const success = await axios.post(
-                `http://localhost:3000/api/user/photo/${currentUser.uid}`,
+                `http://${window.location.hostname}:3000/api/user/photo/${currentUser.uid}`,
                 formData,
                 {
                     headers: {
@@ -111,7 +111,7 @@ function UserProfile(props) {
             console.log(success)
             alert('Profile Picture Updated!')
             setImgUrl(
-                `http://localhost:3000/api/user/photo/${
+                `http://${window.location.hostname}:3000/api/user/photo/${
                     currentUser.uid
                 }?${new Date().getTime()}`
             ) // force page re-render

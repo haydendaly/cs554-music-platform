@@ -1,13 +1,10 @@
 FROM node
 
 WORKDIR /usr/src/app
-COPY package*.json ./
+COPY . .
 RUN npm install
 RUN npm install serve -g
-RUN npm build
-
-COPY . .
+RUN npm run build
 
 EXPOSE 8000
 CMD ["serve", "-s", "build", "-l", "8000"]
-# CMD ["npm", "run", "start-linux"]
