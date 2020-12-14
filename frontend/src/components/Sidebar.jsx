@@ -1,12 +1,11 @@
 import React, { useContext } from 'react'
 import { AuthContext } from '../firebase/Auth'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import {
     faMusic,
     faHome,
     faUser,
-    faPlus,
     faList,
     faSearch,
     faSignInAlt,
@@ -20,6 +19,7 @@ import { doSignOut } from '../firebase/FirebaseFunctions'
 
 const SideBar = () => {
     const { width } = useWindowDimensions()
+    const location = useLocation()
     const { currentUser } = useContext(AuthContext)
     let body = null
 
@@ -33,82 +33,45 @@ const SideBar = () => {
                     <Icon icon={faMusic} color="#fff" size="large" />
                     {width > 1400 && <h1 className="header-text">SongShare</h1>}
                 </div>
-                <div className="menu-row">
-                    <Link to="/post">
-                        <Icon icon={faHome} className="menu-icon" />
-                    </Link>
+                <Link to="/posts" className="menu-row" aria-label="Home" style={location.pathname === "/posts" ? { color: "#fff"} : {}}>
+                    <Icon icon={faHome} className="menu-icon" />
                     {width > 1400 && (
-                        <Link to="/post" className="menu-text">
-                            About
-                        </Link>
+                        "Home"
                     )}
-                </div>
-                <div className="menu-row">
-                    <Link to="/usershowprofile">
-                        <Icon icon={faUser} className="menu-icon" />
-                    </Link>
+                </Link>
+                <Link to="/profile" className="menu-row" aria-label="User Profile">
+                    <Icon icon={faUser} className="menu-icon" style={location.pathname === "/profile" ? { color: "#fff", marginLeft: 3 } : { marginLeft: 3 }} />
                     {width > 1400 && (
-                        <Link to="/usershowprofile" className="menu-text">
-                            User Profile
-                        </Link>
+                            "User Profile"
                     )}
-                </div>
-                <div className="menu-row">
-                    <Link to="/post/create">
-                        <Icon icon={faPlus} className="menu-icon" />
-                    </Link>
+                </Link>
+                <Link to="/playList" className="menu-row" aria-label="Play By Album" style={location.pathname === "/playList" ? { color: "#fff"} : {}}>
+                    <Icon icon={faList} className="menu-icon" />
                     {width > 1400 && (
-                        <Link to="/post/create" className="menu-text">
-                            Add Post
-                        </Link>
+                            "Play By Album"
                     )}
-                </div>
-                <div className="menu-row">
-                    <Link to="/playList">
-                        <Icon icon={faList} className="menu-icon" />
-                    </Link>
+                </Link>
+                <Link to="/searchTracks" className="menu-row" aria-label="Search Tracks" style={location.pathname === "/searchTracks" ? { color: "#fff"} : {}}>
+                    <Icon icon={faSearch} className="menu-icon" />
                     {width > 1400 && (
-                        <Link to="/playList" className="menu-text">
-                            Play By Album
-                        </Link>
+                            "Search Tracks"
                     )}
-                </div>
-                <div className="menu-row">
-                    <Link to="/searchTracks">
-                        <Icon icon={faSearch} className="menu-icon" />
-                    </Link>
+                </Link>
+                <Link to="/artistPlayList" className="menu-row" aria-label="Play By Artist" style={location.pathname === "/artistPlaylist" ? { color: "#fff"} : {}}>
+                    <Icon icon={faSearch} className="menu-icon" />
                     {width > 1400 && (
-                        <Link to="/searchTracks" className="menu-text">
-                            Search Tracks
-                        </Link>
+                            "Play By Artist"
                     )}
-                </div>
-                <div className="menu-row">
-                    <Link to="/artistPlayList">
-                        <Icon icon={faSearch} className="menu-icon" />
-                    </Link>
+                </Link>
+                <Link to="#" className="menu-row" onClick={doSignOut} aria-label="Sign Out">
+                    <Icon
+                        icon={faSignOutAlt}
+                        className="menu-icon"
+                    />
                     {width > 1400 && (
-                        <Link to="/artistPlayList" className="menu-text">
-                            Play By Artist
-                        </Link>
+                        "Sign Out"
                     )}
-                </div>
-
-                <div className="menu-row">
-                    <Link to="#">
-                        <Icon
-                            icon={faSignOutAlt}
-                            className="menu-icon"
-                            onClick={doSignOut}
-                        />
-                    </Link>
-
-                    {width > 1400 && (
-                        <Link to="#" onClick={doSignOut} className="menu-text">
-                            Sign Out
-                        </Link>
-                    )}
-                </div>
+                </Link>
             </div>
         )
     } else {
@@ -122,26 +85,18 @@ const SideBar = () => {
                     {width > 1400 && <h1 className="header-text">SongShare</h1>}
                 </div>
 
-                <div className="menu-row">
-                    <Link to="/signin">
-                        <Icon icon={faSignInAlt} className="menu-icon" />
-                    </Link>
+                <Link to="/signin" className="menu-row" aria-label="Sign In" style={location.pathname === "/signin" ? { color: "#fff"} : {}}>
+                    <Icon icon={faSignInAlt} className="menu-icon" />
                     {width > 1400 && (
-                        <Link to="/signin" className="menu-text">
-                            Sign In
-                        </Link>
+                            "Sign In"
                     )}
-                </div>
-                <div className="menu-row">
-                    <Link to="/signup">
-                        <Icon icon={faUserPlus} className="menu-icon" />
-                    </Link>
+                </Link>
+                <Link to="/signup" className="menu-row" aria-label="Sign Up" style={location.pathname === "/signup" ? { color: "#fff"} : {}}>
+                    <Icon icon={faUserPlus} className="menu-icon" />
                     {width > 1400 && (
-                        <Link to="/signup" className="menu-text">
-                            Sign Up
-                        </Link>
+                            "Sign Up"
                     )}
-                </div>
+                </Link>
             </div>
         )
     }

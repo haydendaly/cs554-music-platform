@@ -80,7 +80,9 @@ const SideBarRight = () => {
                             size="medium"
                             onClick={() => setOpen(false)}
                         />
+                        <label for="search-all" />
                         <input
+                            id="search-all"
                             className="search-input"
                             placeholder="Search"
                             value={search}

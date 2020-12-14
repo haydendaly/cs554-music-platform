@@ -284,7 +284,7 @@ function PostInsert() {
                                     >
                                         <Icon
                                             icon={faPencilAlt}
-                                            className="menu-icon"
+                                            className="post-menu-icon"
                                         />
                                     </div>
                                     <div
@@ -293,7 +293,7 @@ function PostInsert() {
                                     >
                                         <Icon
                                             icon={faTrash}
-                                            className="menu-icon"
+                                            className="post-menu-icon"
                                         />
                                     </div>
                                 </div>
@@ -327,7 +327,7 @@ function PostInsert() {
                                 >
                                     <Icon
                                         icon={faThumbsUp}
-                                        className="menu-icon"
+                                        className="post-menu-icon"
                                     />
                                     <p>
                                         {postItem.likesArray
@@ -347,7 +347,7 @@ function PostInsert() {
                                 >
                                     <Icon
                                         icon={faComments}
-                                        className="menu-icon"
+                                        className="post-menu-icon"
                                     />
                                     <p>
                                         {postItem.commentsArray
@@ -367,7 +367,6 @@ function PostInsert() {
                                             rows="2"
                                             onChange={handleCommentTextField}
                                         />
-
                                         <Button
                                             className="post-comments-add-button"
                                             variant="contained"
@@ -439,7 +438,7 @@ function PostInsert() {
                                                                         icon={
                                                                             faTrash
                                                                         }
-                                                                        className="menu-icon"
+                                                                        className="post-menu-icon"
                                                                     />
                                                                 </div>
                                                             </div>
