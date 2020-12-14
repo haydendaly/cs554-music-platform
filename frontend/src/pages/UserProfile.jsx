@@ -371,9 +371,7 @@ function UserProfile(props) {
                                     </button>
                                 </form>
                                 <br />
-                                <Link to="/profile">
-                                    Back To My Profile
-                                </Link>
+                                <Link to="/profile">Back To My Profile</Link>
                                 <br />
                                 <Link to="/profile/password">
                                     Change Password

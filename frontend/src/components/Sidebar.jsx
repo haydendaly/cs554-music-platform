@@ -33,44 +33,77 @@ const SideBar = () => {
                     <Icon icon={faMusic} color="#fff" />
                     {width > 1400 && <h1 className="header-text">SongShare</h1>}
                 </div>
-                <Link to="/posts" className="menu-row" aria-label="Home" style={location.pathname === "/posts" ? { color: "#fff"} : {}}>
+                <Link
+                    to="/posts"
+                    className="menu-row"
+                    aria-label="Home"
+                    style={
+                        location.pathname === '/posts' ? { color: '#fff' } : {}
+                    }
+                >
                     <Icon icon={faHome} className="menu-icon" />
-                    {width > 1400 && (
-                        "Home"
-                    )}
+                    {width > 1400 && 'Home'}
                 </Link>
-                <Link to="/profile" className="menu-row" aria-label="User Profile" style={location.pathname === "/profile" ? { color: "#fff", marginLeft: 3 } : { marginLeft: 3 }}>
+                <Link
+                    to="/profile"
+                    className="menu-row"
+                    aria-label="User Profile"
+                    style={
+                        location.pathname === '/profile'
+                            ? { color: '#fff', marginLeft: 3 }
+                            : { marginLeft: 3 }
+                    }
+                >
                     <Icon icon={faUser} className="menu-icon" />
-                    {width > 1400 && (
-                            "User Profile"
-                    )}
+                    {width > 1400 && 'User Profile'}
                 </Link>
-                <Link to="/playList" className="menu-row" aria-label="Play By Album" style={location.pathname === "/playList" ? { color: "#fff"} : {}}>
+                <Link
+                    to="/playList"
+                    className="menu-row"
+                    aria-label="Play By Album"
+                    style={
+                        location.pathname === '/playList'
+                            ? { color: '#fff' }
+                            : {}
+                    }
+                >
                     <Icon icon={faList} className="menu-icon" />
-                    {width > 1400 && (
-                            "Play By Album"
-                    )}
+                    {width > 1400 && 'Play By Album'}
                 </Link>
-                <Link to="/searchTracks" className="menu-row" aria-label="Search Tracks" style={location.pathname === "/searchTracks" ? { color: "#fff"} : {}}>
+                <Link
+                    to="/searchTracks"
+                    className="menu-row"
+                    aria-label="Search Tracks"
+                    style={
+                        location.pathname === '/searchTracks'
+                            ? { color: '#fff' }
+                            : {}
+                    }
+                >
                     <Icon icon={faSearch} className="menu-icon" />
-                    {width > 1400 && (
-                            "Search Tracks"
-                    )}
+                    {width > 1400 && 'Search Tracks'}
                 </Link>
-                <Link to="/artistPlayList" className="menu-row" aria-label="Play By Artist" style={location.pathname === "/artistPlaylist" ? { color: "#fff"} : {}}>
+                <Link
+                    to="/artistPlayList"
+                    className="menu-row"
+                    aria-label="Play By Artist"
+                    style={
+                        location.pathname === '/artistPlaylist'
+                            ? { color: '#fff' }
+                            : {}
+                    }
+                >
                     <Icon icon={faSearch} className="menu-icon" />
-                    {width > 1400 && (
-                            "Play By Artist"
-                    )}
+                    {width > 1400 && 'Play By Artist'}
                 </Link>
-                <Link to="#" className="menu-row" onClick={doSignOut} aria-label="Sign Out">
-                    <Icon
-                        icon={faSignOutAlt}
-                        className="menu-icon"
-                    />
-                    {width > 1400 && (
-                        "Sign Out"
-                    )}
+                <Link
+                    to="#"
+                    className="menu-row"
+                    onClick={doSignOut}
+                    aria-label="Sign Out"
+                >
+                    <Icon icon={faSignOutAlt} className="menu-icon" />
+                    {width > 1400 && 'Sign Out'}
                 </Link>
             </div>
         )
@@ -85,17 +118,27 @@ const SideBar = () => {
                     {width > 1400 && <h1 className="header-text">SongShare</h1>}
                 </div>
 
-                <Link to="/signin" className="menu-row" aria-label="Sign In" style={location.pathname === "/signin" ? { color: "#fff"} : {}}>
+                <Link
+                    to="/signin"
+                    className="menu-row"
+                    aria-label="Sign In"
+                    style={
+                        location.pathname === '/signin' ? { color: '#fff' } : {}
+                    }
+                >
                     <Icon icon={faSignInAlt} className="menu-icon" />
-                    {width > 1400 && (
-                            "Sign In"
-                    )}
+                    {width > 1400 && 'Sign In'}
                 </Link>
-                <Link to="/signup" className="menu-row" aria-label="Sign Up" style={location.pathname === "/signup" ? { color: "#fff"} : {}}>
+                <Link
+                    to="/signup"
+                    className="menu-row"
+                    aria-label="Sign Up"
+                    style={
+                        location.pathname === '/signup' ? { color: '#fff' } : {}
+                    }
+                >
                     <Icon icon={faUserPlus} className="menu-icon" />
-                    {width > 1400 && (
-                            "Sign Up"
-                    )}
+                    {width > 1400 && 'Sign Up'}
                 </Link>
             </div>
         )
