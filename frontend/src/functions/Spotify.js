@@ -14,6 +14,7 @@ const redirect_uri = 'http://localhost:8000/spotify' // Your redirect uri
 export const SpotifyProvider = ({ children }) => {
     const { currentUser } = useContext(AuthContext)
 
+    const [loadingSpotifyAuthCheck, setLoadingSpotifyAuthCheck] = useState(true)
     const [isSpotifyAuthed, setIsSpotifyAuthed] = useState(false)
     const [accessToken, setAccessToken] = useState('')
     const [refreshToken, setRefreshToken] = useState('')
@@ -21,7 +22,7 @@ export const SpotifyProvider = ({ children }) => {
         /*localStorage.getItem('code') ||*/ ''
     )
 
-    /* Make query to Spotify */
+    /* Get auth and refresh token after the user authorizes the app*/
     const getTokens = async (code) => {
         console.log('code: ', code)
         const bodyqs = qs.stringify({
@@ -45,9 +46,6 @@ export const SpotifyProvider = ({ children }) => {
         }
         const data = await axios(request)
         const { access_token, refresh_token } = data.data
-        console.log('accesstoken: ', access_token)
-
-        console.log('current user!:', currentUser.uid)
 
         // Store refresh_token in redis cache using the backend route
         await axios
@@ -61,8 +59,8 @@ export const SpotifyProvider = ({ children }) => {
         setAccessToken(access_token)
     }
 
+    // Obtain a new access token given the refresh token state
     const refreshAccessToken = async () => {
-        console.log('REFRESHING ACCESS TOKEN WITH: ', refreshToken)
         const bodyqs = qs.stringify({
             grant_type: 'refresh_token',
             refresh_token: refreshToken,
@@ -83,12 +81,11 @@ export const SpotifyProvider = ({ children }) => {
         }
 
         const data = await axios(request)
-        setAccessToken(data.access_token)
+        setAccessToken(data.data.access_token)
     }
 
     // data is returned as {exists: false} OR {exists: true, refresh_token=123}
     const getRefreshTokenFromCache = async () => {
-        console.log('isRefreshTokenCached fired')
         const cachedData = await axios.get(
             `http://localhost:3000/refreshToken/get/${currentUser.uid}`
         )
@@ -97,16 +94,15 @@ export const SpotifyProvider = ({ children }) => {
 
     /* useEffect to determine if code exists in the redis cache to bypass need to reauthorize */
     useEffect(() => {
-        console.log('base useEffect fired')
         const fetchData = async () => {
             const data = await getRefreshTokenFromCache();
-            console.log('dataFRomCache: ', data)
             if (data.exists) {
                 setIsSpotifyAuthed(true)
                 setRefreshToken(data.refresh_token)
             } else {
                 setIsSpotifyAuthed(false)
             }
+            setLoadingSpotifyAuthCheck(false)
         }
         fetchData();
     }, [])
@@ -118,6 +114,7 @@ export const SpotifyProvider = ({ children }) => {
     }, [refreshToken])
 
 
+    /* useEffect to obtain authorization code (different from authorization token) from the URL params*/
     useEffect(() => {
         const queries = qs.parse(window.location.search, {
             ignoreQueryPrefix: true,
@@ -136,13 +133,21 @@ export const SpotifyProvider = ({ children }) => {
     }, [spotifyCode])
 
 
-    return accessToken === '' ? (
-        <SpotifyAuth setAccessToken={setAccessToken} />
-    ) : (
+
+    if (!loadingSpotifyAuthCheck && !isSpotifyAuthed) {
+        return (
+            <SpotifyAuth setAccessToken={setAccessToken} />
+        )
+    } else if (!loadingSpotifyAuthCheck && isSpotifyAuthed && accessToken !== '') {
+        return (
             <SpotifyContext.Provider value={{ accessToken }}>
                 {children}
             </SpotifyContext.Provider>
         )
-
+    } else {
+        return (
+            <div>Loading....</div>
+        )
+    }
 
 }
