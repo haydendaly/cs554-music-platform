@@ -29,14 +29,18 @@ const SideBar = () => {
                 className="sidenav shadow"
                 style={width <= 1400 ? { width: 55 } : {}}
             >
-                <div className="header">
-                    <Icon icon={faMusic} color="#fff" />
-                    {width > 1400 && <h1 className="header-text">SongShare</h1>}
-                </div>
+                <Link
+                    to="/"
+                    className="menu-row"
+                    style={{ fontSize: 26, color: '#fff' }}
+                >
+                    <Icon icon={faMusic} className="menu-icon" />
+                    {width > 1400 && 'SongShare'}
+                </Link>
                 <Link
                     to="/posts"
                     className="menu-row"
-                    aria-label="Home"
+                    aria-label="Posts"
                     style={
                         location.pathname === '/posts' ? { color: '#fff' } : {}
                     }

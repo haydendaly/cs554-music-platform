@@ -28,7 +28,7 @@
     margin-bottom: 20px;
     border-radius: 20px;
     overflow: hidden;
-    font-size: 16px;
+    font-size: 17px;
 }
 
 .post-header {
@@ -67,7 +67,7 @@
 
 .post-header-text {
     margin-left: 15px;
-    font-size: 17px;
+    font-size: 18px;
 }
 
 .post-user-name {
@@ -104,6 +104,10 @@
     font-size: 20px;
 }
 
+.post-menu-icon:hover {
+    color: #fff;
+}
+
 .post-button {
     color: #999;
     display: flex;
@@ -113,11 +117,29 @@
     width: 45px;
 }
 
+.post-comment-holder {
+    padding: 15px;
+    padding-bottom: 0px;
+    width: 100%;
+    border-top: 1px solid;
+    border-color: #999;
+}
+
 .post-comments {
-    margin-left: 5%;
-    width: 80%;
+    background-color: #272727;
+    color: #fff;
+    width: 100%;
+    outline: none;
+    border: none;
+    padding: 10px;
+    border-radius: 15px;
 }
 
 .post-comments-add-button {
-    margin-right: 5%;
+    float: right;
+    background-color: #ff0000;
+    padding: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 10px;
 }

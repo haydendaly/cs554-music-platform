@@ -40,7 +40,7 @@ const getLink = () => {
     return url
 }
 
-const SpotifyAuth = (props) => {
+const SpotifyAuth = () => {
     const [link, setLink] = useState('')
 
     useEffect(() => {
@@ -49,9 +49,24 @@ const SpotifyAuth = (props) => {
     }, [])
 
     return (
-        <a type="button" href={link} className="btn btn-primary">
-            Login with Spotify
-        </a>
+        <div
+            style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+            }}
+        >
+            <div>
+                <h1>Welcome to SongShare!</h1>
+                <p>
+                    To use this application you'll need to connect your Spotify
+                    account! Click the button below to do so :-)
+                </p>
+                <a type="button" href={link} className="btn btn-primary">
+                    Authorize Spotify
+                </a>
+            </div>
+        </div>
     )
 }
 

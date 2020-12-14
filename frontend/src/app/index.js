@@ -20,6 +20,7 @@ const PlayListByLoveSongs = lazy(() =>
     import('../components/playListbyLoveSongs')
 )
 const SearchPlayList = lazy(() => import('../components/SearchPlayList'))
+const Home = lazy(() => import('../pages/Home'))
 const PostInsert = lazy(() => import('../pages/PostInsert'))
 const UserProfile = lazy(() => import('../pages/UserProfile'))
 const ChangePassword = lazy(() => import('../components/ChangePassword'))
@@ -33,6 +34,7 @@ function App() {
                     <SidebarRight />
                     <Suspense fallback={<p>Loading...</p>}>
                         <Switch>
+                            <Route path="/" exact component={Home} />
                             <Route path="/posts" exact component={PostInsert} />
                             <Route path="/signin" component={SignIn} />
                             <Route path="/signup" component={SignUp} />
@@ -76,7 +78,7 @@ function App() {
                                 )}
                             />
                             <Route path="/">
-                                <Redirect to="/posts" />
+                                <Redirect to="/" />
                             </Route>
                         </Switch>
                     </Suspense>
