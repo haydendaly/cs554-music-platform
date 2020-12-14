@@ -7,28 +7,23 @@ import {
     Typography,
     makeStyles,
     Button,
-    Link,
-    CardMedia,
 } from '@material-ui/core'
-
+import SpotifyWebApi from 'spotify-web-api-js'
 import { AuthContext } from '../firebase/Auth'
 import AddPostModal from './Modals/AddPostModal'
-import Legends_Never_Die from '../img/artist-img/Legends_Never_Die.jpg'
-import taylorswift from '../img/artist-img/taylorswift.jpg'
-import The_Goat from '../img/artist-img/The_Goat.webp'
-import After_Hours from '../img/artist-img/After_Hours.jpg'
-import folklore from '../img/artist-img/folklore.jpg'
-import No_Image from '../img/artist-img/No_Image.jpeg'
-import Euphoria from '../img/artist-img/Euphoria.jpg'
+import SearchComponent from './SearchComponent'
 import ShowErrorModal from './Modals/ShowErrorModal'
-import axios from 'axios';
+
+let Spotify = require('spotify-web-api-js')
+// var s = new Spotify();
+
+let spotifyApi = new SpotifyWebApi()
+
+spotifyApi.setAccessToken(
+    'BQCwwf27DshVe-LLXxXSfzrywJtt8E8O5dt9ScodkGB-ZEPaRq_Y3SsWNNyDY6VwdEFuSwJpKvB12BwLoxkQorXLozJYHVJCpLulT4ijI-a6HCmM6GGtzUM-qBaYoZKYhy2pSimr9JdctCaH3hVTa1kZnixuZXjQytXP3uJEewjlYoHk'
+)
 
 const useStyles = makeStyles({
-    sidebarCard: {
-        maxWidth: '100%',
-        height: '100%',
-        marginTop: '12px',
-    },
     card: {
         maxWidth: 350,
         height: 'auto',
@@ -48,6 +43,7 @@ const useStyles = makeStyles({
         flexGrow: 1,
         flexDirection: 'row',
     },
+
     modal: {
         top: '50%',
         left: '20%',
@@ -75,47 +71,48 @@ const useStyles = makeStyles({
     buttonClass: {
         marginLeft: '40%',
     },
+    errorDiv: {
+        color: 'red',
+    },
 })
 
-const PlayAlbum = (props) => {
-    const [albumData, setAlbumtData] = useState(undefined)
+const SearchedSong = (props) => {
+    const [playListData, setPlayListData] = useState(undefined)
     const classes = useStyles()
     const [hasError, setHasError] = useState(false)
     const [loading, setLoading] = useState(true)
     const [sharePost, setSharePost] = useState(null)
     const [showSharePostModal, setShowSharePostModal] = useState(null)
-    const [albumId, setAlbumId] = useState(props.match.params.id)
+    const [searchTerm, setSearchTerm] = useState('Happy')
     const [errorModal, setErrorModal] = useState(false)
-
-    let card = null
-    const baseUrl = 'http://localhost:3000/spotify-api/albums/'
 
     const { currentUser } = useContext(AuthContext)
 
-
-        const [state, setState] = useState({ data: null});
-
-        useEffect(() => {
-            console.log('on load useeffect');
-            async function fetchData() {
-                try {
-                    console.log(albumId);
-                const { data } = await axios.get(baseUrl+props.match.params.id);
-                    setAlbumtData(data.tracks.items);
-                    console.log(data.tracks.items)
-                    setLoading(false);}
-                 catch (e) {
-                    console.log(e);
-                }
+    let card = null
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                spotifyApi.searchTracks(searchTerm, { country: 'US' }).then(
+                    function (data) {
+                        setPlayListData(data.tracks.items)
+                        setLoading(false)
+                    },
+                    function (err) {
+                        setHasError(err)
+                    }
+                )
+            } catch (e) {
+                setHasError(e.message)
             }
-            fetchData();
-        }, [props.match.params.id]);
+        }
+        fetchData()
+    }, [searchTerm])
 
     const handleOpenshareModal = (trackDetails) => {
         setShowSharePostModal(true)
         setSharePost(trackDetails)
-        setErrorModal(true)
         console.log(trackDetails)
+        setErrorModal(true)
     }
 
     const handleCloseModals = () => {
@@ -123,13 +120,13 @@ const PlayAlbum = (props) => {
         setErrorModal(false)
     }
 
-    const getAlbumID = (id) => {
-        setAlbumId(id)
+    const searchValue = async (value) => {
+        setSearchTerm(value)
     }
 
-    const buildCard = (album) => {
+    const buildCard = (playList) => {
         return (
-            <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={album.id}>
+            <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={playList.id}>
                 <Card className={classes.card} variant="outlined">
                     <CardActionArea>
                         <CardContent>
@@ -139,15 +136,17 @@ const PlayAlbum = (props) => {
                                 variant="h6"
                                 component="h3"
                             >
-                                <span>{album.name}</span>
+                                <span>{playList.name}</span>
                                 <br />
-                                <span>Track Number: {album.track_number}</span>
+                                <span>Popularity: {playList.popularity}</span>
                             </Typography>
                         </CardContent>
                     </CardActionArea>
                     <iframe
                         id="playSong"
-                        src={'https://open.spotify.com/embed?uri=' + album.uri}
+                        src={
+                            'https://open.spotify.com/embed?uri=' + playList.uri
+                        }
                         width="300"
                         height="380"
                         frameborder="0"
@@ -160,7 +159,7 @@ const PlayAlbum = (props) => {
                             color="secondary"
                             className={classes.buttonClass}
                             onClick={() => {
-                                handleOpenshareModal(album)
+                                handleOpenshareModal(playList)
                             }}
                         >
                             share
@@ -170,13 +169,17 @@ const PlayAlbum = (props) => {
             </Grid>
         )
     }
-    if (albumData) {
-        console.log(albumData)
+    if (playListData) {
+        console.log(playListData)
         card =
-            albumData &&
-            albumData.map((album) => {
-                return buildCard(album)
-            })
+            playListData &&
+            playListData
+                .filter((x) =>
+                    x.available_markets.some((y) => y.includes('US'))
+                )
+                .map((playList) => {
+                    return buildCard(playList)
+                })
     }
 
     if (loading) {
@@ -185,16 +188,36 @@ const PlayAlbum = (props) => {
                 <h2>Loading....</h2>
             </div>
         )
-    }
-    if (hasError) {
-        return <div>{hasError}</div>
+    } else if (searchTerm && playListData.length <= 0) {
+        return (
+            <div class="main">
+                <div>
+                    <SearchComponent
+                        searchValue={searchValue}
+                        searchTerm={searchTerm}
+                    />
+                    <br />
+                    <div className={classes.errorDiv}>
+                        {'error: No result found for this search.'}
+                    </div>
+                </div>
+            </div>
+        )
     } else {
         return (
             <div class="main">
-               
-                        <Grid container className={classes.grid} spacing={5}>
-                            {card}
-                        </Grid>
+                <br />
+                <div>
+                    <SearchComponent
+                        searchValue={searchValue}
+                        searchTerm={searchTerm}
+                    />
+                </div>
+                <br />
+                <Grid container className={classes.grid} spacing={5}>
+                    {card}
+                </Grid>
+
                 {currentUser
                     ? showSharePostModal && (
                           <AddPostModal
@@ -219,4 +242,4 @@ const PlayAlbum = (props) => {
     }
 }
 
-export default PlayAlbum
+export default SearchedSong

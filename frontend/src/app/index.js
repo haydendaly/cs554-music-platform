@@ -43,14 +43,14 @@ function App() {
                         <Route path="/post" exact component={Home} />
                         <Route path="/signin" component={SignIn} />
                         <Route path="/signup" component={SignUp} />
-                        <Route path="/playList" exact component={PlayAlbum} />
+                        <Route path="/playList/:id" exact component={PlayAlbum} />
                         <Route
                             path="/searchTracks"
                             exact
                             component={SearchPlayList}
                         />
                         <Route
-                            path="/artistPlayList"
+                            path="/artistPlayList/:id"
                             exact
                             component={PlayArtist}
                         />

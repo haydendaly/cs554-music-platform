@@ -20,7 +20,7 @@ let Spotify = require('spotify-web-api-js')
 let spotifyApi = new SpotifyWebApi()
 
 spotifyApi.setAccessToken(
-    'BQC2_U99dHI9wVjzAPhqRhRbRZDCanzT8CFetZAajMA_qPQxI-kVTum90y7dHRkADr90jl-_HEK6rk1fmeIJPhL2w-R44GZwG4nslxfq3x_gz1P08NI9fdTGAcNxmah3nd75cObZDx-mGMfoQixV_fZ-q9voMt-oXwbAKkvd1oEiMnWw'
+    'BQCwwf27DshVe-LLXxXSfzrywJtt8E8O5dt9ScodkGB-ZEPaRq_Y3SsWNNyDY6VwdEFuSwJpKvB12BwLoxkQorXLozJYHVJCpLulT4ijI-a6HCmM6GGtzUM-qBaYoZKYhy2pSimr9JdctCaH3hVTa1kZnixuZXjQytXP3uJEewjlYoHk'
 )
 
 const useStyles = makeStyles({
