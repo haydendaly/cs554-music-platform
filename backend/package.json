@@ -30,7 +30,8 @@
     "react-model": "^3.1.4",
     "redis": "^3.0.2",
     "spotify-web-api-node": "^5.0.0",
-    "uuid": "^8.3.1"
+    "uuid": "^8.3.1",
+    "xss": "^1.0.8"
   },
   "devDependencies": {
     "eslint-config-prettier": "^6.15.0",

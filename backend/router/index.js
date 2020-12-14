@@ -1,6 +1,7 @@
 const post = require("./postRoute");
 const user = require("./userRoute");
 const login = require('./login')
+const refreshTokenRoutes = require('./refreshToken')
 const spotifyArtistsRoutes = require('./spotify-api/artists');
 const spotifyAlbumsRoutes = require('./spotify-api/albums');
 const spotifySearchRoutes = require('./spotify-api/search');
@@ -13,6 +14,7 @@ const constructorMethod = (app) => {
   app.use("/", login);
   app.use("/api/post", post);
   app.use("/api/user", user);
+  app.use('/refreshToken', refreshTokenRoutes);
   
   app.use('/spotify-api/artists', spotifyArtistsRoutes);
   app.use('/spotify-api/albums', spotifyAlbumsRoutes);
