@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { AuthContext } from '../firebase/Auth'
 
@@ -207,13 +206,13 @@ function UserProfile(props) {
                             )}
                         </ul>
 
-                        <div className="card-title">
-                            <Link
-                                className="edit-button card-title"
-                                to="/usereditprofile"
+                        <div className="webUrl">
+                            <a
+                                className="content edit-button"
+                                href="/usereditprofile"
                             >
                                 <i className="fas fa-user-edit"></i>
-                            </Link>
+                            </a>
                         </div>
                     </div>
                 </div>
