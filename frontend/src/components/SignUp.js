@@ -5,7 +5,8 @@ import { AuthContext } from '../firebase/Auth'
 import SocialSignIn from './SocialSignIn'
 function SignUp() {
     const { currentUser } = useContext(AuthContext)
-    const [pwMatch, setPwMatch] = useState('')
+    const [error, setError] = useState('')
+
     const handleSignUp = async (e) => {
         e.preventDefault()
         const {
@@ -15,7 +16,18 @@ function SignUp() {
             passwordTwo,
         } = e.target.elements
         if (passwordOne.value !== passwordTwo.value) {
-            setPwMatch('Passwords do not match')
+            setError('Passwords do not match')
+            return false
+        }
+
+        const isValidName =
+            /^[A-Za-z .']+$/i.test(displayName.value) &&
+            /^[A-Za-z]/i.test(displayName.value)
+
+        if (!isValidName) {
+            setError(
+                'Name need to start with letter and cannot contain special characters (space and . are allowed)'
+            )
             return false
         }
 
@@ -36,9 +48,9 @@ function SignUp() {
 
     return (
         <div className="main">
-            <div className="container signup">
-                <h1>Sign up</h1>
-                {pwMatch && <h4 className="error">{pwMatch}</h4>}
+            <div className="container authorize">
+                <h1>Sign Up</h1>
+                {error && <p className="error">{error}</p>}
                 <form onSubmit={handleSignUp}>
                     <div className="form-group row">
                         <label className="col-sm-2 col-form-label">Name</label>
@@ -93,14 +105,16 @@ function SignUp() {
                             />
                         </div>
                     </div>
-                    <button
-                        className="btn btn-primary"
-                        id="submitButton"
-                        name="submitButton"
-                        type="submit"
-                    >
-                        Sign Up
-                    </button>
+                    <div className="submit-button">
+                        <button
+                            className="btn btn-light"
+                            id="submitButton"
+                            name="submitButton"
+                            type="submit"
+                        >
+                            Sign Up
+                        </button>
+                    </div>
                 </form>
                 <br />
                 <SocialSignIn />

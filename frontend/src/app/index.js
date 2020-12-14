@@ -9,10 +9,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import { AuthProvider } from '../firebase/Auth'
 // import { PlayAlbum } from "../components";
-import NavBar from '../components/NavBar'
 import Sidebar from '../components/Sidebar'
 import SidebarRight from '../components/SidebarRight'
 import { SpotifyProvider } from '../functions/Spotify'
+
 
 const SignIn = lazy(() => import('../components/SignIn'))
 const SignUp = lazy(() => import('../components/SignUp'))
@@ -65,7 +65,6 @@ function App() {
                                 exact
                                 component={PlayListByLoveSongs}
                             />
-
                             <Route
                                 path="/usershowprofile"
                                 exact

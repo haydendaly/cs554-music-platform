@@ -5,7 +5,8 @@ const usersData = data.users;
 const upload = require('../config/upload');
 const fs = require('fs').promises;
 const path = require('path');
-const axios = require('axios');
+const xss = require('xss')
+const validator = require('../data/validator');
 
 router.get("/", async (req, res) => {
   try {
@@ -26,16 +27,17 @@ router.get("/ids", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-  if (!req.params.id) {
-    res.status(404).json({ error: "User Id missing" });
+  const id = xss(req.params.id)
+  if (!validator.isNonEmptyString(id)) {
+    res.status(400).json({ error: "User is is not valid" });
     return;
   }
 
   try {
-    let user = await usersData.getUserById(req.params.id)
+    let user = await usersData.getUserById(id)
     res.json(user);
   } catch (error) {
-    res.status(404).json({ error: "Post not found" });
+    res.status(404).json({ error: "User not found for given id" });
   }
 });
 
@@ -44,70 +46,118 @@ router.post("/create", async (req, res) => {
     !req.body ||
     !req.body.id ||
     !req.body.displayName||
-    !req.body.email 
+    !req.body.email
   ) {
     res.status(404).json({ error: "Must supply all fields." });
     return;
   }
 
-  let userParams = req.body;
-  try {
-    let newUser = await usersData.createUser(userParams)    
-    res.json(newUser);
-  } catch (error) {
-    res.status(404).json({ error: "Cannot add new user" });
+  const {id, displayName, email, photoUrl} = req.body;
+  const error = [];
+  if(!validator.isNonEmptyString(id)) error.push('id is not valid');
+  if(!validator.isNonEmptyString(displayName)) error.push('Display name is not valid');
+  if(!validator.isValidEmail(email)) error.push('Email is not valid');
+  // photoUrl is provided from third party and cannot be changed, so skip check
+
+  if (error.length > 0) {
+    res.status(400).json({error: error})
+  } else {
+
+    const inputData = {
+      id: xss(id),
+      displayName: xss(displayName),
+      email: xss(email),
+      photoUrl: xss(photoUrl)
+    };
+
+    try {
+      let newUser = await usersData.createUser(inputData)    
+      res.json(newUser);
+    } catch (e) {
+      res.status(500).json({ error: e});
+    }
   }
 });
 
 router.delete("/:id" , async(req, res) => {
-   if(!req.params.id){
-    res.status(404).json({ error: "Must supply user Id." });
+  const id = xss(req.params.id); 
+  
+  if(!validator.isNonEmptyString(id)){
+    res.status(400).json({ error: 'User id is not valid' });
     return;
    }
 
    try {
-     let deleted = await usersData.deleteUser(req.params.id)
+     let deleted = await usersData.deleteUser(id)
      if(deleted){
        res.json({deleted : "true"})
      }    
-   } catch (error) {
-    res.status(404).json({ error:  `Cannot delete user : ${error}` });
+   } catch (e) {
+    res.status(500).json({ error:  `Cannot delete user : ${e}` });
    }
 
 })
 
 // update user
 router.patch("/:id", async (req, res) => {
-  if (!req.params.id || !req.body || Object.keys(req.body).length === 0) {
-    res.status(404).json({
+  const id = xss(req.params.id);
+  const updatedUserData = req.body;
+  if (!validator.isNonEmptyString(id) || !updatedUserData || Object.keys(updatedUserData).length === 0) {
+    res.status(400).json({
       error: "Must provide at least one field in request body.",
     });
     return;
   }
-
-  let updatedUserData = req.body;
+ 
   try {
-    await usersData.getUserById(req.params.id)
-  }catch(e){
+    await usersData.getUserById(id)
+  } catch(e){
     res.status(404).json({
       error: "No user found for given id.",
     });
     return;
   }
 
-  try {
-    // validate all fields - TBD
+  let error = [];
+  if(updatedUserData.displayName && !validator.isNonEmptyString(updatedUserData.displayName)) error.push('Updated user name is not valid');
+  if(updatedUserData.websiteUrl && !validator.isValidURL(updatedUserData.websiteUrl)) error.push('Updated personal website is not valid url');
+  
+  if(updatedUserData.socialMedia){
+    for( let key in updatedUserData.socialMedia ){
+      let value = updatedUserData.socialMedia[key];
+      if (value && !validator.isValidURL(value)) error.push( `${key} url is not valid` );
+    }
+  };
 
-    let updatedUser = await usersData.updateUser(req.params.id, updatedUserData)
-    res.json(updatedUser);
-  } catch (error) {
-    res.status(404).json({ error: "Cannot update user." });
+  if( error.length > 0){
+    res.status(400).json({error: error})
+  } else {
+    try {
+      const newData = {socialMedia: {}};
+      
+      if( updatedUserData.socialMedia ){
+        for( let key in updatedUserData.socialMedia ){
+          let value = updatedUserData.socialMedia[key];
+          newData.socialMedia[key] = xss(value);
+        }
+      };
+      newData.displayName = xss(updatedUserData.displayName);
+      newData.websiteUrl = xss(updatedUserData.websiteUrl);
+      newData.biography = xss(updatedUserData.biography);
+      newData.country = xss(updatedUserData.country);
+
+      let updatedUser = await usersData.updateUser(id, newData)
+      res.status(200).json(updatedUser);
+    } catch (e) {
+      res.status(500).json({ e: "Cannot update user." });
+    }
   }
 });
 
 router.post("/photo/:id", upload.single('image'), async(req, res)=>{
-  if (!req.params.id){
-    res.status(404).json({ error: "Please provide user id." });
+  const id = xss(req.params.id);
+  if (!validator.isNonEmptyString(id)){
+    res.status(400).json({ error: "User id is not valid." });
     return;
   }
   
@@ -121,7 +171,7 @@ router.post("/photo/:id", upload.single('image'), async(req, res)=>{
     }
 
     try{
-      await usersData.updateUser(req.params.id, photoData)
+      await usersData.updateUser(id, photoData)
       res.status(200).json({message: 'Photo updated'})
 
     }catch(e){
@@ -132,13 +182,14 @@ router.post("/photo/:id", upload.single('image'), async(req, res)=>{
 });
 
 router.get("/photo/:id", async(req, res) =>{
-  if (!req.params.id){
-    res.status(404).json({ error: "Please provide user id." });
+  const id = xss(req.params.id);
+  if (!validator.isNonEmptyString(id)){
+    res.status(400).json({ error: "User id is not valid." });
     return;
   }
 
   try{
-    const user = await usersData.getUserById(req.params.id)
+    const user = await usersData.getUserById(id)
     const photoData = user.photoData;
 
     // user uploaded photo has highest priority
@@ -148,7 +199,11 @@ router.get("/photo/:id", async(req, res) =>{
       res.contentType(photoData.type);
       res.send(photoData.data.buffer);
     } else if(user.photoUrl){
-      res.redirect(user.photoUrl);
+      try{
+        res.redirect(user.photoUrl);
+      }catch(e){
+        res.sendFile(path.join(__dirname, '..', 'public', 'img', 'default_profile.jpeg'));
+      }
     } else {
       res.sendFile(path.join(__dirname, '..', 'public', 'img', 'default_profile.jpeg'));
     }
