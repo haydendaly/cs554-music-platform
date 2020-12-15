@@ -7,29 +7,14 @@ import {
     Typography,
     makeStyles,
     Button,
-    Link,
-    CardMedia,
 } from '@material-ui/core'
-import SpotifyWebApi from 'spotify-web-api-js'
+
 import { AuthContext } from '../firebase/Auth'
+import Loading from './Loading'
 import AddPostModal from './Modals/AddPostModal'
-import Legends_Never_Die from '../img/artist-img/Legends_Never_Die.jpg'
-import taylorswift from '../img/artist-img/taylorswift.jpg'
-import The_Goat from '../img/artist-img/The_Goat.webp'
-import After_Hours from '../img/artist-img/After_Hours.jpg'
-import folklore from '../img/artist-img/folklore.jpg'
-import No_Image from '../img/artist-img/No_Image.jpeg'
-import Euphoria from '../img/artist-img/Euphoria.jpg'
 import ShowErrorModal from './Modals/ShowErrorModal'
-
-let Spotify = require('spotify-web-api-js')
-// var s = new Spotify();
-
-let spotifyApi = new SpotifyWebApi()
-
-spotifyApi.setAccessToken(
-    'BQBzVb1VQn20pxWFtP63bRzK3Zjl9APTx7Ncn8qZ6x34ULjGsefsTYmLoqPTLWY1Q_NFpwccm1C_XFb2K4NoJlqDZkruMf9nD4db-EQCNwaIL_3W_uAUmZQdMbi8D0Gjyc1Qh26wDD_0nrTccDq_ba7IXaMjQ124feTF7y_Pee4kkxppIjShXxrzU_BakWoiQs99wsZ6wBfIrd2PQDcMlNAozGc'
-)
+import axios from 'axios'
+import { SpotifyContext } from '../functions/Spotify'
 
 const useStyles = makeStyles({
     sidebarCard: {
@@ -86,36 +71,43 @@ const useStyles = makeStyles({
 })
 
 const PlayAlbum = (props) => {
+    const { accessToken } = useContext(SpotifyContext)
     const [albumData, setAlbumtData] = useState(undefined)
     const classes = useStyles()
     const [hasError, setHasError] = useState(false)
     const [loading, setLoading] = useState(true)
     const [sharePost, setSharePost] = useState(null)
     const [showSharePostModal, setShowSharePostModal] = useState(null)
-    const [albumId, setAlbumId] = useState('12HeDZhPHHzCe7VE0uEYwD')
+    const [albumId, setAlbumId] = useState(props.match.params.id)
     const [errorModal, setErrorModal] = useState(false)
 
     let card = null
+    const baseUrl = 'http://localhost:3000/spotify-api/albums/'
 
     const { currentUser } = useContext(AuthContext)
+
+    const [state, setState] = useState({ data: null })
+
     useEffect(() => {
+        console.log('on load useeffect')
         async function fetchData() {
             try {
-                spotifyApi.getAlbum(albumId).then(
-                    function (data) {
-                        setAlbumtData(data.tracks.items)
-                        setLoading(false)
-                    },
-                    function (err) {
-                        setHasError(err)
-                    }
+                console.log(albumId)
+                const { data } = await axios.get(
+                    baseUrl +
+                        props.match.params.id +
+                        '?access_token=' +
+                        accessToken
                 )
+                setAlbumtData(data.tracks.items)
+                console.log(data.tracks.items)
+                setLoading(false)
             } catch (e) {
-                setHasError(e.message)
+                console.log(e)
             }
         }
         fetchData()
-    }, [albumId])
+    }, [props.match.params.id])
 
     const handleOpenshareModal = (trackDetails) => {
         setShowSharePostModal(true)
@@ -128,13 +120,9 @@ const PlayAlbum = (props) => {
         setErrorModal(false)
     }
 
-    const getAlbumID = (id) => {
-        setAlbumId(id)
-    }
-
     const buildCard = (album) => {
         return (
-            <Grid item xs={12} sm={6} md={6} lg={6} xl={6} key={album.id}>
+            <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={album.id}>
                 <Card className={classes.card} variant="outlined">
                     <CardActionArea>
                         <CardContent>
@@ -155,7 +143,7 @@ const PlayAlbum = (props) => {
                         src={'https://open.spotify.com/embed?uri=' + album.uri}
                         width="300"
                         height="380"
-                        frameborder="0"
+                        frameBorder="0"
                         allowtransparency="true"
                         allow="encrypted-media"
                     ></iframe>
@@ -185,137 +173,16 @@ const PlayAlbum = (props) => {
     }
 
     if (loading) {
-        return (
-            <div>
-                <h2>Loading....</h2>
-            </div>
-        )
+        return <Loading />
     }
     if (hasError) {
         return <div>{hasError}</div>
     } else {
         return (
             <div class="main">
-                <div class="row">
-                    <div
-                        class="col-md-3 col-sm-6 col-xs-12"
-                        className={classes.sidebar}
-                    >
-                        <div className={classes.sidebarCard}>
-                            <h4>Popular Albums</h4>
-                            <Card variant="outlined">
-                                <CardActionArea>
-                                    <Link
-                                        onClick={() =>
-                                            getAlbumID('12HeDZhPHHzCe7VE0uEYwD')
-                                        }
-                                    >
-                                        <CardMedia
-                                            className={classes.media}
-                                            component="img"
-                                            image={Euphoria}
-                                            title=" "
-                                        />
-                                    </Link>
-                                </CardActionArea>
-                            </Card>
-                            <br />
-                            <Card variant="outlined ">
-                                <CardActionArea>
-                                    <Link
-                                        onClick={() =>
-                                            getAlbumID('6n9DKpOxwifT5hOXtgLZSL')
-                                        }
-                                    >
-                                        <CardMedia
-                                            className={classes.media}
-                                            component="img"
-                                            image={Legends_Never_Die}
-                                            title="Ledends Never Die"
-                                        />
-                                    </Link>
-                                </CardActionArea>
-                            </Card>
-                            <br />
-                            <Card variant="outlined">
-                                <CardActionArea>
-                                    <Link
-                                        onClick={() =>
-                                            getAlbumID('39xhYyNNDatQtgKw2KdXMz')
-                                        }
-                                    >
-                                        <CardMedia
-                                            className={classes.media}
-                                            component="img"
-                                            image={The_Goat}
-                                            title="The Goat"
-                                        />
-                                    </Link>
-                                </CardActionArea>
-                            </Card>
-                            <br />
-                            <Card variant="outlined">
-                                <CardActionArea>
-                                    <Link
-                                        onClick={() =>
-                                            getAlbumID('3YjfdLdpQcVI72uKhooZst')
-                                        }
-                                    >
-                                        <CardMedia
-                                            className={classes.media}
-                                            component="img"
-                                            image={No_Image}
-                                            title="F*Ck LOVE(SAVAGE)"
-                                        />
-                                    </Link>
-                                </CardActionArea>
-                            </Card>
-                            <br />
-                            <Card variant="outlined">
-                                <CardActionArea>
-                                    <Link
-                                        onClick={() =>
-                                            getAlbumID('2fenSS68JI1h4Fo296JfGr')
-                                        }
-                                    >
-                                        <CardMedia
-                                            className={classes.media}
-                                            component="img"
-                                            image={folklore}
-                                            title="folklore"
-                                        />
-                                    </Link>
-                                </CardActionArea>
-                            </Card>
-                            <br />
-                            <Card variant="outlined">
-                                <CardActionArea>
-                                    <Link
-                                        onClick={() =>
-                                            getAlbumID('4yP0hdKOZPNshxUOjY0cZj')
-                                        }
-                                    >
-                                        <CardMedia
-                                            className={classes.media}
-                                            component="img"
-                                            image={After_Hours}
-                                            title="After Hours"
-                                        />
-                                    </Link>
-                                </CardActionArea>
-                            </Card>
-                            <br />
-                            <br />
-                        </div>
-                    </div>
-                    <br />
-                    <br />
-                    <div class="col-md-9">
-                        <Grid container className={classes.grid} spacing={5}>
-                            {card}
-                        </Grid>
-                    </div>
-                </div>
+                <Grid container className={classes.grid} spacing={5}>
+                    {card}
+                </Grid>
                 {currentUser
                     ? showSharePostModal && (
                           <AddPostModal

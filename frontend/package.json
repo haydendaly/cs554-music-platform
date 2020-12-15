@@ -22,6 +22,7 @@
     "react-model": "^3.1.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.1",
+    "react-spinkit": "^3.0.0",
     "react-table": "^7.6.2",
     "reactjs-popup": "^2.0.4",
     "serve": "^11.3.2",
@@ -30,7 +31,7 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "PORT=8000 react-scripts start",
+    "start": "set PORT=8000 && react-scripts start",
     "start-linux": "export PORT=8000 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

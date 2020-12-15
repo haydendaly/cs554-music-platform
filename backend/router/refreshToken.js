@@ -27,7 +27,7 @@ router.post('/set/:userId', async (req, res) => {
         `spotify-refresh-token-${userId}`,
         refresh_token,
         "EX",
-        60 * 60 * 24 * 29
+        60 * 60
     ).then((result) => {
         if (result) {
             res.send(result);

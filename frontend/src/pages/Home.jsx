@@ -54,14 +54,14 @@ function Home(props) {
 
     if (user) {
         return (
-            <div class="main">
+            <div className="main">
                 <p>Welcome, {user.displayName}</p>
                 <p>Connecting world of music.....</p>
             </div>
         )
     } else {
         return (
-            <div class="main">
+            <div className="main">
                 <p>Connecting world of music.....</p>
             </div>
         )
