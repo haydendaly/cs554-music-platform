@@ -310,7 +310,7 @@ function PostInsert() {
                                         src={`https://open.spotify.com/embed?uri=${postItem.songData.uri}`}
                                         width="300"
                                         height="380"
-                                        frameborder="0"
+                                        frameBorder="0"
                                         allowtransparency="true"
                                     />
                                 </div>

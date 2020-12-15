@@ -12,16 +12,10 @@ import {
 } from '@material-ui/core'
 
 import { AuthContext } from '../firebase/Auth'
+import Loading from './Loading'
 import AddPostModal from './Modals/AddPostModal'
-import Legends_Never_Die from '../img/artist-img/Legends_Never_Die.jpg'
-import taylorswift from '../img/artist-img/taylorswift.jpg'
-import The_Goat from '../img/artist-img/The_Goat.webp'
-import After_Hours from '../img/artist-img/After_Hours.jpg'
-import folklore from '../img/artist-img/folklore.jpg'
-import No_Image from '../img/artist-img/No_Image.jpeg'
-import Euphoria from '../img/artist-img/Euphoria.jpg'
 import ShowErrorModal from './Modals/ShowErrorModal'
-import axios from 'axios';
+import axios from 'axios'
 import { SpotifyContext } from '../functions/Spotify'
 
 const useStyles = makeStyles({
@@ -94,24 +88,28 @@ const PlayByArtist = (props) => {
 
     const { currentUser } = useContext(AuthContext)
 
+    const [state, setState] = useState({ data: null })
 
-        const [state, setState] = useState({ data: null});
-
-        useEffect(() => {
-            console.log('on load useeffect');
-            async function fetchData() {
-                try {
-                    console.log(albumId);
-                const { data } = await axios.get(baseUrl+props.match.params.id+'?access_token='+accessToken);
-                    setArtistDataa(data);
-                    console.log(data)
-                    setLoading(false);}
-                 catch (e) {
-                    console.log(e);
-                }
+    useEffect(() => {
+        console.log('on load useeffect')
+        async function fetchData() {
+            try {
+                console.log(albumId)
+                const { data } = await axios.get(
+                    baseUrl +
+                        props.match.params.id +
+                        '?access_token=' +
+                        accessToken
+                )
+                setArtistDataa(data)
+                console.log(data)
+                setLoading(false)
+            } catch (e) {
+                console.log(e)
             }
-            fetchData();
-        }, [props.match.params.id]);
+        }
+        fetchData()
+    }, [props.match.params.id])
 
     const handleOpenshareModal = (trackDetails) => {
         setShowSharePostModal(true)
@@ -123,7 +121,6 @@ const PlayByArtist = (props) => {
         setShowSharePostModal(false)
         setErrorModal(false)
     }
-
 
     const buildCard = (album) => {
         return (
@@ -148,7 +145,7 @@ const PlayByArtist = (props) => {
                         src={'https://open.spotify.com/embed?uri=' + album.uri}
                         width="300"
                         height="380"
-                        frameborder="0"
+                        frameBorder="0"
                         allowtransparency="true"
                         allow="encrypted-media"
                     ></iframe>
@@ -189,30 +186,21 @@ const PlayByArtist = (props) => {
     }
     if (artistData) {
         console.log(artistData)
-        card =
-        artistData &&
-        artistData  
-                return buildCard(artistData)
-            
+        card = artistData && artistData
+        return buildCard(artistData)
     }
 
     if (loading) {
-        return (
-            <div>
-                <h2>Loading....</h2>
-            </div>
-        )
+        return <Loading />
     }
     if (hasError) {
         return <div>{hasError}</div>
     } else {
         return (
             <div class="main">
-               
-                        <Grid container className={classes.grid} spacing={5}>
-                            {card}
-                        </Grid>
-                
+                <Grid container className={classes.grid} spacing={5}>
+                    {card}
+                </Grid>
             </div>
         )
     }

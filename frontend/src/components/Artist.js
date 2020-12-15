@@ -11,7 +11,9 @@ import {
     Link,
 } from '@material-ui/core'
 import SpotifyWebApi from 'spotify-web-api-js'
+
 import { AuthContext } from '../firebase/Auth'
+import Loading from './Loading'
 import AddPostModal from './Modals/AddPostModal'
 import SearchComponent from './SearchComponent'
 import ShowErrorModal from './Modals/ShowErrorModal'
@@ -212,7 +214,7 @@ const PlayTracks = (props) => {
                         src={'https://open.spotify.com/embed?uri=' + artist.uri}
                         width="300"
                         height="380"
-                        frameborder="0"
+                        frameBorder="0"
                         allowtransparency="true"
                         allow="encrypted-media"
                     ></iframe>
@@ -247,11 +249,7 @@ const PlayTracks = (props) => {
     }
 
     if (loading) {
-        return (
-            <div>
-                <h2>Loading....</h2>
-            </div>
-        )
+        return <Loading />
     } else if (searchTerm && searchData.data.length <= 0) {
         return (
             <div class="main">

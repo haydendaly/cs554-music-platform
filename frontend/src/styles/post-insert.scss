@@ -2,11 +2,13 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    overflow: hidden;
 }
 
 .post-list {
     overflow-y: scroll;
     background-color: none;
+    overflow: hidden;
 }
 
 .post-new-button {

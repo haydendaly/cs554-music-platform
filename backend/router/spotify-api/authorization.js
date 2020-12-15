@@ -12,6 +12,6 @@ var spotifyApi = new SpotifyWebApi({
 });
 
 // Pass the spofity user's access token from the frontend, it is hard-coded for now
-// spotifyApi.setAccessToken('BQBhbG54y18Z3T2A___uoUgBVpEQUh27x18g_nXKcU75LsuCK4xDdSiOsXYE1MwXRXvvL1FJYCyJB1xAmVFPt9ecfpl4mqP-I-owUIH6ymdSrfyHuHuhHGkvLJYfkmvlOXXkkB7kgPUmMyicP2hIodv6DldoSw');
+spotifyApi.setAccessToken('BQADXWlA91eJftBKZCpYR1OD5s2-DqcOoJMsMKn676trRfpVVEbzerQ8-J-9Uh5Hb7dZnOEAYBhFiNal4GF3aDqlw4KsGguAqPqpy_rCwUJICoxdJ5Fu9uVxTmzV2l7tQo7ryWLLiCU6DKR76KU-CS9iNaHe3DtK1onFhmsk4luCQ99ZRRxDXKnGgd74f6obbRbEojLALKtgKUMQyQ');
 
 module.exports = spotifyApi;
