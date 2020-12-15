@@ -23,13 +23,6 @@ import VariousArtist_Image from '../img/artist-img/various_artist.jpg'
 import IZAL from '../img/artist-img/IZAL.jpg'
 import VetustaMorla from '../img/artist-img/VetustaMorla.jpg'
 
-let Spotify = require('spotify-web-api-js')
-
-let spotifyApi = new SpotifyWebApi()
-
-spotifyApi.setAccessToken(
-    'BQAg9L_c09vM1ThhLGRZt-FBwcS8-vx3JyNEFB7rQ3CQnLh2WPOUk9qkksbLzsvtlig7QGOFYpCuCHLBpqZZWIXtIAjgb33v3M55De3XoIg5jnDDKfLIMORo9sBFvt5rWMw7AhWaN3GWNgGpB5Tu7DTgl8efHYtYIK1oUGxks5GwYPLq'
-)
 
 const useStyles = makeStyles({
     sidebar: {
@@ -107,70 +100,27 @@ const PlayTracks = (props) => {
     const [sharePost, setSharePost] = useState(null)
     const [showSharePostModal, setShowSharePostModal] = useState(null)
     const [searchTerm, setSearchTerm] = useState(null)
-    const [searchData, setSearchData] = useState(null)
     const [errorModal, setErrorModal] = useState(false)
-    const [albumid, setAlbumId] = useState(null)
 
     const { currentUser } = useContext(AuthContext)
 
     let card = null
-    //1pzvBxYgT6OVwJLtHkrdQK -- Taylor Swift
-    //2hDe0Ls5mVqs1XJqv7sbcM -- Enrique
-    //4MzXwWMhyBbmu6hOcLVD49 -- bad Bunny
-    //43ZHCT0cAZBISjO8DG9PnE -- Elvis
-    //53A0W3U0s8diEn9RhXQhVz --Keane
-    // 2CIMQHirSU0MQqyYHq0eOx -- "deadmau5"
-    //57dN52uHvrHOxijzpIgu3E -- Various Artists
-    //1vCWHaC5f2uS3yhpwWbIA6 -- "Avicii"
-    //https://open.spotify.com/album/5Ouuxga807CPAs81lSloBJ?si=u9qkqNpiR2m45FkvcG4rnQ
-    //"2hazSY4Ef3aB9ATXW7F5w3" -- IZAL
-    //"6J6yx1t3nwIDyPXk5xa7O8" -- "6J6yx1t3nwIDyPXk5xa7O8"
-
+    const baseUrl = 'http://localhost:3000/spotify-api/artists/'
     useEffect(() => {
-        async function fetchData() {
+        console.log('on load useeffect');
+        async function fetchArtistData() {
             try {
-                spotifyApi.getArtistAlbums(
-                    artistId,
-                    { country: 'us' },
-                    function (err, data) {
-                        if (err) {
-                            console.error('Something went wrong!')
-                        } else {
-                            setArtistData(data.items)
-                            setSearchData(null)
-                            setLoading(false)
-                        }
-                    }
-                )
-            } catch (e) {
-                setHasError(e.message)
-                setLoading(false)
+                console.log(albumId);
+            const { data } = await axios.get(baseUrl+artistId);
+                setArtistData(data);
+                console.log(data)
+                setLoading(false);}
+             catch (e) {
+                console.log(e);
             }
         }
-        fetchData()
-    }, [artistId])
-
-    useEffect(() => {
-        async function searchArtist() {
-            try {
-                console.log(searchTerm)
-                spotifyApi.searchArtists(searchTerm).then(
-                    function (data) {
-                        setSearchData({ data: data.artists.items })
-                        setLoading(false)
-                    },
-                    function (err) {
-                        setHasError(err)
-                        setLoading(false)
-                    }
-                )
-            } catch (e) {
-                setHasError(e.message)
-                setLoading(false)
-            }
-        }
-        searchArtist()
-    }, [searchTerm])
+        fetchArtistData();
+    }, [props.match.params.id]);
 
     const handleOpenshareModal = (trackDetails) => {
         setShowSharePostModal(true)
@@ -192,7 +142,7 @@ const PlayTracks = (props) => {
     }
     const buildCard = (artist) => {
         return (
-            <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={artist.id}>
+            <Grid item xs={12} sm={6} md={6} lg={6} xl={6} key={artist.id}>
                 <Card className={classes.card} variant="outlined">
                     <CardActionArea>
                         <CardContent>
@@ -232,13 +182,7 @@ const PlayTracks = (props) => {
             </Grid>
         )
     }
-    if (searchTerm && searchData) {
-        card =
-            searchData.data &&
-            searchData.data.map((searhedList) => {
-                return buildCard(searhedList)
-            })
-    } else {
+    if(artistData){
         card =
             artistData &&
             artistData.map((artist) => {
@@ -252,317 +196,12 @@ const PlayTracks = (props) => {
                 <h2>Loading....</h2>
             </div>
         )
-    } else if (searchTerm && searchData.data.length <= 0) {
-        return (
-            <div class="main">
-                <div class="row">
-                    <div
-                        class="col-md-3 col-sm-6 col-xs-12"
-                        className={classes.sidebar}
-                    >
-                        <div className={classes.sidebarCard}>
-                            <h4>Artist List</h4>
-                            <Card variant="outlined">
-                                <CardActionArea>
-                                    <Link
-                                        onClick={() =>
-                                            getAtristID(
-                                                '2CIMQHirSU0MQqyYHq0eOx'
-                                            )
-                                        }
-                                    >
-                                        <CardMedia
-                                            className={classes.media}
-                                            component="img"
-                                            image={deadmau5_Image}
-                                            title="show image"
-                                        />
-                                    </Link>
-                                </CardActionArea>
-                            </Card>
-                            <br />
-                            <Card variant="outlined">
-                                <CardActionArea>
-                                    <Link
-                                        onClick={() =>
-                                            getAtristID(
-                                                '53A0W3U0s8diEn9RhXQhVz'
-                                            )
-                                        }
-                                    >
-                                        <CardMedia
-                                            className={classes.media}
-                                            component="img"
-                                            image={Keane_Image}
-                                            title="Paella dish"
-                                        />
-                                    </Link>
-                                </CardActionArea>
-                            </Card>
-                            <br />
-                            <Card variant="outlined">
-                                <CardActionArea>
-                                    <Link
-                                        onClick={() =>
-                                            getAtristID(
-                                                '1vCWHaC5f2uS3yhpwWbIA6'
-                                            )
-                                        }
-                                    >
-                                        <CardMedia
-                                            className={classes.media}
-                                            component="img"
-                                            image={Avici_Image}
-                                            title="Paella dish"
-                                        />
-                                    </Link>
-                                </CardActionArea>
-                            </Card>
-                            <br />
-                            <Card variant="outlined">
-                                <CardActionArea>
-                                    <Link
-                                        onClick={() =>
-                                            getAtristID(
-                                                '43ZHCT0cAZBISjO8DG9PnE'
-                                            )
-                                        }
-                                    >
-                                        <CardMedia
-                                            className={classes.media}
-                                            component="img"
-                                            image={Elvis_Image}
-                                            title="Paella dish"
-                                        />
-                                    </Link>
-                                </CardActionArea>
-                            </Card>
-                            <br />
-                            <Card variant="outlined">
-                                <CardActionArea>
-                                    <Link
-                                        onClick={() =>
-                                            getAtristID(
-                                                '2hazSY4Ef3aB9ATXW7F5w3'
-                                            )
-                                        }
-                                    >
-                                        <CardMedia
-                                            className={classes.media}
-                                            component="img"
-                                            image={IZAL}
-                                            title="Paella dish"
-                                        />
-                                    </Link>
-                                </CardActionArea>
-                            </Card>
-                            <br />
-                            <Card variant="outlined">
-                                <CardActionArea>
-                                    <Link
-                                        onClick={() =>
-                                            getAtristID(
-                                                '6J6yx1t3nwIDyPXk5xa7O8'
-                                            )
-                                        }
-                                    >
-                                        <CardMedia
-                                            className={classes.media}
-                                            component="img"
-                                            image={VetustaMorla}
-                                            title="Paella dish"
-                                        />
-                                    </Link>
-                                </CardActionArea>
-                            </Card>
-                            <br />
-                            <Card variant="outlined">
-                                <CardActionArea>
-                                    <Link
-                                        onClick={() =>
-                                            getAtristID(
-                                                '57dN52uHvrHOxijzpIgu3E'
-                                            )
-                                        }
-                                    >
-                                        <CardMedia
-                                            className={classes.media}
-                                            component="img"
-                                            image={VariousArtist_Image}
-                                            title="Paella dish"
-                                        />
-                                    </Link>
-                                </CardActionArea>
-                            </Card>
-                            <br />
-                        </div>
-                    </div>
-                    <br />
-                    <br />
-                    <div class="col-md-9">
-                        <div>
-                            <SearchComponent
-                                searchValue={searchValue}
-                                searchTerm={searchTerm}
-                            />
-                        </div>
-                        <br />
-                        <div className={classes.errorDiv}>
-                            "error: No result found for this search."
-                        </div>
-                    </div>
-                </div>
-            </div>
-        )
     } else {
         return (
             <div class="main">
-                <div class="row">
-                    <div
-                        class="col-md-3 col-sm-6 col-xs-12"
-                        className={classes.sidebar}
-                    >
-                        <div className={classes.sidebarCard}>
-                            <h4>Artist List</h4>
-                            <Card variant="outlined">
-                                <CardActionArea>
-                                    <Link
-                                        onClick={() =>
-                                            getAtristID(
-                                                '2CIMQHirSU0MQqyYHq0eOx'
-                                            )
-                                        }
-                                    >
-                                        <CardMedia
-                                            className={classes.media}
-                                            component="img"
-                                            image={deadmau5_Image}
-                                            title="show image"
-                                        />
-                                    </Link>
-                                </CardActionArea>
-                            </Card>
-                            <br />
-                            <Card variant="outlined">
-                                <CardActionArea>
-                                    <Link
-                                        onClick={() =>
-                                            getAtristID(
-                                                '53A0W3U0s8diEn9RhXQhVz'
-                                            )
-                                        }
-                                    >
-                                        <CardMedia
-                                            className={classes.media}
-                                            component="img"
-                                            image={Keane_Image}
-                                            title="Paella dish"
-                                        />
-                                    </Link>
-                                </CardActionArea>
-                            </Card>
-                            <br />
-                            <Card variant="outlined">
-                                <CardActionArea>
-                                    <Link
-                                        onClick={() =>
-                                            getAtristID(
-                                                '1vCWHaC5f2uS3yhpwWbIA6'
-                                            )
-                                        }
-                                    >
-                                        <CardMedia
-                                            className={classes.media}
-                                            component="img"
-                                            image={Avici_Image}
-                                            title="Paella dish"
-                                        />
-                                    </Link>
-                                </CardActionArea>
-                            </Card>
-                            <br />
-                            <Card variant="outlined">
-                                <CardActionArea>
-                                    <Link
-                                        onClick={() =>
-                                            getAtristID(
-                                                '43ZHCT0cAZBISjO8DG9PnE'
-                                            )
-                                        }
-                                    >
-                                        <CardMedia
-                                            className={classes.media}
-                                            component="img"
-                                            image={Elvis_Image}
-                                            title="Paella dish"
-                                        />
-                                    </Link>
-                                </CardActionArea>
-                            </Card>
-                            <br />
-                            <Card variant="outlined">
-                                <CardActionArea>
-                                    <Link
-                                        onClick={() =>
-                                            getAtristID(
-                                                '2hazSY4Ef3aB9ATXW7F5w3'
-                                            )
-                                        }
-                                    >
-                                        <CardMedia
-                                            className={classes.media}
-                                            component="img"
-                                            image={IZAL}
-                                            title="Paella dish"
-                                        />
-                                    </Link>
-                                </CardActionArea>
-                            </Card>
-                            <br />
-                            <Card variant="outlined">
-                                <CardActionArea>
-                                    <Link
-                                        onClick={() =>
-                                            getAtristID(
-                                                '6J6yx1t3nwIDyPXk5xa7O8'
-                                            )
-                                        }
-                                    >
-                                        <CardMedia
-                                            className={classes.media}
-                                            component="img"
-                                            image={VetustaMorla}
-                                            title="Paella dish"
-                                        />
-                                    </Link>
-                                </CardActionArea>
-                            </Card>
-                            <br />
-                            <Card variant="outlined">
-                                <CardActionArea>
-                                    <Link
-                                        onClick={() =>
-                                            getAtristID(
-                                                '57dN52uHvrHOxijzpIgu3E'
-                                            )
-                                        }
-                                    >
-                                        <CardMedia
-                                            className={classes.media}
-                                            component="img"
-                                            image={VariousArtist_Image}
-                                            title="Paella dish"
-                                        />
-                                    </Link>
-                                </CardActionArea>
-                            </Card>
-                            <br />
-                        </div>
-                    </div>
+                
                     <br />
-                    <br />
-                    <div class="col-md-9">
-                        <div>
+                    <div>
                             <SearchComponent
                                 searchValue={searchValue}
                                 searchTerm={searchTerm}
@@ -578,8 +217,6 @@ const PlayTracks = (props) => {
                                 {card}
                             </Grid>
                         </div>
-                    </div>
-                </div>
 
                 {currentUser
                     ? showSharePostModal && (

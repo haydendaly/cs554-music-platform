@@ -5,6 +5,7 @@ import { doChangePassword } from '../firebase/FirebaseFunctions'
 function ChangePassword() {
     const { currentUser } = useContext(AuthContext)
     const [pwMatch, setPwMatch] = useState('')
+    console.log(currentUser)
 
     const submitForm = async (event) => {
         event.preventDefault()
@@ -32,15 +33,13 @@ function ChangePassword() {
     }
     if (currentUser.providerData[0].providerId === 'password') {
         return (
-            <div className="container authorize">
+            <div className="container">
                 {pwMatch && <h4 className="error">{pwMatch}</h4>}
                 <h2>Change Password</h2>
                 <form onSubmit={submitForm}>
-                    <div className="form-group row">
-                        <label className="col-sm-2 col-form-label">
-                            Current Password
-                        </label>
-                        <div className="col-sm-10">
+                    <div className="form-group">
+                        <label>
+                            Current Password:
                             <input
                                 className="form-control"
                                 name="currentPassword"
@@ -49,14 +48,12 @@ function ChangePassword() {
                                 placeholder="Current Password"
                                 required
                             />
-                        </div>
+                        </label>
                     </div>
 
-                    <div className="form-group row">
-                        <label className="col-sm-2 col-form-label">
-                            New Password
-                        </label>
-                        <div className="col-sm-10">
+                    <div className="form-group">
+                        <label>
+                            New Password:
                             <input
                                 className="form-control"
                                 name="newPasswordOne"
@@ -65,13 +62,11 @@ function ChangePassword() {
                                 placeholder="Password"
                                 required
                             />
-                        </div>
-                    </div>
-                    <div className="form-group row">
-                        <label className="col-sm-2 col-form-label">
-                            Confirm New Password
                         </label>
-                        <div className="col-sm-10">
+                    </div>
+                    <div className="form-group">
+                        <label>
+                            Confirm New Password:
                             <input
                                 className="form-control"
                                 name="newPasswordTwo"
@@ -80,7 +75,7 @@ function ChangePassword() {
                                 placeholder="Confirm Password"
                                 required
                             />
-                        </div>
+                        </label>
                     </div>
 
                     <button className="btn btn-primary" type="submit">

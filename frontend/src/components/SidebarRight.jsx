@@ -7,8 +7,11 @@ import { useWindowDimensions } from '../functions/dimensions'
 import {Link} from 'react-router-dom';
 import { set } from 'mongoose';
 
-
 const useSidebarRight = () => {
+    
+    const { accessToken } = useContext(SpotifyContext)
+
+
     const [search, setSearch] = useState('')
     const [results, setResults] = useState([])
     const [recommended, setRecommended] = useState([])
@@ -43,8 +46,9 @@ const useSidebarRight = () => {
         searchData = search.split(',');
         // if(searchData[2]? market=searchData[2] : market )
 
-        let url = baseUrl+searchData[0]+'&type='+searchData[1]+'&market='+market;
+        let url = baseUrl+searchData[0]+'&type='+searchData[1]+'&market='+market+'&access_token='+{accessToken};
             let optQueryParams = {market: 'us'};
+
                 await axios.get(url).then(
                     ({data}) => {
                         if(search.toLowerCase().includes('album')){
@@ -53,16 +57,15 @@ const useSidebarRight = () => {
                         }
                         else if(search.toLowerCase().includes('artist')){
                             setResults(data.artists.items);
-                            console.log(data.artists.items);
                             setSearchType('artist');
                         }
-                        else if(searchData[1].toLowerCase() === 'playlist'){
+                        else if(search.toLowerCase().includes('playlist')){
                             setResults(data.playlists.items);
-                            console.log(data.playlists.items);
+                            setSearchType('playlist')
                         }
-                        else if(searchData[1].toLowerCase() === 'track'){
+                        else if(search.toLowerCase().includes('track')){
                             setResults(data.tracks.items);
-                            console.log(data.tracks.items);
+                            setSearchType('track')
                         }
             
         }).catch(err => {
@@ -78,7 +81,7 @@ const useSidebarRight = () => {
 let {songData} = useAxios(baseUrl);
 
     useEffect(() => {
-        if (width >= 1400) {
+        if (width >= 1100) {
             setOpen(false)
         }
     }, [width])
@@ -91,16 +94,50 @@ let {songData} = useAxios(baseUrl);
         open,
         setOpen,
         width,
+        searchType
     }
 }
 
 const Song = (props) => {
     const { data } = props
-    return (
+    const { value } = props
+console.log(value)
+
+if(value && value == 'album'){
+    return(
         <div className="song">
         <Link to={`/playList/${data.id}`}>{data.name}</Link>
         </div>
-    )
+    
+    )}
+    else if(value && value == 'artist'){
+        return(
+            <div className="song">
+            <Link to={`/playArtist/${data.id}`}>{data.name}</Link>
+            </div>
+        
+        )}
+        else if(value && value == 'track'){
+            return(
+                <div className="song">
+                <Link to={`/searchTracks/${data.id}`}>{data.name}</Link>
+                </div>
+            
+            )}
+            else if(value && value == 'playlist'){
+                return(
+                    <div className="song">
+                    <Link to={`/playPlayList/${data.id}`}>{data.name}</Link>
+                    </div>
+                
+                )}
+    else{
+        return(
+            <div className="song">
+            <Link to={`/playList/${data.id}`}>{data.name}</Link>
+            </div>
+        )
+    }
     
 }
 
@@ -113,25 +150,25 @@ const SideBarRight = () => {
         open,
         setOpen,
         width,
-searchType
+searchType,
+hasError
     } = useSidebarRight()
-
-    return (
+    
+return (
         <div
             className="sidenav-right shadow"
-            style={width > 1400 || open ? {} : { width: 55 }}
+            style={width > 1100 || open ? {} : { width: 55 }}
         >
-            {width > 1400 || open ? (
+            {width > 1100 || open ? (
                 <div>
                     <div className="search">
                         <Icon
                             icon={faSearch}
                             color="#444"
+                            size="medium"
                             onClick={() => setOpen(false)}
                         />
-                        <label htmlFor="search-all" />
                         <input
-                            id="search-all"
                             className="search-input"
                             placeholder="Search"
                             value={search}
@@ -143,7 +180,7 @@ searchType
                             <div className="search-results shadow">
                                 {results.map((song) => (
 
-                                    <Song data={song}/>
+                                    <Song data={song} value={searchType}/>
                                 ))}
                             </div>
                         ) : (
@@ -160,6 +197,7 @@ searchType
                     <Icon
                         icon={faSearch}
                         color="#fff"
+                        size="medium"
                         style={{ marginLeft: 12 }}
                     />
                 </div>

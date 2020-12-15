@@ -5,8 +5,7 @@ import { AuthContext } from '../firebase/Auth'
 import SocialSignIn from './SocialSignIn'
 function SignUp() {
     const { currentUser } = useContext(AuthContext)
-    const [error, setError] = useState('')
-
+    const [pwMatch, setPwMatch] = useState('')
     const handleSignUp = async (e) => {
         e.preventDefault()
         const {
@@ -16,18 +15,7 @@ function SignUp() {
             passwordTwo,
         } = e.target.elements
         if (passwordOne.value !== passwordTwo.value) {
-            setError('Passwords do not match')
-            return false
-        }
-
-        const isValidName =
-            /^[A-Za-z .']+$/i.test(displayName.value) &&
-            /^[A-Za-z]/i.test(displayName.value)
-
-        if (!isValidName) {
-            setError(
-                'Name need to start with letter and cannot contain special characters (space and . are allowed)'
-            )
+            setPwMatch('Passwords do not match')
             return false
         }
 
@@ -48,44 +36,37 @@ function SignUp() {
 
     return (
         <div className="main">
-            <div className="container authorize shadow">
-                <h1>Sign Up</h1>
-                {error && <p className="error">{error}</p>}
+            <div className="container">
+                <h1>Sign up</h1>
+                {pwMatch && <h4 className="error">{pwMatch}</h4>}
                 <form onSubmit={handleSignUp}>
-                    <div className="form-group row">
-                        <label className="col-sm-2 col-form-label">Name</label>
-                        <div className="col-sm-10">
-                            <label htmlFor="displayName" />
+                    <div className="form-group">
+                        <label>
+                            Name:
                             <input
                                 className="form-control"
                                 required
                                 name="displayName"
-                                id="displayName"
                                 type="text"
                                 placeholder="Name"
                             />
-                        </div>
+                        </label>
                     </div>
-                    <div className="form-group row">
-                        <label className="col-sm-2 col-form-label">Email</label>
-                        <div className="col-sm-10">
-                            <label htmlFor="email-signup" />
+                    <div className="form-group">
+                        <label>
+                            Email:
                             <input
                                 className="form-control"
                                 required
                                 name="email"
-                                id="email-signup"
                                 type="email"
                                 placeholder="Email"
                             />
-                        </div>
-                    </div>
-                    <div className="form-group row">
-                        <label className="col-sm-2 col-form-label">
-                            Password
                         </label>
-                        <div className="col-sm-10">
-                            <label htmlFor="passwordOne" />
+                    </div>
+                    <div className="form-group">
+                        <label>
+                            Password:
                             <input
                                 className="form-control"
                                 id="passwordOne"
@@ -94,34 +75,23 @@ function SignUp() {
                                 placeholder="Password"
                                 required
                             />
-                        </div>
-                    </div>
-                    <div className="form-group row">
-                        <label className="col-sm-2 col-form-label">
-                            Confirm Password
                         </label>
-                        <div className="col-sm-10">
-                            <label htmlFor="passwordTwo" />
+                    </div>
+                    <div className="form-group">
+                        <label>
+                            Confirm Password:
                             <input
                                 className="form-control"
                                 name="passwordTwo"
-                                id="passwordTwo"
                                 type="password"
                                 placeholder="Confirm Password"
                                 required
                             />
-                        </div>
+                        </label>
                     </div>
-                    <div className="submit-button">
-                        <button
-                            className="btn btn-light"
-                            id="submitButton"
-                            name="submitButton"
-                            type="submit"
-                        >
-                            Sign Up
-                        </button>
-                    </div>
+                    <button id="submitButton" name="submitButton" type="submit">
+                        Sign Up
+                    </button>
                 </form>
                 <br />
                 <SocialSignIn />

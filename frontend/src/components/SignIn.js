@@ -36,14 +36,13 @@ function SignIn() {
         return <Redirect to="/home" />
     }
     return (
-        <div className="main">
-            <div className="container authorize shadow">
-                <h1>Log In To Your Account</h1>
+        <div class="main">
+            <div className="container">
+                <h1>Log in</h1>
                 <form onSubmit={handleLogin}>
-                    <div className="form-group row">
-                        <label className="col-sm-2 col-form-label">Email</label>
-                        <div className="col-sm-10">
-                            <label htmlFor="email" />
+                    <div className="form-group">
+                        <label>
+                            Email:
                             <input
                                 className="form-control"
                                 name="email"
@@ -52,36 +51,27 @@ function SignIn() {
                                 placeholder="Email"
                                 required
                             />
-                        </div>
-                    </div>
-                    <div className="form-group row">
-                        <label className="col-sm-2 col-form-label">
-                            Password
                         </label>
-                        <div className="col-sm-10">
-                            <label htmlFor="password" />
+                    </div>
+                    <div className="form-group">
+                        <label>
+                            Password:
                             <input
                                 className="form-control"
                                 name="password"
-                                id="password"
                                 type="password"
                                 placeholder="Password"
                                 required
                             />
-                        </div>
+                        </label>
                     </div>
-                    <div className="submit-button">
-                        <button type="submit" className="btn btn-light">
-                            Log In
-                        </button>
+                    <button type="submit" className="btn btn-primary">
+                        Log in
+                    </button>
 
-                        <button
-                            className="forgotPassword"
-                            onClick={passwordReset}
-                        >
-                            Forgot Password
-                        </button>
-                    </div>
+                    <button className="forgotPassword" onClick={passwordReset}>
+                        Forgot Password
+                    </button>
                 </form>
 
                 <br />

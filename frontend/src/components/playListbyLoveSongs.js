@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core'
 import SpotifyWebApi from 'spotify-web-api-js'
 import { AuthContext } from '../firebase/Auth'
-import AddPostModal from './Modals/AddPostModal'
+import AddPostModal from '../pages/AddPostModal'
 
 let Spotify = require('spotify-web-api-js')
 // var s = new Spotify();
@@ -18,7 +18,7 @@ let Spotify = require('spotify-web-api-js')
 let spotifyApi = new SpotifyWebApi()
 
 spotifyApi.setAccessToken(
-    'BQBzVb1VQn20pxWFtP63bRzK3Zjl9APTx7Ncn8qZ6x34ULjGsefsTYmLoqPTLWY1Q_NFpwccm1C_XFb2K4NoJlqDZkruMf9nD4db-EQCNwaIL_3W_uAUmZQdMbi8D0Gjyc1Qh26wDD_0nrTccDq_ba7IXaMjQ124feTF7y_Pee4kkxppIjShXxrzU_BakWoiQs99wsZ6wBfIrd2PQDcMlNAozGc'
+    'BQD07fk89nMF8-Err92jW_UIG0cAJf9j8mk804H9BIw0bBESjUBXPyIc-Yy2OHx8QcPdB3ElTpVlBF_k7jo04ucdeYZLzghJySLyaKja6mzb8il-R8mBjPsWKIf5QtXN-b4yrIqG5_AD9QTMeoXUxTtzbS_BYVtJYv1fA9bpN2HVLYI0'
 )
 
 const useStyles = makeStyles({
@@ -85,7 +85,7 @@ const PlayListByLoveSongs = (props) => {
     useEffect(() => {
         async function fetchData() {
             try {
-                spotifyApi.searchTracks('Love', { country: 'us' }).then(
+                spotifyApi.searchTracks('Love',{country:'us'}).then(
                     function (data) {
                         setPlayListData(data.tracks.items)
                         setLoading(false)
@@ -104,6 +104,7 @@ const PlayListByLoveSongs = (props) => {
     const handleOpenshareModal = (trackDetails) => {
         setShowSharePostModal(true)
         setSharePost(trackDetails)
+        console.log(trackDetails)
     }
 
     const handleCloseModals = () => {
@@ -170,6 +171,7 @@ const PlayListByLoveSongs = (props) => {
         )
     }
     if (playListData) {
+        console.log(playListData)
         card =
             playListData &&
             playListData

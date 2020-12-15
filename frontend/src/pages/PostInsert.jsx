@@ -1,28 +1,93 @@
 import React, { useContext } from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import {
-    faThumbsUp,
-    faComments,
-    faTrash,
-    faPencilAlt,
-    faPlus,
-} from '@fortawesome/free-solid-svg-icons'
+    makeStyles,
+    Card,
+    CardContent,
+    Typography,
+    Button,
+} from '@material-ui/core'
 import { AuthContext } from '../firebase/Auth'
-import AddPostModal from '../components/Modals/AddPostModal'
-import { useWindowDimensions } from '../functions/dimensions'
+import AddPostModal from '../pages/AddPostModal'
 
+const useStyles = makeStyles((theme) => ({
+    Button: {
+        marginleft: '.5%',
+        marginRight: '.5%',
+    },
+    card: {
+        marginTop: '5%',
+        maxWidth: '50%',
+        height: '100px',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        borderRadius: 5,
+        border: '1px solid #1e8678',
+        boxShadow:
+            '0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);',
+    },
+    classLike: {
+        marginButtom: '0em',
+        height: '2em',
+        with: '1em',
+        marginLeft: '470px',
+        marginRight: '1%',
+    },
+    toprightCornerParent: {
+        display: 'flex',
+    },
+
+    toprightCornerButton: {
+        // display :"flex",
+        marginleft: 'auto',
+        // top: "2px",
+        // right: "2px",
+        // zindex: "100"
+    },
+    textFieldStyle: {
+        left: '.5%',
+        right: '.5%',
+        top: '.5%',
+        bottom: '25%',
+        width: '90%',
+        margin: 'auto',
+        background: 'white',
+    },
+    root: {
+        display: 'flex',
+        maxWidth: '100%',
+    },
+    details: {
+        display: 'flex',
+        flexDirection: 'column',
+        width: '50%',
+    },
+    content: {
+        flex: '1 0 auto',
+    },
+    cover: {
+        width: '50%',
+    },
+    controls: {
+        display: 'flex',
+        alignItems: 'center',
+        paddingLeft: theme.spacing(1),
+        paddingBottom: theme.spacing(1),
+    },
+    playIcon: {
+        height: 38,
+        width: 38,
+    },
+}))
 function PostInsert() {
+    const classes = useStyles()
     const { currentUser } = useContext(AuthContext)
-    const { width } = useWindowDimensions()
 
     const [post, setPost] = useState(null)
     const [loading, setLoading] = useState(true)
 
     const [comment, setCommentData] = useState(undefined)
-    const [openComment, setOpenComment] = useState(undefined)
-    const [commentArray, setCommentArray] = useState(null)
     const [postData, setPostData] = useState(null)
     const [editPostData, seteditPostData] = useState(false)
     const [postId, setPostId] = useState(null)
@@ -40,18 +105,19 @@ function PostInsert() {
 
     const getAllPost = async () => {
         try {
-            const { data } = await axios.get(
-                `http://${window.location.hostname}:3000/api/post`
-            )
-            data.sort(function (item1, item2) {
-                return new Date(item2.timeStamp) - new Date(item1.timeStamp)
-            })
+            const { data } = await axios.get('http://localhost:3000/api/post')
             setPost(data)
             setLoading(false)
         } catch (e) {
             console.log(`error found : ${e}`)
         }
     }
+
+    /***
+     * Handle comment hide/show
+     */
+    const isCommentExpand = (commentTap) => {}
+
     /***
      * Retrieve comment data from textfield
      */
@@ -67,7 +133,7 @@ function PostInsert() {
         if (currentUser && currentUser.uid) {
             try {
                 const { commentData } = await axios.post(
-                    `http://${window.location.hostname}:3000/api/post/${commentPost._id}/comment`,
+                    `http://localhost:3000/api/post/${commentPost._id}/comment`,
                     {
                         userId: currentUser.uid,
                         commentText: comment,
@@ -102,7 +168,7 @@ function PostInsert() {
         ) {
             try {
                 const { data } = await axios.delete(
-                    `http://${window.location.hostname}:3000/api/post/${argPost._id}/comment/${argComment._id}`
+                    `http://localhost:3000/api/post/${argPost._id}/comment/${argComment._id}`
                 )
                 getAllPost()
             } catch (error) {
@@ -110,7 +176,7 @@ function PostInsert() {
             }
         } else {
             console.log(
-                `currentUser=${currentUser.uid}, commentUser=${argComment.userId}, postId= http://${window.location.hostname}:3000/api/post/${argPost._id}/comment/${argComment._id}`
+                `currentUSer=${currentUser.uid}, commentUser=${argComment.userId}, postId= http://localhost:3000/api/post/${argPost._id}/comment/${argComment._id}`
             )
         }
     }
@@ -129,14 +195,14 @@ function PostInsert() {
 
                 if (!data) {
                     const { likeData } = await axios.post(
-                        `http://${window.location.hostname}:3000/api/post/${likedpost._id}/likes`,
+                        `http://localhost:3000/api/post/${likedpost._id}/likes`,
                         {
                             userId: currentUser.uid,
                         }
                     )
                 } else {
                     const { likeData } = await axios.delete(
-                        `http://${window.location.hostname}:3000/api/post/${likedpost._id}/likes/${data._id}`
+                        `http://localhost:3000/api/post/${likedpost._id}/likes/${data._id}`
                     )
                 }
                 getAllPost()
@@ -192,7 +258,7 @@ function PostInsert() {
         ) {
             try {
                 const { data } = await axios.delete(
-                    `http://${window.location.hostname}:3000/api/post/${argPost._id}`
+                    `http://localhost:3000/api/post/${argPost._id}`
                 )
                 getAllPost()
             } catch (error) {
@@ -220,23 +286,27 @@ function PostInsert() {
     }
 
     const hideEditMode = (currentData) => {
-        return !(
+        if (
             currentUser &&
             currentUser.uid &&
             currentUser.uid === currentData.userId
-        )
+        ) {
+            return false
+        }
+        return true
     }
 
     return (
-        <div className="post-main">
-            <div
-                className="post-new-button shadow"
-                onClick={() => showAddPostModal()}
-                style={{ right: width > 1400 ? 360 : 70 }}
-            >
-                <Icon icon={faPlus} />
+        <div className="main">
+            <br />
+            <div>
+                {/* show add/edit post popup */}
+                <center>
+                    {' '}
+                    <button onClick={() => showAddPostModal()}>Add Post</button>
+                </center>
             </div>
-
+            <br />
             {showAddModal && (
                 <AddPostModal
                     isOpen={showAddModal}
@@ -250,228 +320,215 @@ function PostInsert() {
             )}
 
             {/* display post */}
-            <div className="post-list">
+            <ul>
+                {' '}
                 {post && post.length > 0 ? (
-                    post.map((postItem) => (
-                        <div
-                            key={postItem._id}
-                            className="post-post shadow"
-                            style={{ width: width > 1400 ? 800 : width * 0.6 }}
-                        >
-                            <div className="post-header">
-                                <div className="post-header-info">
-                                    <img
-                                        className="post-user-icon shadow"
-                                        src={`http://${window.location.hostname}:3000/api/user/photo/${postItem.userId}`}
-                                        alt={`User: ${postItem.userId}`}
-                                    />
-                                    <div className="post-header-text">
-                                        <p className="post-user-name">
-                                            {postItem.displayName}
-                                        </p>
-                                        <p className="post-header-date">
-                                            {postItem.timeStamp}
-                                        </p>
-                                    </div>
-                                </div>
-                                <div
-                                    className="post-header-options"
-                                    hidden={hideEditMode(postItem)}
-                                >
-                                    <div
-                                        onClick={() => editPost(postItem)}
-                                        className="post-button"
-                                    >
-                                        <Icon
-                                            icon={faPencilAlt}
-                                            className="post-menu-icon"
-                                        />
-                                    </div>
-                                    <div
-                                        onClick={() => deletePost(postItem)}
-                                        className="post-button"
-                                    >
-                                        <Icon
-                                            icon={faTrash}
-                                            className="post-menu-icon"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                            <p className="post-body">{postItem.text}</p>
-                            {postItem.songData && (
-                                <div className="post-song">
-                                    {/* <a href={postItem.songData.href}>
-                                        {postItem.songData.name}
-                                    </a> */}
-                                    <iframe
-                                        title={postItem.songData.name}
-                                        id="playSong"
-                                        src={`https://open.spotify.com/embed?uri=${postItem.songData.uri}`}
-                                        width="300"
-                                        height="380"
-                                        frameborder="0"
-                                        allowtransparency="true"
-                                    />
-                                </div>
-                            )}
-                            <div className="post-footer">
-                                <div
-                                    onClick={() => handleLike(postItem)}
-                                    className="post-button"
-                                    style={
-                                        isLikedByUser(postItem)
-                                            ? { color: '#fff' }
-                                            : {}
-                                    }
-                                >
-                                    <Icon
-                                        icon={faThumbsUp}
-                                        className="post-menu-icon"
-                                    />
-                                    <p>
-                                        {postItem.likesArray
-                                            ? postItem.likesArray.length
-                                            : 0}
-                                    </p>
-                                </div>
-                                <div
-                                    onClick={() =>
-                                        setOpenComment(
-                                            openComment === postItem._id
-                                                ? undefined
-                                                : postItem._id
-                                        )
-                                    }
-                                    className="post-button"
-                                >
-                                    <Icon
-                                        icon={faComments}
-                                        className="post-menu-icon"
-                                        style={
-                                            openComment === postItem._id
-                                                ? { color: '#fff' }
-                                                : {}
-                                        }
-                                    />
-                                    <p
-                                        style={
-                                            openComment === postItem._id
-                                                ? { color: '#fff' }
-                                                : {}
-                                        }
-                                    >
-                                        {postItem.commentsArray
-                                            ? postItem.commentsArray.length
-                                            : 0}
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="post-list">
-                                {openComment && openComment === postItem._id && (
-                                    <div className="post-comment-holder">
-                                        <textarea
-                                            className="post-comments shadow"
-                                            id={'commentField' + postItem._id}
-                                            type="text"
-                                            placeholder="Enter Comment Here...."
-                                            rows="2"
-                                            onChange={handleCommentTextField}
-                                        />
-                                        <div
-                                            className="post-comments-add-button shadow"
-                                            onClick={() =>
-                                                saveComment(postItem)
-                                            }
-                                        >
-                                            Reply
+                    post.map((product) => (
+                        <li key={product._id} className="list__item product">
+                            <div>
+                                {product.songData ? (
+                                    <Card className={classes.root}>
+                                        <div className={classes.details}>
+                                            <CardContent
+                                                className={classes.content}
+                                            >
+                                                <Typography
+                                                    component="h5"
+                                                    variant="h5"
+                                                >
+                                                    {product.songData.name}
+                                                </Typography>
+                                                <Typography
+                                                    variant="subtitle1"
+                                                    color="textSecondary"
+                                                >
+                                                    {product.songData.id}
+                                                </Typography>
+                                                <Typography
+                                                    variant="subtitle1"
+                                                    color="textSecondary"
+                                                >
+                                                    <a
+                                                        href={
+                                                            product.songData
+                                                                .href
+                                                        }
+                                                    >
+                                                        {product.songData.href}
+                                                    </a>
+                                                </Typography>
+                                                <iframe
+                                                    id="playSong"
+                                                    src={
+                                                        'https://open.spotify.com/embed?uri=' +
+                                                        product.songData.uri
+                                                    }
+                                                    width="300"
+                                                    height="380"
+                                                    frameborder="0"
+                                                    allowtransparency="true"
+                                                ></iframe>
+                                            </CardContent>
                                         </div>
-                                        <div style={{ marginTop: 35 }}>
-                                            {postItem['commentsArray'] &&
-                                                postItem['commentsArray']
-                                                    .length > 0 &&
-                                                postItem['commentsArray']
-                                                    .sort(function (
-                                                        item1,
-                                                        item2
-                                                    ) {
-                                                        return (
-                                                            new Date(
-                                                                item2.timeStamp
-                                                            ) -
-                                                            new Date(
-                                                                item1.timeStamp
-                                                            )
-                                                        )
-                                                    })
-                                                    .map((commentItem) => (
-                                                        <div
-                                                            key={
+                                    </Card>
+                                ) : (
+                                    ''
+                                )}
+
+                                <Card className={classes.root}>
+                                    <CardContent>
+                                        <Typography
+                                            gutterBottom
+                                            variant="h6"
+                                            component="h2"
+                                        >
+                                            {product.text}
+                                        </Typography>
+                                        <Typography
+                                            gutterBottom
+                                            variant="h6"
+                                            component="h2"
+                                        >
+                                            <div
+                                                class={
+                                                    classes.toprightCornerParent
+                                                }
+                                                hidden={hideEditMode(product)}
+                                            >
+                                                <Button
+                                                    id={'edit' + product._id}
+                                                    className={
+                                                        classes.toprightCornerButton
+                                                    }
+                                                    variant="contained"
+                                                    color="primary"
+                                                    size="medium"
+                                                    onClick={() =>
+                                                        editPost(product)
+                                                    }
+                                                >
+                                                    Edit
+                                                </Button>
+                                                <Button
+                                                    id={'delete' + product._id}
+                                                    className={
+                                                        classes.toprightCornerButton
+                                                    }
+                                                    variant="contained"
+                                                    color="primary"
+                                                    size="medium"
+                                                    onClick={() =>
+                                                        deletePost(product)
+                                                    }
+                                                >
+                                                    Delete
+                                                </Button>
+                                            </div>
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+
+                                <Button
+                                    id={'like' + product._id}
+                                    className={classes.classLike}
+                                    variant="contained"
+                                    color={
+                                        isLikedByUser(product)
+                                            ? 'primary'
+                                            : 'inherit'
+                                    }
+                                    size="medium"
+                                    onClick={() => handleLike(product)}
+                                >
+                                    {product.likesArray
+                                        ? product.likesArray.length
+                                        : 0}{' '}
+                                    Like
+                                </Button>
+                                <Button
+                                    id={'comment' + product._id}
+                                    variant="contained"
+                                    color="secondary"
+                                    size="medium"
+                                    onClick={() => isCommentExpand(product)}
+                                >
+                                    {product.commentsArray
+                                        ? product.commentsArray.length
+                                        : 0}{' '}
+                                    Comment
+                                </Button>
+
+                                <ul>
+                                    {product['commentsArray'] &&
+                                    product['commentsArray'].length > 0 ? (
+                                        product['commentsArray'].map(
+                                            (commentItem) => (
+                                                <li
+                                                    className={
+                                                        classes.classLike
+                                                    }
+                                                    key={commentItem._id}
+                                                    className="list__item product"
+                                                >
+                                                    {commentItem['commentText']}
+                                                    <div
+                                                        hidden={hideEditMode(
+                                                            commentItem
+                                                        )}
+                                                    >
+                                                        <Button
+                                                            id={
+                                                                'delete' +
                                                                 commentItem._id
                                                             }
-                                                            className="post-post shadow"
+                                                            variant="contained"
+                                                            color="primary"
+                                                            size="medium"
+                                                            onClick={() =>
+                                                                deleteComment(
+                                                                    product,
+                                                                    commentItem
+                                                                )
+                                                            }
                                                         >
-                                                            <div className="post-header">
-                                                                <div className="post-header-info">
-                                                                    <img
-                                                                        className="post-user-icon shadow"
-                                                                        src={`http://${window.location.hostname}:3000/api/user/photo/${commentItem.userId}`}
-                                                                        alt={`User: ${commentItem.userId}`}
-                                                                    />
-                                                                    <div className="post-header-text">
-                                                                        <p className="post-user-name">
-                                                                            {
-                                                                                commentItem.displayName
-                                                                            }
-                                                                        </p>
-                                                                        <p className="post-header-date">
-                                                                            {
-                                                                                commentItem.timeStamp
-                                                                            }
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                                <div
-                                                                    className="post-header-options"
-                                                                    hidden={hideEditMode(
-                                                                        commentItem
-                                                                    )}
-                                                                >
-                                                                    <div
-                                                                        onClick={() =>
-                                                                            deleteComment(
-                                                                                postItem,
-                                                                                commentItem
-                                                                            )
-                                                                        }
-                                                                        className="post-button"
-                                                                    >
-                                                                        <Icon
-                                                                            icon={
-                                                                                faTrash
-                                                                            }
-                                                                            className="post-menu-icon"
-                                                                        />
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <p className="post-body">
-                                                                {
-                                                                    commentItem.commentText
-                                                                }
-                                                            </p>
-                                                        </div>
-                                                    ))}
-                                        </div>
-                                    </div>
-                                )}
+                                                            Delete
+                                                        </Button>
+                                                    </div>
+                                                </li>
+                                            )
+                                        )
+                                    ) : (
+                                        <p>No Comment</p>
+                                    )}
+                                </ul>
+
+                                <textarea
+                                    className={classes.textFieldStyle}
+                                    id={'commentField' + product._id}
+                                    type="text"
+                                    placeholder="Enter Comment here...."
+                                    rows="2"
+                                    onChange={handleCommentTextField}
+                                />
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    size="medium"
+                                    type="reset"
+                                    defaultValue="Reset"
+                                    onClick={() => saveComment(product)}
+                                >
+                                    Enter
+                                </Button>
+                                <br />
+                                <br />
                             </div>
-                        </div>
+                        </li>
                     ))
                 ) : (
-                    <p>No Posts</p>
+                    <p>No Post</p>
                 )}
-            </div>
+            </ul>
         </div>
     )
 }

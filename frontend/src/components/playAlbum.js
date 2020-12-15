@@ -7,28 +7,21 @@ import {
     Typography,
     makeStyles,
     Button,
-    Link,
-    CardMedia,
 } from '@material-ui/core'
-
+import SpotifyWebApi from 'spotify-web-api-js'
 import { AuthContext } from '../firebase/Auth'
-import AddPostModal from './Modals/AddPostModal'
-import Legends_Never_Die from '../img/artist-img/Legends_Never_Die.jpg'
-import taylorswift from '../img/artist-img/taylorswift.jpg'
-import The_Goat from '../img/artist-img/The_Goat.webp'
-import After_Hours from '../img/artist-img/After_Hours.jpg'
-import folklore from '../img/artist-img/folklore.jpg'
-import No_Image from '../img/artist-img/No_Image.jpeg'
-import Euphoria from '../img/artist-img/Euphoria.jpg'
-import ShowErrorModal from './Modals/ShowErrorModal'
-import axios from 'axios';
+import AddPostModal from '../pages/AddPostModal'
+
+let Spotify = require('spotify-web-api-js')
+// var s = new Spotify();
+
+let spotifyApi = new SpotifyWebApi()
+
+spotifyApi.setAccessToken(
+    'BQB8wvjxNEWkPCbopReja7iCmXCcrUzboFD2kiHMiMU3roZOpC1Jh3YkTEqIuQCzh7Lc3uPkYLGp_aGFuLiO0FkFwE2WPZg-zM_GdYMokjpoc9pP04k_mlL2d0Ka7XyR3Nfwb2fWtMAmXxUjEi_6k4CRoKiHNuaKZdU9O_eVAXjCFKbd'
+)
 
 const useStyles = makeStyles({
-    sidebarCard: {
-        maxWidth: '100%',
-        height: '100%',
-        marginTop: '12px',
-    },
     card: {
         maxWidth: 350,
         height: 'auto',
@@ -84,53 +77,47 @@ const PlayAlbum = (props) => {
     const [loading, setLoading] = useState(true)
     const [sharePost, setSharePost] = useState(null)
     const [showSharePostModal, setShowSharePostModal] = useState(null)
-    const [albumId, setAlbumId] = useState(props.match.params.id)
-    const [errorModal, setErrorModal] = useState(false)
 
     let card = null
-    const baseUrl = 'http://localhost:3000/spotify-api/albums/'
 
     const { currentUser } = useContext(AuthContext)
 
-
-        const [state, setState] = useState({ data: null});
-
-        useEffect(() => {
-            console.log('on load useeffect');
-            async function fetchData() {
-                try {
-                    console.log(albumId);
-                const { data } = await axios.get(baseUrl+props.match.params.id);
-                    setAlbumtData(data.tracks.items);
-                    console.log(data.tracks.items)
-                    setLoading(false);}
-                 catch (e) {
-                    console.log(e);
-                }
+    useEffect(() => {
+        console.log('on load useeffect')
+        async function fetchData() {
+            try {
+                spotifyApi.getAlbum('5U4W9E5WsYb2jUQWePT8Xm',{country:'us'}).then(
+                    function (data) {
+                        setAlbumtData(data.tracks.items)
+                        setLoading(false)
+                    },
+                    function (err) {
+                        setHasError(err)
+                    }
+                )
+            } catch (e) {
+                setHasError(e.message)
             }
-            fetchData();
-        }, [props.match.params.id]);
+        }
+        fetchData()
+    }, [])
 
     const handleOpenshareModal = (trackDetails) => {
         setShowSharePostModal(true)
         setSharePost(trackDetails)
-        setErrorModal(true)
+        console.log(trackDetails)
     }
 
     const handleCloseModals = () => {
         setShowSharePostModal(false)
-        setErrorModal(false)
-    }
-
-    const getAlbumID = (id) => {
-        setAlbumId(id)
     }
 
     const buildCard = (album) => {
         return (
-            <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={album.id}>
+            <Grid item xs={12} sm={6} md={4} lg={4} xl={2} key={album.id}>
                 <Card className={classes.card} variant="outlined">
                     <CardActionArea>
+                        <a href={album.external_urls.spotify}>Go to Spotify</a>
                         <CardContent>
                             <Typography
                                 className={classes.titleHead}
@@ -165,6 +152,17 @@ const PlayAlbum = (props) => {
                             share
                         </Button>
                     </div>
+                    {showSharePostModal && (
+                        <AddPostModal
+                            isOpen={showSharePostModal}
+                            handleClose={handleCloseModals}
+                            title={'Share Post'}
+                            data={null}
+                            currentUser={currentUser.uid}
+                            songData={sharePost}
+                            postId={null}
+                        />
+                    )}
                 </Card>
             </Grid>
         )
@@ -190,29 +188,29 @@ const PlayAlbum = (props) => {
     } else {
         return (
             <div class="main">
-               
-                        <Grid container className={classes.grid} spacing={5}>
-                            {card}
-                        </Grid>
-                {currentUser
-                    ? showSharePostModal && (
-                          <AddPostModal
-                              isOpen={showSharePostModal}
-                              handleClose={handleCloseModals}
-                              title={'Share Post'}
-                              data={null}
-                              currentUser={currentUser.uid}
-                              songData={sharePost}
-                              postId={null}
-                          />
-                      )
-                    : errorModal && (
-                          <ShowErrorModal
-                              isOpen={errorModal}
-                              handleClose={handleCloseModals}
-                              title={'Login Error'}
-                          />
-                      )}
+                <>
+                    {/* <Modal className={classes.modal} show={showSharePostModal} onHide={handleCloseModals}>
+			  <Modal.Header closeButton>
+				<Modal.Title>Modal heading</Modal.Title>
+			  </Modal.Header>
+			 
+			  <Modal.Body>
+			  <textarea className={classes.textFieldStyle} type='text' placeholder="Enter description here...." rows="2" /> 
+			  <textarea className={classes.textFieldStyle} value={sharePost? 'name:'+sharePost.name+' href:'+sharePost.external_urls.spotify+' id:'+sharePost.id : ''} rows="4"></textarea></Modal.Body>
+			  <Modal.Footer>
+				<Button variant="contained" color='secondary' onClick={handleCloseModals}>
+				  Close
+				</Button>
+				<Button variant="contained" color='primary'  onClick={handleCloseModals}>
+				  Save Changes
+				</Button>
+			  </Modal.Footer>
+			</Modal> */}
+                </>
+
+                <Grid container className={classes.grid} spacing={5}>
+                    {card}
+                </Grid>
             </div>
         )
     }

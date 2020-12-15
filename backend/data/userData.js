@@ -1,29 +1,33 @@
 const dbCollections = require("../config/collection");
 const usersCollection= dbCollections.users;
-const validator = require("./validator");
+const { v1: uuidv4 } = require("uuid");
+
+function getValidId(id) {
+  if (!id) {
+    throw "Given user id is invalid";
+  }
+
+  if (typeof id != "object" && typeof id != "string") {
+    throw "Provide  post id of type object or string ";
+  }
+
+  return id;
+}
 
 async function getAllUsers() {
   const users = await usersCollection();
   const allUserData = await users.find({}).toArray();
 
   if (allUserData === null) {
-    throw 'No user found in database';
+    throw `No user found in database`;
   }
   return allUserData;
 }
 
-async function getAllUserIds(){
-  const users = await usersCollection();
-  const allUserIds = await users.find({}, {_id:1}).map(function(item){ return item._id; }).toArray();
-  if (allUserIds === null){
-    throw 'No user found in database';
-  }
-  return allUserIds;
-}
-
 async function getUserById(id) {
-  if (!validator.isNonEmptyString(id)) throw 'Given user id is not valid';
+  id = getValidId(id);
   const users = await usersCollection();
+
   let userData = await users.findOne({ _id: id });
 
   if (!userData) {
@@ -35,21 +39,17 @@ async function getUserById(id) {
 
 async function createUser(authUserData) {
   
- // auth user data only consists user id, displayName, email and photoUrl
-  if( !validator.isNonEmptyString(authUserData.id)) throw 'User id is not valid'
-  if( !validator.isNonEmptyString(authUserData.displayName)) throw 'User name is empty'
-  if( !validator.isValidEmail(authUserData.email)) throw 'User email is not valid'
-
+ // auth user data only consists user id, displayName and email
   let userData = {
     _id: authUserData.id,
     displayName: authUserData.displayName,
     email: authUserData.email,
+    gender: "Not Specified",
     biography: "",
     websiteUrl: "",
     socialMedia: { facebook: "", instagram:"", twitter:"" },
-    photoUrl: authUserData.photoUrl,
-    country: "United States",
-    photoData: ""
+    profilePicId: "",
+    country: "United States"
   };
 
   let users = await usersCollection();
@@ -63,20 +63,11 @@ async function createUser(authUserData) {
   return await this.getUserById(newUser.insertedId);
 }
 async function updateUser(userId, updatedUserData) {
-  if(!validator.isNonEmptyString(userId)) throw 'User id is not valid';
-
-  if(updatedUserData.displayName && !validator.isNonEmptyString(updatedUserData.displayName)) throw 'Updated user name is not valid';
-  if(updatedUserData.websiteUrl && !validator.isValidURL(updatedUserData.websiteUrl)) throw 'Updated personal website is not valid url';
   
-  if(updatedUserData.socialMedia){
-    for( let key in updatedUserData.socialMedia ){
-      let value = updatedUserData.socialMedia[key];
-      if (value && !validator.isValidURL(value)) throw `${key} url is not valid`
-    }
-  }
-
   let users = await usersCollection();
+
   let updatedUser = await users.updateOne({ _id: userId }, { $set: updatedUserData });
+
   if (!updatedUser.modifiedCount && !updatedUser.matchedCount) {
     throw `Error : Unable to update user with id : ${id} into database`;
   }
@@ -85,7 +76,7 @@ async function updateUser(userId, updatedUserData) {
 }
 
 async function deleteUser(id) {
-  if(!validator.isNonEmptyString(id)) throw 'User id is not valid'
+  id = getValidId(id);
 
   const users = await usersCollection();
 
@@ -100,7 +91,6 @@ async function deleteUser(id) {
 
 module.exports = {
   getAllUsers,
-  getAllUserIds,
   getUserById,
   createUser,
   updateUser,

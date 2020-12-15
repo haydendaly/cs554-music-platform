@@ -146,6 +146,8 @@ router.post("/:postId/comment", async (req, res) => {
     let newData = await commentDataObj.addComment(paramBody.userId, paramBody.commentText);
 
     let post = await postDataObj.getPostById(req.params.postId);
+    console.log(post)
+    console.log(req.params.postId)
 
     let commentArray = post["commentsArray"];
     commentArray.push(newData);

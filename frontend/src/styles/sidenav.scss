@@ -28,8 +28,11 @@
     flex-direction: row;
     height: 50px;
     align-items: center;
-    font-size: 26px;
-    color: #fff;
+  }
+
+  .header-text {
+    padding-left: 24px;
+    font-size: 32px;
   }
 
   .menu-row {
@@ -38,9 +41,16 @@
     height: 50px;
     align-items: center;
     color: #818181;
-    font-size: 24px;
+  }
+
+  .menu-row:hover {
+    color: #fff;
+  }
+
+  .menu-text {
+    font-size: 28px;
   }
 
   .menu-icon {
-    margin-right: 24px;
+    font-size: 24px;
   }

@@ -8,20 +8,22 @@ import {
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import { AuthProvider } from '../firebase/Auth'
+// import { PlayAlbum } from "../components";
+import NavBar from '../components/NavBar'
 import Sidebar from '../components/Sidebar'
 import SidebarRight from '../components/SidebarRight'
-import { SpotifyProvider } from '../functions/Spotify'
 
 const SignIn = lazy(() => import('../components/SignIn'))
 const SignUp = lazy(() => import('../components/SignUp'))
 const PlayAlbum = lazy(() => import('../components/playAlbum'))
-const PlayArtist = lazy(() => import('../components/Artist'))
 const PlayListByLoveSongs = lazy(() =>
     import('../components/playListbyLoveSongs')
 )
-const SearchPlayList = lazy(() => import('../components/SearchPlayList'))
-const Home = lazy(() => import('../pages/Home'))
+const SearchPlayList = lazy(() =>
+    import('../components/SearchPlayList')
+)
 const PostInsert = lazy(() => import('../pages/PostInsert'))
+const Home = lazy(() => import('../pages/Home'))
 const UserProfile = lazy(() => import('../pages/UserProfile'))
 const ChangePassword = lazy(() => import('../components/ChangePassword'))
 
@@ -42,17 +44,8 @@ function App() {
                         <Route path="/post" exact component={Home} />
                         <Route path="/signin" component={SignIn} />
                         <Route path="/signup" component={SignUp} />
-                        <Route path="/playList/:id" exact component={PlayAlbum} />
-                        <Route
-                            path="/searchTracks"
-                            exact
-                            component={SearchPlayList}
-                        />
-                        <Route
-                            path="/artistPlayList/:id"
-                            exact
-                            component={PlayArtist}
-                        />
+                        <Route path="/playList" exact component={PlayAlbum} />
+                        <Route path="/searchPlayList" exact component={SearchPlayList} />
                         <Route
                             path="/playListbyLove"
                             exact
@@ -74,6 +67,7 @@ function App() {
                             exact
                             component={ChangePassword}
                         />
+
                         <Route path="/">
                             <Redirect to="/post" />
                         </Route>

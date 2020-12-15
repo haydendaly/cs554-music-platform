@@ -1,7 +1,6 @@
 const dbCollections = require("../config/collection");
 const postCollectionObj = dbCollections.post;
 const { v1: uuidv4 } = require("uuid");
-const userData = require("./userData");
 
 function getValidId(id) {
   if (!id) {
@@ -47,17 +46,13 @@ async function createPost(postParam) {
   postText = postParam["text"];
   songData = postParam["songData"];
 
-  const user = await userData.getUserById(userId);
-  
   let postSchema = {
     _id: uuidv4(),
     commentsArray : commentIdArray,
     likesArray : likesIdArray,
     text: postText,
     userId,
-    songData,
-    displayName: user.displayName,
-    timeStamp : new Date().toUTCString()
+    songData
   };
 
   let postObj = await postCollectionObj();
