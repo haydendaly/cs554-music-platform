@@ -8,7 +8,6 @@ import {
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import { AuthProvider } from '../firebase/Auth'
-// import { PlayAlbum } from "../components";
 import Sidebar from '../components/Sidebar'
 import SidebarRight from '../components/SidebarRight'
 import { SpotifyProvider } from '../functions/Spotify'
@@ -21,8 +20,8 @@ const PlayListByLoveSongs = lazy(() =>
     import('../components/playListbyLoveSongs')
 )
 const SearchPlayList = lazy(() => import('../components/SearchPlayList'))
-const PostInsert = lazy(() => import('../pages/PostInsert'))
 const Home = lazy(() => import('../pages/Home'))
+const PostInsert = lazy(() => import('../pages/PostInsert'))
 const UserProfile = lazy(() => import('../pages/UserProfile'))
 const ChangePassword = lazy(() => import('../components/ChangePassword'))
 

@@ -95,7 +95,7 @@ function AddPostModal(props) {
         if (props.currentUser) {
             try {
                 const { data } = await axios.post(
-                    'http://localhost:3000/api/post',
+                    `http://${window.location.hostname}:3000/api/post`,
                     {
                         userId: props.currentUser, // pass valid userid here
                         text: postData,
@@ -116,7 +116,7 @@ function AddPostModal(props) {
     const handleEditPost = async () => {
         try {
             const { data } = await axios.patch(
-                `http://localhost:3000/api/post/${props.postId}`,
+                `http://${window.location.hostname}:3000/api/post/${props.postId}`,
                 {
                     text: postData ? postData : props.data,
                 }

@@ -115,7 +115,6 @@ const PlayAlbum = (props) => {
         setShowSharePostModal(true)
         setSharePost(trackDetails)
         setErrorModal(true)
-        console.log(trackDetails)
     }
 
     const handleCloseModals = () => {

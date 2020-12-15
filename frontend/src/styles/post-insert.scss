@@ -1,32 +1,39 @@
 .post-main {
     width: 100%;
-    display: block;
-    align-items: center;
-    margin-left: 20%;
+    display: flex;
+    justify-content: center;
 }
 
 .post-list {
     overflow-y: scroll;
+    background-color: none;
 }
 
 .post-new-button {
-    display: block;
-    width: 100%;
+    position: fixed;
+    bottom: 10px;
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FF0000;
 }
 
 .post-post {
     background-color: #191919;
-    width: 600px;
+    max-width: 760px;
     margin-top: 20px;
     margin-bottom: 20px;
     border-radius: 20px;
     overflow: hidden;
-    font-size: 16px;
+    font-size: 17px;
 }
 
 .post-header {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -46,20 +53,21 @@
     color: #999;
     display: flex;
     flex-direction: row;
+    justify-content: flex-end;
     font-size: 20px;
 }
 
 .post-user-icon {
     height: 50px;
     width: 50px;
-    margin-left: 10px;
+    margin-left: 15px;
     border-radius: 25px;
     overflow: hidden;
 }
 
 .post-header-text {
-    margin-left: 10px;
-    font-size: 17px;
+    margin-left: 15px;
+    font-size: 18px;
 }
 
 .post-user-name {
@@ -72,7 +80,7 @@
 }
 
 .post-body {
-    padding: 10px;
+    padding: 15px;
     margin-right: 0.5%;
 }
 
@@ -84,10 +92,20 @@
 
 .post-footer {
     width: 100%;
-    padding: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.post-menu-icon {
+    font-size: 20px;
+}
+
+.post-menu-icon:hover {
+    color: #fff;
 }
 
 .post-button {
@@ -99,11 +117,29 @@
     width: 45px;
 }
 
+.post-comment-holder {
+    padding: 15px;
+    padding-bottom: 0px;
+    width: 100%;
+    border-top: 1px solid;
+    border-color: #999;
+}
+
 .post-comments {
-    margin-left: 5%;
-    width: 80%;
+    background-color: #272727;
+    color: #fff;
+    width: 100%;
+    outline: none;
+    border: none;
+    padding: 10px;
+    border-radius: 15px;
 }
 
 .post-comments-add-button {
-    margin-right: 5%;
+    float: right;
+    background-color: #ff0000;
+    padding: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 10px;
 }
