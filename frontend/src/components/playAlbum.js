@@ -21,7 +21,7 @@ import folklore from '../img/artist-img/folklore.jpg'
 import No_Image from '../img/artist-img/No_Image.jpeg'
 import Euphoria from '../img/artist-img/Euphoria.jpg'
 import ShowErrorModal from './Modals/ShowErrorModal'
-import axios from 'axios';
+import axios from 'axios'
 import { SpotifyContext } from '../functions/Spotify'
 
 const useStyles = makeStyles({
@@ -94,24 +94,28 @@ const PlayAlbum = (props) => {
 
     const { currentUser } = useContext(AuthContext)
 
+    const [state, setState] = useState({ data: null })
 
-        const [state, setState] = useState({ data: null});
-
-        useEffect(() => {
-            console.log('on load useeffect');
-            async function fetchData() {
-                try {
-                    console.log(albumId);
-                const { data } = await axios.get(baseUrl+props.match.params.id+'?access_token='+accessToken);
-                    setAlbumtData(data.tracks.items);
-                    console.log(data.tracks.items)
-                    setLoading(false);}
-                 catch (e) {
-                    console.log(e);
-                }
+    useEffect(() => {
+        console.log('on load useeffect')
+        async function fetchData() {
+            try {
+                console.log(albumId)
+                const { data } = await axios.get(
+                    baseUrl +
+                        props.match.params.id +
+                        '?access_token=' +
+                        accessToken
+                )
+                setAlbumtData(data.tracks.items)
+                console.log(data.tracks.items)
+                setLoading(false)
+            } catch (e) {
+                console.log(e)
             }
-            fetchData();
-        }, [props.match.params.id]);
+        }
+        fetchData()
+    }, [props.match.params.id])
 
     const handleOpenshareModal = (trackDetails) => {
         setShowSharePostModal(true)
@@ -123,7 +127,6 @@ const PlayAlbum = (props) => {
         setShowSharePostModal(false)
         setErrorModal(false)
     }
-
 
     const buildCard = (album) => {
         return (
@@ -189,10 +192,9 @@ const PlayAlbum = (props) => {
     } else {
         return (
             <div class="main">
-               
-                        <Grid container className={classes.grid} spacing={5}>
-                            {card}
-                        </Grid>
+                <Grid container className={classes.grid} spacing={5}>
+                    {card}
+                </Grid>
                 {currentUser
                     ? showSharePostModal && (
                           <AddPostModal

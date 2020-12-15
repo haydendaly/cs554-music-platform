@@ -21,7 +21,7 @@ import folklore from '../img/artist-img/folklore.jpg'
 import No_Image from '../img/artist-img/No_Image.jpeg'
 import Euphoria from '../img/artist-img/Euphoria.jpg'
 import ShowErrorModal from './Modals/ShowErrorModal'
-import axios from 'axios';
+import axios from 'axios'
 import { SpotifyContext } from '../functions/Spotify'
 
 const useStyles = makeStyles({
@@ -74,7 +74,9 @@ const useStyles = makeStyles({
     },
 
     buttonClass: {
-        marginLeft: '40%',
+        marginLeft: '20%',
+        display: 'inline',
+        display: 'inline-block !important',
     },
 })
 
@@ -86,32 +88,60 @@ const PlayByArtist = (props) => {
     const [loading, setLoading] = useState(true)
     const [sharePost, setSharePost] = useState(null)
     const [showSharePostModal, setShowSharePostModal] = useState(null)
-    const [albumId, setAlbumId] = useState(props.match.params.id)
+    const [artistId, setAristId] = useState(props.match.params.id)
     const [errorModal, setErrorModal] = useState(false)
+    const [topTrack, setTopTrack] = useState(null)
+    const [artistAlbum, setArtistAlbum] = useState(null)
 
     let card = null
+    let toptracksCard = null
     const baseUrl = 'http://localhost:3000/spotify-api/artists/'
 
     const { currentUser } = useContext(AuthContext)
+    // setAristId(props.match.params.id);
 
+    let artist = props.match.params.id
 
-        const [state, setState] = useState({ data: null});
-
-        useEffect(() => {
-            console.log('on load useeffect');
-            async function fetchData() {
-                try {
-                    console.log(albumId);
-                const { data } = await axios.get(baseUrl+props.match.params.id+'?access_token='+accessToken);
-                    setArtistDataa(data);
-                    console.log(data)
-                    setLoading(false);}
-                 catch (e) {
-                    console.log(e);
-                }
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const { data } = await axios.get(
+                    baseUrl + artistId + '?access_token=' + accessToken
+                )
+                setAristId(props.match.params.id)
+                setArtistDataa(data)
+                setTopTrack(null)
+                console.log(data)
+                setLoading(false)
+            } catch (e) {
+                console.log(e)
             }
-            fetchData();
-        }, [props.match.params.id]);
+        }
+        fetchData()
+    }, [props.match.params.id])
+
+    const albumUrl = 'http://localhost:3000/spotify-api/artists/'
+    useEffect(() => {
+        async function fetchAlbumData() {
+            try {
+                setAristId(props.match.params.id)
+                const { data } = await axios.get(
+                    albumUrl +
+                        artistAlbum +
+                        '/albums?country=US&access_token=' +
+                        accessToken
+                )
+                setTopTrack(data.items)
+                if (data.items.length > 0) {
+                    setArtistDataa(null)
+                }
+                setLoading(false)
+            } catch (e) {
+                console.log(e)
+            }
+        }
+        fetchAlbumData()
+    }, [artistAlbum])
 
     const handleOpenshareModal = (trackDetails) => {
         setShowSharePostModal(true)
@@ -124,8 +154,87 @@ const PlayByArtist = (props) => {
         setErrorModal(false)
     }
 
+    const handleTopTracks = (id) => {
+        setArtistAlbum(id)
+    }
+
+    const backtoArtist = (id) => {
+        setAristId(id)
+    }
 
     const buildCard = (album) => {
+        return (
+            <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={album.id}>
+                <Card className={classes.card} variant="outlined">
+                    <CardActionArea>
+                        <CardContent>
+                            <Typography
+                                className={classes.titleHead}
+                                gutterBottom
+                                variant="h6"
+                                component="h3"
+                            >
+                                <span>{album.name}</span>
+                                <br />
+                                <span>Track Number: {album.track_number}</span>
+                            </Typography>
+                        </CardContent>
+                    </CardActionArea>
+                    <iframe
+                        id="playSong"
+                        src={'https://open.spotify.com/embed?uri=' + album.uri}
+                        width="300"
+                        height="380"
+                        frameborder="0"
+                        allowtransparency="true"
+                        allow="encrypted-media"
+                    ></iframe>
+                    <div className="e-card-actions e-card-vertical">
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            className={classes.buttonClass}
+                            onClick={() => {
+                                handleOpenshareModal(album)
+                            }}
+                        >
+                            share
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            className={classes.buttonClass}
+                            onClick={() => handleTopTracks(artistId)}
+                        >
+                            {' '}
+                            Artist Album{' '}
+                        </Button>
+                        {currentUser
+                            ? showSharePostModal && (
+                                  <AddPostModal
+                                      isOpen={showSharePostModal}
+                                      handleClose={handleCloseModals}
+                                      title={'Share Post'}
+                                      data={null}
+                                      currentUser={currentUser.uid}
+                                      songData={sharePost}
+                                      postId={null}
+                                  />
+                              )
+                            : errorModal && (
+                                  <ShowErrorModal
+                                      isOpen={errorModal}
+                                      handleClose={handleCloseModals}
+                                      title={'Login Error'}
+                                  />
+                              )}
+                    </div>
+                </Card>
+            </Grid>
+        )
+    }
+
+    const buildtopCard = (album) => {
         return (
             <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={album.id}>
                 <Card className={classes.card} variant="outlined">
@@ -189,11 +298,15 @@ const PlayByArtist = (props) => {
     }
     if (artistData) {
         console.log(artistData)
-        card =
-        artistData &&
-        artistData  
-                return buildCard(artistData)
-            
+        card = artistData && artistData
+        return buildCard(artistData)
+    } else if (topTrack && topTrack.length > 0 && artistAlbum) {
+        console.log(topTrack)
+        toptracksCard =
+            topTrack &&
+            topTrack.map((album) => {
+                return buildtopCard(album)
+            })
     }
 
     if (loading) {
@@ -208,11 +321,13 @@ const PlayByArtist = (props) => {
     } else {
         return (
             <div class="main">
-               
-                        <Grid container className={classes.grid} spacing={5}>
-                            {card}
-                        </Grid>
-                
+                <Grid container className={classes.grid} spacing={5}>
+                    {card}
+                </Grid>
+
+                <Grid container className={classes.grid} spacing={5}>
+                    {toptracksCard}
+                </Grid>
             </div>
         )
     }
