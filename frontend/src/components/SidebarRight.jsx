@@ -47,12 +47,11 @@ const useSidebarRight = () => {
             let optQueryParams = {market: 'us'};
                 await axios.get(url).then(
                     ({data}) => {
-                        if(searchData[1].toLocaleLowerCase() === 'album'){
+                        if(search.toLowerCase().includes('album')){
                             setResults(data.albums.items);
-                            console.log(data.albums.items);
                            setSearchType('album');
                         }
-                        else if(searchData[1].toLowerCase() === 'artist'){
+                        else if(search.toLowerCase().includes('artist')){
                             setResults(data.artists.items);
                             console.log(data.artists.items);
                             setSearchType('artist');
