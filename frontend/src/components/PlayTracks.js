@@ -78,9 +78,9 @@ const useStyles = makeStyles({
     },
 })
 
-const PlayAlbum = (props) => {
+const PlayByTracks = (props) => {
     const { accessToken } = useContext(SpotifyContext)
-    const [albumData, setAlbumtData] = useState(undefined)
+    const [trackData, setTrackData] = useState(undefined)
     const classes = useStyles()
     const [hasError, setHasError] = useState(false)
     const [loading, setLoading] = useState(true)
@@ -90,7 +90,7 @@ const PlayAlbum = (props) => {
     const [errorModal, setErrorModal] = useState(false)
 
     let card = null
-    const baseUrl = 'http://localhost:3000/spotify-api/albums/'
+    const baseUrl = 'http://localhost:3000/spotify-api/tracks/'
 
     const { currentUser } = useContext(AuthContext)
 
@@ -103,8 +103,8 @@ const PlayAlbum = (props) => {
                 try {
                     console.log(albumId);
                 const { data } = await axios.get(baseUrl+props.match.params.id+'?access_token='+accessToken);
-                    setAlbumtData(data.tracks.items);
-                    console.log(data.tracks.items)
+                setTrackData(data);
+                    console.log(data)
                     setLoading(false);}
                  catch (e) {
                     console.log(e);
@@ -163,18 +163,37 @@ const PlayAlbum = (props) => {
                         >
                             share
                         </Button>
+                        {currentUser
+                            ? showSharePostModal && (
+                                  <AddPostModal
+                                      isOpen={showSharePostModal}
+                                      handleClose={handleCloseModals}
+                                      title={'Share Post'}
+                                      data={null}
+                                      currentUser={currentUser.uid}
+                                      songData={sharePost}
+                                      postId={null}
+                                  />
+                              )
+                            : errorModal && (
+                                  <ShowErrorModal
+                                      isOpen={errorModal}
+                                      handleClose={handleCloseModals}
+                                      title={'Login Error'}
+                                  />
+                              )}
                     </div>
                 </Card>
             </Grid>
         )
     }
-    if (albumData) {
-        console.log(albumData)
+    if (trackData) {
+        console.log(trackData)
         card =
-            albumData &&
-            albumData.map((album) => {
-                return buildCard(album)
-            })
+        trackData &&
+        trackData  
+                return buildCard(trackData)
+            
     }
 
     if (loading) {
@@ -193,28 +212,10 @@ const PlayAlbum = (props) => {
                         <Grid container className={classes.grid} spacing={5}>
                             {card}
                         </Grid>
-                {currentUser
-                    ? showSharePostModal && (
-                          <AddPostModal
-                              isOpen={showSharePostModal}
-                              handleClose={handleCloseModals}
-                              title={'Share Post'}
-                              data={null}
-                              currentUser={currentUser.uid}
-                              songData={sharePost}
-                              postId={null}
-                          />
-                      )
-                    : errorModal && (
-                          <ShowErrorModal
-                              isOpen={errorModal}
-                              handleClose={handleCloseModals}
-                              title={'Login Error'}
-                          />
-                      )}
+                
             </div>
         )
     }
 }
 
-export default PlayAlbum
+export default PlayByTracks
