@@ -66,7 +66,9 @@ const useStyles = makeStyles({
     },
 
     buttonClass: {
-        marginLeft: '40%',
+        justifyContent: 'center',
+        marginBottom : '5%',
+        marginTop: '5%'
     },
 })
 
@@ -120,6 +122,7 @@ const PlayByPlayList = (props) => {
 
     const buildCard = (album) => {
         return (
+            <center>
             <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={album.id}>
                 <Card className={classes.card} variant="outlined">
                     <CardActionArea>
@@ -146,6 +149,7 @@ const PlayByPlayList = (props) => {
                         allow="encrypted-media"
                     ></iframe>
                     <div className="e-card-actions e-card-vertical">
+                        <center>
                         <Button
                             variant="contained"
                             color="secondary"
@@ -156,6 +160,7 @@ const PlayByPlayList = (props) => {
                         >
                             share
                         </Button>
+                        </center>
                         {currentUser
                             ? showSharePostModal && (
                                   <AddPostModal
@@ -178,6 +183,7 @@ const PlayByPlayList = (props) => {
                     </div>
                 </Card>
             </Grid>
+            </center>
         )
     }
     if (playListData) {
