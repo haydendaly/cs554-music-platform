@@ -10,6 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { AuthProvider } from '../firebase/Auth'
 import Sidebar from '../components/Sidebar'
 import SidebarRight from '../components/SidebarRight'
+import Loading from '../components/Loading'
 import { SpotifyProvider } from '../functions/Spotify'
 
 const SignIn = lazy(() => import('../components/SignIn'))
@@ -33,7 +34,7 @@ function App() {
                 <Router>
                     <Sidebar />
                     <SidebarRight />
-                    <Suspense fallback={<p>Loading...</p>}>
+                    <Suspense fallback={<Loading />}>
                         <Switch>
                             <Route path="/" exact component={Home} />
                             <Route path="/posts" exact component={PostInsert} />

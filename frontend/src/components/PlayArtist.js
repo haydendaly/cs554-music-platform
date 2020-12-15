@@ -12,14 +12,8 @@ import {
 } from '@material-ui/core'
 
 import { AuthContext } from '../firebase/Auth'
+import Loading from './Loading'
 import AddPostModal from './Modals/AddPostModal'
-import Legends_Never_Die from '../img/artist-img/Legends_Never_Die.jpg'
-import taylorswift from '../img/artist-img/taylorswift.jpg'
-import The_Goat from '../img/artist-img/The_Goat.webp'
-import After_Hours from '../img/artist-img/After_Hours.jpg'
-import folklore from '../img/artist-img/folklore.jpg'
-import No_Image from '../img/artist-img/No_Image.jpeg'
-import Euphoria from '../img/artist-img/Euphoria.jpg'
 import ShowErrorModal from './Modals/ShowErrorModal'
 import axios from 'axios'
 import { SpotifyContext } from '../functions/Spotify'
@@ -197,11 +191,7 @@ const PlayByArtist = (props) => {
     }
 
     if (loading) {
-        return (
-            <div>
-                <h2>Loading....</h2>
-            </div>
-        )
+        return <Loading />
     }
     if (hasError) {
         return <div>{hasError}</div>

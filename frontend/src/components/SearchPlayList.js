@@ -9,13 +9,11 @@ import {
     Button,
 } from '@material-ui/core'
 import SpotifyWebApi from 'spotify-web-api-js'
+import Loading from './Loading'
 import { AuthContext } from '../firebase/Auth'
 import AddPostModal from './Modals/AddPostModal'
 import SearchComponent from './SearchComponent'
 import ShowErrorModal from './Modals/ShowErrorModal'
-
-let Spotify = require('spotify-web-api-js')
-// var s = new Spotify();
 
 let spotifyApi = new SpotifyWebApi()
 
@@ -183,11 +181,7 @@ const SearchPlayList = (props) => {
     }
 
     if (loading) {
-        return (
-            <div>
-                <h2>Loading....</h2>
-            </div>
-        )
+        return <Loading />
     } else if (searchTerm && playListData.length <= 0) {
         return (
             <div class="main">

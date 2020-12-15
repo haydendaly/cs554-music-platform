@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core'
 
 import { AuthContext } from '../firebase/Auth'
+import Loading from './Loading'
 import AddPostModal from './Modals/AddPostModal'
 import ShowErrorModal from './Modals/ShowErrorModal'
 import axios from 'axios'
@@ -172,11 +173,7 @@ const PlayAlbum = (props) => {
     }
 
     if (loading) {
-        return (
-            <div>
-                <h2>Loading....</h2>
-            </div>
-        )
+        return <Loading />
     }
     if (hasError) {
         return <div>{hasError}</div>
