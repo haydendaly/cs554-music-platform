@@ -16,6 +16,9 @@ const SignIn = lazy(() => import('../components/SignIn'))
 const SignUp = lazy(() => import('../components/SignUp'))
 const PlayAlbum = lazy(() => import('../components/playAlbum'))
 const PlayArtist = lazy(() => import('../components/Artist'))
+const PlayByArtist = lazy(() => import('../components/PlayArtist'))
+const PlayByTracks = lazy(() => import('../components/PlayTracks'))
+const PlayByPlayList = lazy(() => import('../components/PlayPlayList.js'))
 const PlayListByLoveSongs = lazy(() =>
     import('../components/playListbyLoveSongs')
 )
@@ -39,9 +42,24 @@ function App() {
                             <Route path="/signin" component={SignIn} />
                             <Route path="/signup" component={SignUp} />
                             <Route
-                                path="/playList"
+                                path="/playList/:id"
                                 exact
                                 component={PlayAlbum}
+                            />
+                            <Route
+                                path="/playByArtist/:id"
+                                exact
+                                component={PlayByArtist}
+                            />
+                            <Route
+                                path="/playByTrack/:id"
+                                exact
+                                component={PlayByTracks}
+                            />
+                            <Route
+                                path="/playByPlayList/:id"
+                                exact
+                                component={PlayByPlayList}
                             />
                             <Route
                                 path="/searchTracks"

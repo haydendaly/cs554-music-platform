@@ -1,17 +1,14 @@
-
 import React, { useState, useEffect, useContext } from 'react'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import axios from 'axios';
+import axios from 'axios'
 import { useWindowDimensions } from '../functions/dimensions'
-import {Link} from 'react-router-dom';
-import { set } from 'mongoose';
+import { Link } from 'react-router-dom'
+import { set } from 'mongoose'
 import { SpotifyContext } from '../functions/Spotify'
 
 const useSidebarRight = () => {
-    
     const { accessToken } = useContext(SpotifyContext)
-
 
     const [search, setSearch] = useState('')
     const [results, setResults] = useState([])
@@ -24,8 +21,8 @@ const useSidebarRight = () => {
     const [searchType, setSearchType] = useState(null)
 
     // const url = 'http://localhost:3000/spotify-api/search?q=king%10gizzard&type=album&market=US'
-    const baseUrl = 'http://localhost:3000/spotify-api/search?q=';
-    let searchData = null;
+    const baseUrl = 'http://localhost:3000/spotify-api/search?q='
+    let searchData = null
     useEffect(() => {
         // Make request for recommended songs
         setRecommended([
@@ -38,48 +35,52 @@ const useSidebarRight = () => {
         ])
     }, [])
 
+    const useAxios = (baseUrl) => {
+        const [state, setState] = useState({ data: null })
+        useEffect(async () => {
+            console.log(search)
+            const market = 'US'
+            searchData = search.split(',')
+            // if(searchData[2]? market=searchData[2] : market )
 
-    const useAxios =(baseUrl) =>{
-        const [state, setState] = useState({ data: null});
-    useEffect(async() => {
-        console.log(search);
-        const market = 'US';
-        searchData = search.split(',');
-        // if(searchData[2]? market=searchData[2] : market )
+            let url =
+                baseUrl +
+                searchData[0] +
+                '&type=' +
+                searchData[1] +
+                '&market=' +
+                market +
+                '&access_token=' +
+                accessToken
+            let optQueryParams = { market: 'us' }
 
-        let url = baseUrl+searchData[0]+'&type='+searchData[1]+'&market='+market+'&access_token='+accessToken;
-            let optQueryParams = {market: 'us'};
+            await axios
+                .get(url)
+                .then(({ data }) => {
+                    if (search.toLowerCase().includes('album')) {
+                        setResults(data.albums.items)
+                        setSearchType('album')
+                    } else if (search.toLowerCase().includes('artist')) {
+                        setResults(data.artists.items)
+                        setSearchType('artist')
+                    } else if (search.toLowerCase().includes('playlist')) {
+                        setResults(data.playlists.items)
+                        setSearchType('playlist')
+                    } else if (search.toLowerCase().includes('track')) {
+                        setResults(data.tracks.items)
+                        setSearchType('track')
+                    }
+                })
+                .catch((err) => {
+                    console.log(err)
+                    setHasError(err)
+                })
+        }, [search])
 
-                await axios.get(url).then(
-                    ({data}) => {
-                        if(search.toLowerCase().includes('album')){
-                            setResults(data.albums.items);
-                           setSearchType('album');
-                        }
-                        else if(search.toLowerCase().includes('artist')){
-                            setResults(data.artists.items);
-                            setSearchType('artist');
-                        }
-                        else if(search.toLowerCase().includes('playlist')){
-                            setResults(data.playlists.items);
-                            setSearchType('playlist')
-                        }
-                        else if(search.toLowerCase().includes('track')){
-                            setResults(data.tracks.items);
-                            setSearchType('track')
-                        }
-            
-        }).catch(err => {
-            console.log(err);
-            setHasError(err);
+        return state
+    }
 
-        })},[search]
-    );
-
-    return state;
-}
-
-let {songData} = useAxios(baseUrl);
+    let { songData } = useAxios(baseUrl)
 
     useEffect(() => {
         if (width >= 1100) {
@@ -95,51 +96,46 @@ let {songData} = useAxios(baseUrl);
         open,
         setOpen,
         width,
-        searchType
+        searchType,
     }
 }
 
 const Song = (props) => {
     const { data } = props
     const { value } = props
-console.log(value)
+    console.log(value)
 
-if(value && value == 'album'){
-    return(
-        <div className="song">
-        <Link to={`/playList/${data.id}`}>{data.name}</Link>
-        </div>
-    
-    )}
-    else if(value && value == 'artist'){
-        return(
+    if (value && value == 'album') {
+        return (
             <div className="song">
-            <Link to={`/playByArtist/${data.id}`}>{data.name}</Link>
+                <Link to={`/playList/${data.id}`}>{data.name}</Link>
             </div>
-        
-        )}
-        else if(value && value == 'track'){
-            return(
-                <div className="song">
-                <Link to={`/playByTrack/${data.id}`}>{data.name}</Link>
-                </div>
-            
-            )}
-            else if(value && value == 'playlist'){
-                return(
-                    <div className="song">
-                    <Link to={`/playByPlayList/${data.id}`}>{data.name}</Link>
-                    </div>
-                
-                )}
-    else{
-        return(
+        )
+    } else if (value && value == 'artist') {
+        return (
             <div className="song">
-            <Link to={`/playList/${data.id}`}>{data.name}</Link>
+                <Link to={`/playByArtist/${data.id}`}>{data.name}</Link>
+            </div>
+        )
+    } else if (value && value == 'track') {
+        return (
+            <div className="song">
+                <Link to={`/playByTrack/${data.id}`}>{data.name}</Link>
+            </div>
+        )
+    } else if (value && value == 'playlist') {
+        return (
+            <div className="song">
+                <Link to={`/playByPlayList/${data.id}`}>{data.name}</Link>
+            </div>
+        )
+    } else {
+        return (
+            <div className="song">
+                <Link to={`/playList/${data.id}`}>{data.name}</Link>
             </div>
         )
     }
-    
 }
 
 const SideBarRight = () => {
@@ -151,11 +147,11 @@ const SideBarRight = () => {
         open,
         setOpen,
         width,
-searchType,
-hasError
+        searchType,
+        hasError,
     } = useSidebarRight()
-    
-return (
+
+    return (
         <div
             className="sidenav-right shadow"
             style={width > 1100 || open ? {} : { width: 55 }}
@@ -180,8 +176,7 @@ return (
                         {results && results.length > 0 ? (
                             <div className="search-results shadow">
                                 {results.map((song) => (
-
-                                    <Song data={song} value={searchType}/>
+                                    <Song data={song} value={searchType} />
                                 ))}
                             </div>
                         ) : (
