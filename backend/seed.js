@@ -1,12 +1,17 @@
 const dbConnection = require("./config/connection");
 const data = require("./data");
 const userData = data.users;
+const postData = data.post;
+const path = require('path');
+const bluebird = require('bluebird');
+const fs = bluebird.promisifyAll(require('fs'));
 
 const main = async () => {
   const db = await dbConnection();
   await db.dropDatabase();
 
   try{
+    let userPhotoDir = path.join(__dirname, '.', 'seedPhotos')
 
     const user1 = {
       id: "GwczNGcQ7qbciQRKC1EFmCIKmP22",
@@ -14,59 +19,61 @@ const main = async () => {
       email: "xzou3@stevens.edu"
     };
 
-    const createdUser1 = await userData.createUser(user1);
-    console.log(createdUser1);
+    const miranda = await userData.createUser(user1);
+    const mirandaPhoto = {
+      data: await fs.readFileAsync(path.join(userPhotoDir, 'miranda.jpg')),
+      type: 'image/jpeg'
+    }
 
-    const updatedUser1 = await userData.updateUser(createdUser1._id, 
-      {displayName: "Xianqing Zou",
-      socialMedia: {
-        facebook: 'https://www.facebook.com/xianqing.zou/',
-        instagram: 'https://www.instagram.com/miranda.zou/',
-        twitter:""
-      }});
-    console.log(updatedUser1);
+    await userData.updateUser(miranda._id, { photoData: mirandaPhoto});
+    
+    const mirandaPost1 = {
+      userId: miranda._id,
+      text: "I like this song",
+      commentsArray: [],
+      likesArray: [],
+    }
+
+    await postData.createPost(mirandaPost1);
+
 
     const user2 = {
-      id: "6XpHCSfFPWP6xDDy5h1SNowhCBm2",
-      displayName: "Mahi Sayyed",
-      email:"mahvishsyed15@gmail.com"
+      id: "ld8SZZOXptQU8FM3EpRFQraf9M42",
+      displayName: "Mahvish Syed",
+      email: "msyed6@stevens.edu" 
     };
 
-    const createdUser2 = await userData.createUser(user2);
-    console.log(createdUser2);
+    const mahvish = await userData.createUser(user2);
+    
 
     const user3 = {
       id: "J0MCtGX1bjbKfXmzTtmbMc0wq5Q2",
-      displayName: "Priya",
+      displayName: "Priya Gupta",
       email:"pgupta14@stevens.edu"
     };
 
-    const createdUser3 = await userData.createUser(user3);
-    console.log(createdUser3);
-
+    const priya = await userData.createUser(user3);
+   
     const user4 = {
       id: "MYhph0DqDPVQMNl5itMpBPtROin2",
       displayName: "Hayden Daly",
       email: "hdaly1@stevens.edu" 
     };
 
-    const createdUser4 = await userData.createUser(user4);
-    console.log(createdUser4);
-
+    const hayden = await userData.createUser(user4);
+    
     const user5 = {
-      id: "ld8SZZOXptQU8FM3EpRFQraf9M42",
-      displayName: "Mahvish Syed",
-      email: "msyed6@stevens.edu" 
+      id: "GS4WlRECQCbnTAp126LFRFxyfSG3",
+      displayName: "Kyle Gensheimer",
+      email: "kylegensheimer@gmail.com"
     };
 
-    const createdUser5 = await userData.createUser(user5);
-    console.log(createdUser5);
-
-    const allUsers = await userData.getAllUsers();
-    console.log(allUsers);
+    const kyle = await userData.createUser(user5);
+    
 
     console.log("Done seeding database");
     await db.serverConfig.close();
+  
   } catch(e){
     console.log(e);
   }
