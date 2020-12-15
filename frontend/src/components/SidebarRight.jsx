@@ -4,7 +4,6 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 import { useWindowDimensions } from '../functions/dimensions'
 import { Link } from 'react-router-dom'
-import { set } from 'mongoose'
 import { SpotifyContext } from '../functions/Spotify'
 
 const useSidebarRight = () => {
