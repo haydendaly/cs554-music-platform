@@ -8,9 +8,9 @@
     background-color: #191919;
     overflow-x: hidden;
     padding-top: 20px;
-  }
-  
-  .search {
+}
+
+.search {
     background-color: #fff;
     display: flex;
     flex-direction: row;
@@ -20,24 +20,24 @@
     margin-left: 10px;
     padding-left: 10px;
     border-radius: 10px;
-  }
-  
-  .search-input {
+}
+
+.search-input {
     font-size: 16px;
     padding: 16px;
     border: none;
     outline: none;
     width: 300px;
     background: none;
-  }
-  
-  .search-results {
+}
+
+.search-results {
     width: 100%;
     padding: 5px;
     padding-top: 15px;
-  }
+}
 
-  .sidebar-song {
+.sidebar-song {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -45,39 +45,45 @@
     color: #fff;
     height: 80px;
     padding: 10px;
-  }
+}
 
-  .sidebar-song:hover {
+.sidebar-song:hover {
     background-color: #272727;
     border-radius: 10px;
     box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.6);
     color: #ff0000;
-  }
+}
 
-  .sidebar-song-icon {
+.sidebar-song-icon {
     height: 60px;
     width: 60px;
     overflow: hidden;
-  }
+}
 
-  .sidebar-song-info {
+.sidebar-song-info {
     margin-left: 10px;
-  }
+}
 
-  .sidebar-song-title {
+.sidebar-song-title {
     font-size: 16px;
     font-weight: 600;
     margin-bottom: 0px;
-  }
+}
 
-  .sidebar-song-artist {
+.sidebar-song-artist {
     font-size: 15px;
     margin-top: 0px;
-  }
+}
 
-  .recommended-header {
+.recommended-header {
     font-size: 18px;
     font-weight: 600;
     margin-left: 10px;
     margin-bottom: 5px;
-  }
+}
+
+.recommended-no {
+    font-size: 16px;
+    margin-left: 10px;
+    margin-bottom: 5px;
+}
