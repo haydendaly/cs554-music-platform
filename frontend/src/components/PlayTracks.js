@@ -21,7 +21,7 @@ import folklore from '../img/artist-img/folklore.jpg'
 import No_Image from '../img/artist-img/No_Image.jpeg'
 import Euphoria from '../img/artist-img/Euphoria.jpg'
 import ShowErrorModal from './Modals/ShowErrorModal'
-import axios from 'axios'
+import axios from 'axios';
 import { SpotifyContext } from '../functions/Spotify'
 
 const useStyles = makeStyles({
@@ -94,28 +94,24 @@ const PlayByTracks = (props) => {
 
     const { currentUser } = useContext(AuthContext)
 
-    const [state, setState] = useState({ data: null })
 
-    useEffect(() => {
-        console.log('on load useeffect')
-        async function fetchData() {
-            try {
-                console.log(albumId)
-                const { data } = await axios.get(
-                    baseUrl +
-                        props.match.params.id +
-                        '?access_token=' +
-                        accessToken
-                )
-                setTrackData(data)
-                console.log(data)
-                setLoading(false)
-            } catch (e) {
-                console.log(e)
+        const [state, setState] = useState({ data: null});
+
+        useEffect(() => {
+            console.log('on load useeffect');
+            async function fetchData() {
+                try {
+                    console.log(albumId);
+                const { data } = await axios.get(baseUrl+props.match.params.id+'?access_token='+accessToken);
+                setTrackData(data);
+                    console.log(data)
+                    setLoading(false);}
+                 catch (e) {
+                    console.log(e);
+                }
             }
-        }
-        fetchData()
-    }, [props.match.params.id])
+            fetchData();
+        }, [props.match.params.id]);
 
     const handleOpenshareModal = (trackDetails) => {
         setShowSharePostModal(true)
@@ -127,6 +123,7 @@ const PlayByTracks = (props) => {
         setShowSharePostModal(false)
         setErrorModal(false)
     }
+
 
     const buildCard = (album) => {
         return (
@@ -192,8 +189,11 @@ const PlayByTracks = (props) => {
     }
     if (trackData) {
         console.log(trackData)
-        card = trackData && trackData
-        return buildCard(trackData)
+        card =
+        trackData &&
+        trackData  
+                return buildCard(trackData)
+            
     }
 
     if (loading) {
@@ -208,9 +208,11 @@ const PlayByTracks = (props) => {
     } else {
         return (
             <div class="main">
-                <Grid container className={classes.grid} spacing={5}>
-                    {card}
-                </Grid>
+               
+                        <Grid container className={classes.grid} spacing={5}>
+                            {card}
+                        </Grid>
+                
             </div>
         )
     }
