@@ -212,7 +212,7 @@ const PlayTracks = (props) => {
                         src={'https://open.spotify.com/embed?uri=' + artist.uri}
                         width="300"
                         height="380"
-                        frameborder="0"
+                        frameBorder="0"
                         allowtransparency="true"
                         allow="encrypted-media"
                     ></iframe>

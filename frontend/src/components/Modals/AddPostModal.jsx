@@ -160,7 +160,7 @@ function AddPostModal(props) {
                             }
                             width="300"
                             height="380"
-                            frameborder="0"
+                            frameBorder="0"
                             allowtransparency="true"
                             allow="encrypted-media"
                         ></iframe>
@@ -183,7 +183,7 @@ function AddPostModal(props) {
                                     defaultValue={props.data}
                                     rows="2"
                                     onChange={handleTextField}
-                                    autoFocus="true"
+                                    autoFocus="autoFocus"
                                 />
                             </Typography>
                         </CardContent>
@@ -197,7 +197,7 @@ function AddPostModal(props) {
                         defaultValue={props.data}
                         rows="4"
                         onChange={handleTextField}
-                        autoFocus="true"
+                        autoFocus="autoFocus"
                     />
                 )}
 

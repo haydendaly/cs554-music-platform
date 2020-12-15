@@ -138,7 +138,7 @@ const PlayListByLoveSongs = (props) => {
                         }
                         width="300"
                         height="380"
-                        frameborder="0"
+                        frameBorder="0"
                         allowtransparency="true"
                         allow="encrypted-media"
                     ></iframe>
