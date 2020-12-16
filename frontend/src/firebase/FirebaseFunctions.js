@@ -66,7 +66,7 @@ async function createUserAtBackend(user) {
     const newUser = {
         id: user.uid,
         email: user.email,
-        displayName: user.disaplayName,
+        displayName: user.displayName,
         photoUrl: user.photoUrl,
     }
     const result = await axios.post(
