@@ -49,34 +49,34 @@ const SpotifyAuth = () => {
 
     const { currentUser } = useContext(AuthContext)
 
-    const [user, setUser] = useState(null)
+    // const [user, setUser] = useState(null)
 
-    /* useEffect to obtain current user */
-    useEffect(() => {
-        setUser(null)
+    // /* useEffect to obtain current user */
+    // useEffect(() => {
+    //     setUser(null)
 
-        const getUserData = async () => {
-            try {
-                const { data } = await axios.get(
-                    `http://${window.location.hostname}:3000/api/user/${currentUser.uid}`
-                )
-                console.log(data)
-                setUser(data)
-            } catch (e) {
-                console.log(`error found : ${e}`)
-            }
-        }
-        if (currentUser) {
-            getUserData()
-        }
-    }, [currentUser])
+    //     const getUserData = async () => {
+    //         try {
+    //             const { data } = await axios.get(
+    //                 `http://${window.location.hostname}:3000/api/user/${currentUser.uid}`
+    //             )
+    //             console.log(data)
+    //             setUser(data)
+    //         } catch (e) {
+    //             console.log(`error found : ${e}`)
+    //         }
+    //     }
+    //     if (currentUser) {
+    //         getUserData()
+    //     }
+    // }, [currentUser])
 
     useEffect(() => {
         const tempLink = getLink()
         setLink(tempLink)
     }, [])
 
-    if (user) {
+    if (currentUser) {
         return (
             <div
                 style={{
@@ -87,7 +87,7 @@ const SpotifyAuth = () => {
                 }}
             >
                 <div>
-                    <h1>Welcome, {user.displayName.split(' ')[0]}!</h1>
+                    <h1>Welcome, {currentUser.displayName.split(' ')[0]}!</h1>
                     <p>
                         Connect with your Spotify account to get started.
                     </p>
