@@ -9,11 +9,10 @@ import {
     Button,
 } from '@material-ui/core'
 import SpotifyWebApi from 'spotify-web-api-js'
-import { AuthContext } from '../firebase/Auth'
-import AddPostModal from './Modals/AddPostModal'
 
-let Spotify = require('spotify-web-api-js')
-// var s = new Spotify();
+import { AuthContext } from '../firebase/Auth'
+import Loading from './Loading'
+import AddPostModal from './Modals/AddPostModal'
 
 let spotifyApi = new SpotifyWebApi()
 
@@ -138,7 +137,7 @@ const PlayListByLoveSongs = (props) => {
                         }
                         width="300"
                         height="380"
-                        frameborder="0"
+                        frameBorder="0"
                         allowtransparency="true"
                         allow="encrypted-media"
                     ></iframe>
@@ -182,11 +181,7 @@ const PlayListByLoveSongs = (props) => {
     }
 
     if (loading) {
-        return (
-            <div>
-                <h2>Loading....</h2>
-            </div>
-        )
+        return <Loading />
     } else {
         return (
             <div class="main">

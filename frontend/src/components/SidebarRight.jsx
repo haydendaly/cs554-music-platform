@@ -6,6 +6,8 @@ import { useWindowDimensions } from '../functions/dimensions'
 import { Link } from 'react-router-dom'
 import { SpotifyContext } from '../functions/Spotify'
 
+const types = ['album', 'artist', 'playlist', 'track']
+
 const useSidebarRight = () => {
     const { accessToken } = useContext(SpotifyContext)
 
@@ -14,48 +16,46 @@ const useSidebarRight = () => {
     const [recommended, setRecommended] = useState([])
     const [open, setOpen] = useState(false)
     const { width } = useWindowDimensions()
-    const [loading, setLoading] = useState(true)
     const [hasError, setHasError] = useState(null)
-    const [type, setType] = useState('album')
     const [searchType, setSearchType] = useState(null)
 
     // const url = 'http://localhost:3000/spotify-api/search?q=king%10gizzard&type=album&market=US'
-    const baseUrl = 'http://localhost:3000/spotify-api/search?q='
-    let searchData = null
+    const baseUrl = `http://${window.location.hostname}:3000/spotify-api/search?q=`
     useEffect(() => {
-        // Make request for recommended songs
-        setRecommended([
-            {
-                name: 'Maggot Brain',
-                imageURL:
-                    'https://images-na.ssl-images-amazon.com/images/I/71y5TTjtejL._SY355_.jpg',
-                id: '123456',
-            },
-        ])
+        let url =
+            `http://${window.location.hostname}:3000/spotify-api/me/top` +
+            '?type=tracks&access_token=' +
+            accessToken
+        axios
+            .get(url)
+            .then(({ data }) => {
+                if (data) {
+                    setRecommended(data.items)
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     }, [])
 
-    const useAxios = (baseUrl) => {
-        const [state, setState] = useState({ data: null })
-        useEffect(async () => {
-            console.log(search)
-            const market = 'US'
-            searchData = search.split(',')
-            // if(searchData[2]? market=searchData[2] : market )
-
-            let url =
-                baseUrl +
-                searchData[0] +
-                '&type=' +
-                searchData[1] +
-                '&market=' +
-                market +
-                '&access_token=' +
-                accessToken
-            let optQueryParams = { market: 'us' }
-
-            await axios
+    useEffect(() => {
+        const url =
+            baseUrl +
+            search
+                .toLowerCase()
+                .split(' ')
+                .filter((word) => !types.includes(word))
+                .join(' ') +
+            '&type=track,album,playlist,artist&market=US&access_token=' +
+            accessToken
+        if (search === '') {
+            setResults([])
+            setSearchType('all')
+        } else {
+            axios
                 .get(url)
                 .then(({ data }) => {
+                    console.log(data)
                     if (search.toLowerCase().includes('album')) {
                         setResults(data.albums.items)
                         setSearchType('album')
@@ -68,21 +68,24 @@ const useSidebarRight = () => {
                     } else if (search.toLowerCase().includes('track')) {
                         setResults(data.tracks.items)
                         setSearchType('track')
+                    } else {
+                        let res = data.albums.items || []
+                        res = res.concat(data.artists.items || [])
+                        res = res.concat(data.playlists.items || [])
+                        res = res.concat(data.tracks.items || [])
+                        setResults(res)
+                        setSearchType('all')
                     }
                 })
                 .catch((err) => {
                     console.log(err)
                     setHasError(err)
                 })
-        }, [search])
-
-        return state
-    }
-
-    let { songData } = useAxios(baseUrl)
+        }
+    }, [search])
 
     useEffect(() => {
-        if (width >= 1100) {
+        if (width >= 1400) {
             setOpen(false)
         }
     }, [width])
@@ -99,41 +102,70 @@ const useSidebarRight = () => {
     }
 }
 
+const Holder = ({ link, name, images, artists }) => (
+    <Link to={link} className="sidebar-song">
+        <div className="sidebar-song-icon shadow">
+            <img
+                alt={`${name}`}
+                src={
+                    images.length > 0
+                        ? images[0].url
+                        : 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/e7981d38-6ee3-496d-a6c0-8710745bdbfc/db6zlbs-68b8cd4f-bf6b-4d39-b9a7-7475cade812f.png'
+                }
+                style={{ width: '100%' }}
+            />
+        </div>
+        <div className="sidebar-song-info">
+            <p className="sidebar-song-title">
+                {name.length > 23 ? name.slice(0, 23) + '...' : name}
+            </p>
+            <p className="sidebar-song-artist">
+                {artists.length > 23 ? artists.slice(0, 23) + '...' : artists}
+            </p>
+        </div>
+    </Link>
+)
+
 const Song = (props) => {
     const { data } = props
-    const { value } = props
-    console.log(value)
-
-    if (value && value == 'album') {
+    if (data && data.type === 'album') {
         return (
-            <div className="song">
-                <Link to={`/playList/${data.id}`}>{data.name}</Link>
-            </div>
+            <Holder
+                link={`/album/${data.id}`}
+                name={data.name}
+                images={data.images}
+                artists={data.artists.map((o) => o.name).join(', ')}
+            />
         )
-    } else if (value && value == 'artist') {
+    } else if (data && data.type === 'track') {
         return (
-            <div className="song">
-                <Link to={`/playByArtist/${data.id}`}>{data.name}</Link>
-            </div>
+            <Holder
+                link={`/track/${data.id}`}
+                name={data.name}
+                images={data.album.images}
+                artists={data.artists.map((o) => o.name).join(', ')}
+            />
         )
-    } else if (value && value == 'track') {
+    } else if (data && data.type === 'playlist') {
         return (
-            <div className="song">
-                <Link to={`/playByTrack/${data.id}`}>{data.name}</Link>
-            </div>
+            <Holder
+                link={`/playlist/${data.id}`}
+                name={data.name}
+                images={data.images}
+                artists={data.owner.display_name}
+            />
         )
-    } else if (value && value == 'playlist') {
+    } else if (data && data.type === 'artist') {
         return (
-            <div className="song">
-                <Link to={`/playByPlayList/${data.id}`}>{data.name}</Link>
-            </div>
+            <Holder
+                link={`/artist/${data.id}`}
+                name={data.name}
+                images={data.images}
+                artists={'Artist'}
+            />
         )
     } else {
-        return (
-            <div className="song">
-                <Link to={`/playList/${data.id}`}>{data.name}</Link>
-            </div>
-        )
+        return null
     }
 }
 
@@ -153,15 +185,14 @@ const SideBarRight = () => {
     return (
         <div
             className="sidenav-right shadow"
-            style={width > 1100 || open ? {} : { width: 55 }}
+            style={width > 1400 || open ? {} : { width: 55 }}
         >
-            {width > 1100 || open ? (
+            {width > 1400 || open ? (
                 <div>
                     <div className="search">
                         <Icon
                             icon={faSearch}
                             color="#444"
-                            size="medium"
                             onClick={() => setOpen(false)}
                         />
                         <input
@@ -172,16 +203,27 @@ const SideBarRight = () => {
                         />
                     </div>
                     <div>
-                        {results && results.length > 0 ? (
+                        {search !== '' && results && results.length > 0 ? (
                             <div className="search-results shadow">
                                 {results.map((song) => (
-                                    <Song data={song} value={searchType} />
+                                    <Song
+                                        data={song}
+                                        key={song.id}
+                                        value={searchType}
+                                    />
                                 ))}
                             </div>
                         ) : (
-                            <div className="recommended shadow">
+                            <div className="search-results shadow">
+                                <p className="recommended-header">
+                                    Recommended For You:
+                                </p>
                                 {recommended.map((song) => (
-                                    <Song data={song} />
+                                    <Song
+                                        data={song}
+                                        key={song.id}
+                                        value="tracks"
+                                    />
                                 ))}
                             </div>
                         )}
@@ -192,7 +234,6 @@ const SideBarRight = () => {
                     <Icon
                         icon={faSearch}
                         color="#fff"
-                        size="medium"
                         style={{ marginLeft: 12 }}
                     />
                 </div>

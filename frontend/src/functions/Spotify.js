@@ -1,10 +1,12 @@
 import React, { useEffect, useState, createContext, useContext } from 'react'
-import SignIn from '../components/SignIn'
-import SignUp from '../components/SignUp'
-import SpotifyAuth from '../components/SpotifyAuth'
 import qs from 'qs'
 import _ from 'lodash'
 import axios from 'axios'
+
+import Loading from '../components/Loading'
+import SignIn from '../components/SignIn'
+import SignUp from '../components/SignUp'
+import SpotifyAuth from '../components/SpotifyAuth'
 import { AuthContext } from '../firebase/Auth'
 
 export const SpotifyContext = createContext()
@@ -164,6 +166,6 @@ export const SpotifyProvider = ({ children }) => {
             </SpotifyContext.Provider>
         )
     } else {
-        return <div>Loading....</div>
+        return <Loading />
     }
 }

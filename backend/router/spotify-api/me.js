@@ -64,4 +64,28 @@ router.get('/playlists', async (req, res) => {
     );
 });
 
+/*
+    Obtain the current user's top songs
+
+    Endpoint structure: localhost:3000/spotify-api/me/top
+*/
+router.get('/top', async (req, res) => {
+    const { access_token } = req.query
+
+    if (!access_token) return res.status(400).json({ error: 'Required query parameter \'access_token\' not provided' });
+    spotifyApi.setAccessToken(access_token);
+
+    let optQueryParams = {};
+    optQueryParams.limit = 9;
+
+    spotifyApi.getMyTopTracks(optQueryParams).then(
+        (data) => {
+            res.json(data.body);
+        },
+        (err) => {
+            res.json(err);
+        }
+    );
+});
+
 module.exports = router;

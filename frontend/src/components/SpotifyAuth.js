@@ -25,7 +25,7 @@ const getLink = () => {
         return text
     }
 
-    var state = generateRandomString(16)
+    let state = generateRandomString(16)
 
     const querystring = qs.stringify({
         client_id,
