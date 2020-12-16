@@ -198,7 +198,7 @@ const PlayMusic = () => {
 
     return (
         <div class="main">
-            <Nav variant="tabs" onSelect={handleSelect}>
+            <Nav variant="light" onSelect={handleSelect}>
                 <Nav.Item>
                     <Nav.Link eventKey="album" href="#album">
                         Album{' '}

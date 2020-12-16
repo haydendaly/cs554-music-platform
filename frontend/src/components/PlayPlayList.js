@@ -69,12 +69,9 @@ const useStyles = makeStyles({
     },
 
     buttonClass: {
-<<<<<<< HEAD
         justifyContent: 'center',
         marginBottom: '5%',
         marginTop: '5%',
-=======
-        textAlign: 'center',
     },
     h3class: {
         display: 'block',
@@ -84,7 +81,6 @@ const useStyles = makeStyles({
         marginLeft: '0',
         marginRight: '0',
         fontWeight: 'bold',
->>>>>>> master
     },
 })
 
@@ -138,10 +134,6 @@ const PlayByPlayList = (props) => {
 
     const buildCard = (album) => {
         return (
-<<<<<<< HEAD
-            <center>
-                <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={album.id}>
-=======
             <div class="main">
                 <Grid
                     className={classes.grid}
@@ -154,7 +146,7 @@ const PlayByPlayList = (props) => {
                     xl={12}
                     key={album.id}
                 >
->>>>>>> master
+
                     <Card className={classes.card} variant="outlined">
                         <CardActionArea>
                             <CardContent>
@@ -162,11 +154,7 @@ const PlayByPlayList = (props) => {
                                     className={classes.titleHead}
                                     gutterBottom
                                     variant="h6"
-<<<<<<< HEAD
-                                    component="h3"
-=======
                                     component={classes.h3class}
->>>>>>> master
                                 >
                                     <span>{album.name}</span>
                                     <br />
@@ -189,7 +177,6 @@ const PlayByPlayList = (props) => {
                             allow="encrypted-media"
                         ></iframe>
                         <div className="e-card-actions e-card-vertical">
-<<<<<<< HEAD
                             <center>
                                 <Button
                                     variant="contained"
@@ -202,18 +189,6 @@ const PlayByPlayList = (props) => {
                                     share
                                 </Button>
                             </center>
-=======
-                            <Button
-                                variant="contained"
-                                color="secondary"
-                                className={classes.buttonClass}
-                                onClick={() => {
-                                    handleOpenshareModal(album)
-                                }}
-                            >
-                                share
-                            </Button>
->>>>>>> master
                             {currentUser
                                 ? showSharePostModal && (
                                       <AddPostModal
@@ -236,11 +211,7 @@ const PlayByPlayList = (props) => {
                         </div>
                     </Card>
                 </Grid>
-<<<<<<< HEAD
-            </center>
-=======
             </div>
->>>>>>> master
         )
     }
     if (playListData) {
