@@ -15,7 +15,7 @@ import { SpotifyProvider } from '../functions/Spotify'
 
 const SignIn = lazy(() => import('../components/SignIn'))
 const SignUp = lazy(() => import('../components/SignUp'))
-const PlayByAlbum = lazy(() => import('../components/playAlbum'))
+const PlayByAlbum = lazy(() => import('../components/PlayAlbum'))
 const PlayByArtist = lazy(() => import('../components/PlayArtist'))
 const PlayByTracks = lazy(() => import('../components/PlayTracks'))
 const PlayByPlayList = lazy(() => import('../components/PlayPlayList.js'))
