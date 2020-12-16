@@ -20,7 +20,7 @@ const PlayByArtist = lazy(() => import('../components/PlayArtist'))
 const PlayByTracks = lazy(() => import('../components/PlayTracks'))
 const PlayByPlayList = lazy(() => import('../components/PlayPlayList.js'))
 const PlayListByLoveSongs = lazy(() =>
-    import('../components/playListbyLoveSongs')
+    import('../components/PlayListbyLoveSongs')
 )
 const Home = lazy(() => import('../pages/Home'))
 const PostInsert = lazy(() => import('../pages/PostInsert'))
