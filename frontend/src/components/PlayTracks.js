@@ -71,6 +71,16 @@ const useStyles = makeStyles({
         marginLeft: '5%',
         textAlign: 'center',
     },
+
+    h3class: {
+        display: 'block',
+        fontSize: '1.17em',
+        marginTop: '1em',
+        marginBottom: '1em',
+        marginLeft: '0',
+        marginRight: '0',
+        fontWeight: 'bold',
+    },
 })
 
 const PlayByTracks = (props) => {
@@ -144,7 +154,7 @@ const PlayByTracks = (props) => {
                                     className={classes.titleHead}
                                     gutterBottom
                                     variant="h6"
-                                    component="h3"
+                                    component={classes.h3class}
                                 >
                                     <span>{album.name}</span>
                                     <br />
