@@ -1,5 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import qs from 'qs'
+import axios from 'axios'
+import { AuthContext } from '../firebase/Auth'
+import Loading from './Loading'
+import SignOut from './SignOut'
 
 const getLink = () => {
     const client_id = 'd1f357b5e08e444682e89704869b769c' // Your client id
@@ -43,31 +47,69 @@ const getLink = () => {
 const SpotifyAuth = () => {
     const [link, setLink] = useState('')
 
+    const { currentUser } = useContext(AuthContext)
+
+    const [user, setUser] = useState(null)
+
+    /* useEffect to obtain current user */
+    useEffect(() => {
+        setUser(null)
+
+        const getUserData = async () => {
+            try {
+                const { data } = await axios.get(
+                    `http://${window.location.hostname}:3000/api/user/${currentUser.uid}`
+                )
+                console.log(data)
+                setUser(data)
+            } catch (e) {
+                console.log(`error found : ${e}`)
+            }
+        }
+        if (currentUser) {
+            getUserData()
+        }
+    }, [currentUser])
+
     useEffect(() => {
         const tempLink = getLink()
         setLink(tempLink)
     }, [])
 
-    return (
-        <div
-            style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}
-        >
-            <div>
-                <h1>Welcome to SongShare!</h1>
-                <p>
-                    To use this application you'll need to connect your Spotify
-                    account! Click the button below to do so :-)
-                </p>
-                <a type="button" href={link} className="btn btn-primary">
-                    Authorize Spotify
-                </a>
+    if (user) {
+        return (
+            <div
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    textAlign: 'center'
+                }}
+            >
+                <div>
+                    <h1>Welcome, {user.displayName.split(' ')[0]}!</h1>
+                    <p>
+                        Connect with your Spotify account to get started.
+                    </p>
+
+                    <a type="button" href={link} className="btn btn-success spotify-btn">
+                        <img src='/imgs/social_media_icon/Spotify.png' width='25px' height='25px'></img> Login with Spotify
+                    </a>
+
+
+                    <p>
+                        Or
+                    </p>
+
+                    <div>
+                        <SignOut />
+                    </div>
+                </div>
             </div>
-        </div>
-    )
+        )
+    } else {
+        return <Loading />
+    }
 }
 
 export default SpotifyAuth
