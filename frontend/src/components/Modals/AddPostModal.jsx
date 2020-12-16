@@ -173,8 +173,8 @@ function AddPostModal(props) {
                                 <a href={props.songData.href}>
                                     {props.songData.href}
                                 </a>
-                                <br />
-                                <br />
+                                <br/>
+                                <br/>
                                 <textarea
                                     className={classes.textFieldStyle}
                                     id="txtPost"
