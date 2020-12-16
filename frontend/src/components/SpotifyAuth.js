@@ -87,15 +87,15 @@ const SpotifyAuth = () => {
                 }}
             >
                 <div>
-                    <h1>Welcome to SongShare, {user.displayName}!</h1>
+                    <h1>Welcome, {user.displayName.split(' ')[0]}!</h1>
                     <p>
                         Connect with your Spotify account to get started.
                     </p>
-                    <div className="spotify">
-                        <a type="button" href={link} className="btn btn-success">
-                            <img src='/imgs/social_media_icon/Spotify.png' width='25px' height='25px'></img> Login with Spotify
-                        </a>
-                    </div>
+
+                    <a type="button" href={link} className="btn btn-success spotify-btn">
+                        <img src='/imgs/social_media_icon/Spotify.png' width='25px' height='25px'></img> Login with Spotify
+                    </a>
+
 
                     <p>
                         Or
