@@ -6,19 +6,10 @@ async function doCreateUserWithEmailAndPassword(email, password, displayName) {
     await firebase
         .auth()
         .currentUser.updateProfile({ displayName: displayName })
-    let user = firebase.auth().currentUser
+    const user = firebase.auth().currentUser
     // add user info to backend
-    const newUser = {
-        id: user.uid,
-        email: user.email,
-        displayName: user.displayName,
-        photoUrl: user.photoURL,
-    }
     try {
-        await axios.post(
-            `http://${window.location.hostname}:3000/api/user/create`,
-            newUser
-        )
+        await createUserAtBackend(user)
     } catch (e) {
         console.log(e)
     }
@@ -42,17 +33,8 @@ async function doSignInWithEmailAndPassword(email, password) {
     )
     // add user to backend if information doesn't exist
     if (!data.includes(user.uid)) {
-        const newUser = {
-            id: user.uid,
-            email: user.email,
-            displayName: user.displayName,
-            photoUrl: user.photoURL,
-        }
         try {
-            await axios.post(
-                `http://${window.location.hostname}:3000/api/user/create`,
-                newUser
-            )
+            await createUserAtBackend(user)
         } catch (e) {
             console.log(e)
         }
@@ -72,21 +54,26 @@ async function doSocialSignIn(provider) {
         `http://${window.location.hostname}:3000/api/user/ids`
     )
     if (!data.includes(user.uid)) {
-        const newUser = {
-            id: user.uid,
-            email: user.email,
-            displayName: user.displayName,
-            photoUrl: user.photoURL,
-        }
         try {
-            await axios.post(
-                `http://${window.location.hostname}:3000/api/user/create`,
-                newUser
-            )
+            await createUserAtBackend(user)
         } catch (e) {
             console.log(e)
         }
     }
+}
+
+async function createUserAtBackend(user) {
+    const newUser = {
+        id: user.uid,
+        email: user.email,
+        displayName: user.disaplayName,
+        photoUrl: user.photoUrl,
+    }
+    const result = await axios.post(
+        `http://${window.location.hostname}:3000/api/user/create`,
+        newUser
+    )
+    return result
 }
 
 async function doPasswordReset(email) {
