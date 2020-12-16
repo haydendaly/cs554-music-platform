@@ -195,8 +195,12 @@ const SideBarRight = () => {
                             color="#444"
                             onClick={() => setOpen(false)}
                         />
+
                         <input
+                            id="seachInput"
                             className="search-input"
+                            aria-labelledby="searchLabel"
+                            type="text"
                             placeholder="Search"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}

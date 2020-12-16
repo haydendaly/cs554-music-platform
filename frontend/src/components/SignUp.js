@@ -53,9 +53,13 @@ function SignUp() {
                 {error && <p className="error">{error}</p>}
                 <form onSubmit={handleSignUp}>
                     <div className="form-group row">
-                        <label className="col-sm-2 col-form-label">Name</label>
+                        <label
+                            className="col-sm-2 col-form-label"
+                            htmlFor="displayName"
+                        >
+                            Name
+                        </label>
                         <div className="col-sm-10">
-                            <label htmlFor="displayName" />
                             <input
                                 className="form-control"
                                 required
@@ -67,9 +71,13 @@ function SignUp() {
                         </div>
                     </div>
                     <div className="form-group row">
-                        <label className="col-sm-2 col-form-label">Email</label>
+                        <label
+                            className="col-sm-2 col-form-label"
+                            htmlFor="email-signup"
+                        >
+                            Email
+                        </label>
                         <div className="col-sm-10">
-                            <label htmlFor="email-signup" />
                             <input
                                 className="form-control"
                                 required
@@ -81,11 +89,13 @@ function SignUp() {
                         </div>
                     </div>
                     <div className="form-group row">
-                        <label className="col-sm-2 col-form-label">
+                        <label
+                            className="col-sm-2 col-form-label"
+                            htmlFor="passwordOne"
+                        >
                             Password
                         </label>
                         <div className="col-sm-10">
-                            <label htmlFor="passwordOne" />
                             <input
                                 className="form-control"
                                 id="passwordOne"
@@ -97,11 +107,13 @@ function SignUp() {
                         </div>
                     </div>
                     <div className="form-group row">
-                        <label className="col-sm-2 col-form-label">
+                        <label
+                            className="col-sm-2 col-form-label"
+                            htmlFor="passwordTwo"
+                        >
                             Confirm Password
                         </label>
                         <div className="col-sm-10">
-                            <label htmlFor="passwordTwo" />
                             <input
                                 className="form-control"
                                 name="passwordTwo"

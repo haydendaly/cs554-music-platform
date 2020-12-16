@@ -39,8 +39,10 @@ const useStyles = makeStyles({
         Color: 'black !important',
     },
     grid: {
+        marginTop: '2%',
         flexGrow: 1,
         flexDirection: 'row',
+        textAlign: 'center',
     },
     modal: {
         top: '50%',
@@ -70,6 +72,16 @@ const useStyles = makeStyles({
         justifyContent: 'center',
         marginBottom: '5%',
         marginTop: '5%',
+    },
+
+    h3class: {
+        display: 'block',
+        fontSize: '1.17em',
+        marginTop: '1em',
+        marginBottom: '1em',
+        marginLeft: '0',
+        marginRight: '0',
+        fontWeight: 'bold',
     },
 })
 
@@ -125,8 +137,18 @@ const PlayByTracks = (props) => {
 
     const buildCard = (album) => {
         return (
-            <center>
-                <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={album.id}>
+            <div class="main">
+                <Grid
+                    className={classes.grid}
+                    spacing={5}
+                    item
+                    xs={12}
+                    sm={12}
+                    md={12}
+                    lg={12}
+                    xl={12}
+                    key={album.id}
+                >
                     <Card className={classes.card} variant="outlined">
                         <CardActionArea>
                             <CardContent>
@@ -134,7 +156,7 @@ const PlayByTracks = (props) => {
                                     className={classes.titleHead}
                                     gutterBottom
                                     variant="h6"
-                                    component="h3"
+                                    component={classes.h3class}
                                 >
                                     <span>{album.name}</span>
                                     <br />
@@ -189,7 +211,7 @@ const PlayByTracks = (props) => {
                         </div>
                     </Card>
                 </Grid>
-            </center>
+            </div>
         )
     }
     if (trackData) {

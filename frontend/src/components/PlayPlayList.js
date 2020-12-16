@@ -39,8 +39,10 @@ const useStyles = makeStyles({
         Color: 'black !important',
     },
     grid: {
+        marginTop: '2%',
         flexGrow: 1,
         flexDirection: 'row',
+        textAlign: 'center',
     },
     modal: {
         top: '50%',
@@ -67,9 +69,22 @@ const useStyles = makeStyles({
     },
 
     buttonClass: {
+<<<<<<< HEAD
         justifyContent: 'center',
         marginBottom: '5%',
         marginTop: '5%',
+=======
+        textAlign: 'center',
+    },
+    h3class: {
+        display: 'block',
+        fontSize: '1.17em',
+        marginTop: '1em',
+        marginBottom: '1em',
+        marginLeft: '0',
+        marginRight: '0',
+        fontWeight: 'bold',
+>>>>>>> master
     },
 })
 
@@ -123,8 +138,23 @@ const PlayByPlayList = (props) => {
 
     const buildCard = (album) => {
         return (
+<<<<<<< HEAD
             <center>
                 <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={album.id}>
+=======
+            <div class="main">
+                <Grid
+                    className={classes.grid}
+                    spacing={5}
+                    item
+                    xs={12}
+                    sm={12}
+                    md={12}
+                    lg={12}
+                    xl={12}
+                    key={album.id}
+                >
+>>>>>>> master
                     <Card className={classes.card} variant="outlined">
                         <CardActionArea>
                             <CardContent>
@@ -132,7 +162,11 @@ const PlayByPlayList = (props) => {
                                     className={classes.titleHead}
                                     gutterBottom
                                     variant="h6"
+<<<<<<< HEAD
                                     component="h3"
+=======
+                                    component={classes.h3class}
+>>>>>>> master
                                 >
                                     <span>{album.name}</span>
                                     <br />
@@ -155,6 +189,7 @@ const PlayByPlayList = (props) => {
                             allow="encrypted-media"
                         ></iframe>
                         <div className="e-card-actions e-card-vertical">
+<<<<<<< HEAD
                             <center>
                                 <Button
                                     variant="contained"
@@ -167,6 +202,18 @@ const PlayByPlayList = (props) => {
                                     share
                                 </Button>
                             </center>
+=======
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                className={classes.buttonClass}
+                                onClick={() => {
+                                    handleOpenshareModal(album)
+                                }}
+                            >
+                                share
+                            </Button>
+>>>>>>> master
                             {currentUser
                                 ? showSharePostModal && (
                                       <AddPostModal
@@ -189,7 +236,11 @@ const PlayByPlayList = (props) => {
                         </div>
                     </Card>
                 </Grid>
+<<<<<<< HEAD
             </center>
+=======
+            </div>
+>>>>>>> master
         )
     }
     if (playListData) {

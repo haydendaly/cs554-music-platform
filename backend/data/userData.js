@@ -1,5 +1,6 @@
 const dbCollections = require("../config/collection");
 const usersCollection= dbCollections.users;
+const postCollection = dbCollections.post;
 const validator = require("./validator");
 
 async function getAllUsers() {
@@ -76,9 +77,14 @@ async function updateUser(userId, updatedUserData) {
   }
 
   let users = await usersCollection();
+  const oldUser = await this.getUserById(userId);
   let updatedUser = await users.updateOne({ _id: userId }, { $set: updatedUserData });
   if (!updatedUser.modifiedCount && !updatedUser.matchedCount) {
     throw `Error : Unable to update user with id : ${id} into database`;
+  }
+
+  if(updatedUserData.displayName && updatedUserData.displayName !== oldUser.displayName){
+    await this.updateUserDisplayNameInPost(userId, updatedUserData.displayName);
   }
 
   return await this.getUserById(userId);
@@ -98,6 +104,17 @@ async function deleteUser(id) {
   return true;
 }
 
+async function updateUserDisplayNameInPost(userId, displayName) {
+  const postObj = await postCollection();
+
+  // update display name for each post that corresponds to the userId
+  await postObj.updateMany({"userId": userId}, { $set: {"displayName": displayName}});
+  // update display name for each comment that corresponds to the userId
+  await postObj.updateMany({"commentsArray.userId": userId}, { $set: {"commentsArray.$.displayName": displayName}});
+  
+  return true;
+}
+
 module.exports = {
   getAllUsers,
   getAllUserIds,
@@ -105,4 +122,5 @@ module.exports = {
   createUser,
   updateUser,
   deleteUser,
+  updateUserDisplayNameInPost
 };
