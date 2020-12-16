@@ -41,9 +41,13 @@ function SignIn() {
                 <h1>Log In To Your Account</h1>
                 <form onSubmit={handleLogin}>
                     <div className="form-group row">
-                        <label className="col-sm-2 col-form-label">Email</label>
+                        <label
+                            className="col-sm-2 col-form-label"
+                            htmlfor="email"
+                        >
+                            Email
+                        </label>
                         <div className="col-sm-10">
-                            <label htmlFor="email" />
                             <input
                                 className="form-control"
                                 name="email"
@@ -55,11 +59,13 @@ function SignIn() {
                         </div>
                     </div>
                     <div className="form-group row">
-                        <label className="col-sm-2 col-form-label">
+                        <label
+                            className="col-sm-2 col-form-label"
+                            htmlFor="password"
+                        >
                             Password
                         </label>
                         <div className="col-sm-10">
-                            <label htmlFor="password" />
                             <input
                                 className="form-control"
                                 name="password"

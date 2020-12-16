@@ -7,6 +7,7 @@ import Loading from '../components/Loading'
 import SignIn from '../components/SignIn'
 import SignUp from '../components/SignUp'
 import SpotifyAuth from '../components/SpotifyAuth'
+import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
 import { AuthContext } from '../firebase/Auth'
 
 export const SpotifyContext = createContext()
@@ -145,8 +146,35 @@ export const SpotifyProvider = ({ children }) => {
     if (!currentUser) {
         return (
             <div>
-                <SignIn />
-                <SignUp />
+                <Router>
+                    <nav className="navigation">
+                        <ul>
+                            <li>
+                                <NavLink
+                                    exact
+                                    to="/signin"
+                                    activeClassName="active"
+                                >
+                                    Sign In
+                                </NavLink>
+                            </li>
+
+                            <li>
+                                <NavLink
+                                    exact
+                                    to="/signup"
+                                    activeClassName="active"
+                                >
+                                    Sign Up
+                                </NavLink>
+                            </li>
+                        </ul>
+                    </nav>
+
+                    <Route path="/signin" exact component={SignIn} />
+                    <Route path="/signup" exact component={SignUp} />
+                    <Route path="/" exact component={SignIn} />
+                </Router>
             </div>
         )
     } else if (
