@@ -28,7 +28,6 @@ const PostInsert = lazy(() => import('../pages/PostInsert'))
 const UserProfile = lazy(() => import('../pages/UserProfile'))
 const ChangePassword = lazy(() => import('../components/ChangePassword'))
 
-
 function App() {
     return (
         <AuthProvider>
@@ -42,11 +41,7 @@ function App() {
                             <Route path="/posts" exact component={PostInsert} />
                             <Route path="/signin" component={SignIn} />
                             <Route path="/signup" component={SignUp} />
-                            <Route
-                                path="/music"
-                                exact
-                                component={PlayMusic}
-                            />
+                            <Route path="/music" exact component={PlayMusic} />
                             <Route
                                 path="/album/:id"
                                 exact

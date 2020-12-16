@@ -218,13 +218,21 @@ const SideBarRight = () => {
                                 <p className="recommended-header">
                                     Recommended For You:
                                 </p>
-                                {recommended && recommended.length > 0 ? recommended.map((song) => (
-                                    <Song
-                                        data={song}
-                                        key={song.id}
-                                        value="tracks"
-                                    />
-                                )) : <p className="recommended-no"> Please login with Spotify account to get recommedations</p>}
+                                {recommended && recommended.length > 0 ? (
+                                    recommended.map((song) => (
+                                        <Song
+                                            data={song}
+                                            key={song.id}
+                                            value="tracks"
+                                        />
+                                    ))
+                                ) : (
+                                    <p className="recommended-no">
+                                        {' '}
+                                        Please login with Spotify account to get
+                                        recommedations
+                                    </p>
+                                )}
                             </div>
                         )}
                     </div>

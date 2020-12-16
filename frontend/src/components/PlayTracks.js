@@ -23,7 +23,7 @@ const useStyles = makeStyles({
         marginTop: '12px',
     },
     card: {
-        marginTop: "10%",
+        marginTop: '10%',
         maxWidth: 350,
         height: 'auto',
         marginLeft: 'auto',
@@ -68,8 +68,8 @@ const useStyles = makeStyles({
 
     buttonClass: {
         justifyContent: 'center',
-        marginBottom : '5%',
-        marginTop: '5%'
+        marginBottom: '5%',
+        marginTop: '5%',
     },
 })
 
@@ -126,64 +126,69 @@ const PlayByTracks = (props) => {
     const buildCard = (album) => {
         return (
             <center>
-            <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={album.id}>
-                <Card className={classes.card} variant="outlined">
-                    <CardActionArea>
-                        <CardContent>
-                            <Typography
-                                className={classes.titleHead}
-                                gutterBottom
-                                variant="h6"
-                                component="h3"
+                <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={album.id}>
+                    <Card className={classes.card} variant="outlined">
+                        <CardActionArea>
+                            <CardContent>
+                                <Typography
+                                    className={classes.titleHead}
+                                    gutterBottom
+                                    variant="h6"
+                                    component="h3"
+                                >
+                                    <span>{album.name}</span>
+                                    <br />
+                                    <span>
+                                        Track Number: {album.track_number}
+                                    </span>
+                                </Typography>
+                            </CardContent>
+                        </CardActionArea>
+                        <iframe
+                            id="playSong"
+                            src={
+                                'https://open.spotify.com/embed?uri=' +
+                                album.uri
+                            }
+                            width="300"
+                            height="380"
+                            frameBorder="0"
+                            allowtransparency="true"
+                            allow="encrypted-media"
+                        ></iframe>
+                        <div className="e-card-actions e-card-vertical">
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                className={classes.buttonClass}
+                                onClick={() => {
+                                    handleOpenshareModal(album)
+                                }}
                             >
-                                <span>{album.name}</span>
-                                <br />
-                                <span>Track Number: {album.track_number}</span>
-                            </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                    <iframe
-                        id="playSong"
-                        src={'https://open.spotify.com/embed?uri=' + album.uri}
-                        width="300"
-                        height="380"
-                        frameBorder="0"
-                        allowtransparency="true"
-                        allow="encrypted-media"
-                    ></iframe>
-                    <div className="e-card-actions e-card-vertical">
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            className={classes.buttonClass}
-                            onClick={() => {
-                                handleOpenshareModal(album)
-                            }}
-                        >
-                            share
-                        </Button>
-                        {currentUser
-                            ? showSharePostModal && (
-                                  <AddPostModal
-                                      isOpen={showSharePostModal}
-                                      handleClose={handleCloseModals}
-                                      title={'Share Post'}
-                                      data={null}
-                                      currentUser={currentUser.uid}
-                                      songData={sharePost}
-                                      postId={null}
-                                  />
-                              )
-                            : errorModal && (
-                                  <ShowErrorModal
-                                      isOpen={errorModal}
-                                      handleClose={handleCloseModals}
-                                      title={'Login Error'}
-                                  />
-                              )}
-                    </div>
-                </Card>
-            </Grid>
+                                share
+                            </Button>
+                            {currentUser
+                                ? showSharePostModal && (
+                                      <AddPostModal
+                                          isOpen={showSharePostModal}
+                                          handleClose={handleCloseModals}
+                                          title={'Share Post'}
+                                          data={null}
+                                          currentUser={currentUser.uid}
+                                          songData={sharePost}
+                                          postId={null}
+                                      />
+                                  )
+                                : errorModal && (
+                                      <ShowErrorModal
+                                          isOpen={errorModal}
+                                          handleClose={handleCloseModals}
+                                          title={'Login Error'}
+                                      />
+                                  )}
+                        </div>
+                    </Card>
+                </Grid>
             </center>
         )
     }

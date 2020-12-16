@@ -66,9 +66,7 @@ const SideBar = () => {
                     className="menu-row"
                     aria-label="music"
                     style={
-                        location.pathname === '/music'
-                            ? { color: '#fff' }
-                            : {}
+                        location.pathname === '/music' ? { color: '#fff' } : {}
                     }
                 >
                     <Icon icon={faMusic} className="menu-icon" />
