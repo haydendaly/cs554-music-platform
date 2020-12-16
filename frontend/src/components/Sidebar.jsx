@@ -62,43 +62,15 @@ const SideBar = () => {
                     {width > 1400 && 'User Profile'}
                 </Link>
                 <Link
-                    to="/playList"
+                    to="/music"
                     className="menu-row"
-                    aria-label="Play By Album"
+                    aria-label="music"
                     style={
-                        location.pathname === '/playList'
-                            ? { color: '#fff' }
-                            : {}
+                        location.pathname === '/music' ? { color: '#fff' } : {}
                     }
                 >
-                    <Icon icon={faList} className="menu-icon" />
-                    {width > 1400 && 'Play By Album'}
-                </Link>
-                <Link
-                    to="/searchTracks"
-                    className="menu-row"
-                    aria-label="Search Tracks"
-                    style={
-                        location.pathname === '/searchTracks'
-                            ? { color: '#fff' }
-                            : {}
-                    }
-                >
-                    <Icon icon={faSearch} className="menu-icon" />
-                    {width > 1400 && 'Search Tracks'}
-                </Link>
-                <Link
-                    to="/artistPlayList"
-                    className="menu-row"
-                    aria-label="Play By Artist"
-                    style={
-                        location.pathname === '/artistPlaylist'
-                            ? { color: '#fff' }
-                            : {}
-                    }
-                >
-                    <Icon icon={faSearch} className="menu-icon" />
-                    {width > 1400 && 'Play By Artist'}
+                    <Icon icon={faMusic} className="menu-icon" />
+                    {width > 1400 && 'Music'}
                 </Link>
                 <Link
                     to="#"

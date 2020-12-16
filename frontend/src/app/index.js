@@ -12,6 +12,7 @@ import Sidebar from '../components/Sidebar'
 import SidebarRight from '../components/SidebarRight'
 import Loading from '../components/Loading'
 import { SpotifyProvider } from '../functions/Spotify'
+import PlayMusic from '../components/PlayMusic'
 
 const SignIn = lazy(() => import('../components/SignIn'))
 const SignUp = lazy(() => import('../components/SignUp'))
@@ -40,6 +41,7 @@ function App() {
                             <Route path="/posts" exact component={PostInsert} />
                             <Route path="/signin" component={SignIn} />
                             <Route path="/signup" component={SignUp} />
+                            <Route path="/music" exact component={PlayMusic} />
                             <Route
                                 path="/album/:id"
                                 exact
@@ -59,11 +61,6 @@ function App() {
                                 path="/playlist/:id"
                                 exact
                                 component={PlayByPlayList}
-                            />
-                            <Route
-                                path="/playListbyLove"
-                                exact
-                                component={PlayListByLoveSongs}
                             />
                             <Route
                                 path="/profile/edit"

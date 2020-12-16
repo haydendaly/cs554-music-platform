@@ -23,6 +23,7 @@ const useStyles = makeStyles({
         marginTop: '12px',
     },
     card: {
+        marginTop: '10%',
         maxWidth: 350,
         height: 'auto',
         marginLeft: 'auto',
@@ -68,7 +69,9 @@ const useStyles = makeStyles({
     },
 
     buttonClass: {
-        textAlign: 'center',
+        justifyContent: 'center',
+        marginBottom: '5%',
+        marginTop: '5%',
     },
     h3class: {
         display: 'block',
@@ -143,6 +146,7 @@ const PlayByPlayList = (props) => {
                     xl={12}
                     key={album.id}
                 >
+
                     <Card className={classes.card} variant="outlined">
                         <CardActionArea>
                             <CardContent>
@@ -173,16 +177,18 @@ const PlayByPlayList = (props) => {
                             allow="encrypted-media"
                         ></iframe>
                         <div className="e-card-actions e-card-vertical">
-                            <Button
-                                variant="contained"
-                                color="secondary"
-                                className={classes.buttonClass}
-                                onClick={() => {
-                                    handleOpenshareModal(album)
-                                }}
-                            >
-                                share
-                            </Button>
+                            <center>
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    className={classes.buttonClass}
+                                    onClick={() => {
+                                        handleOpenshareModal(album)
+                                    }}
+                                >
+                                    share
+                                </Button>
+                            </center>
                             {currentUser
                                 ? showSharePostModal && (
                                       <AddPostModal
