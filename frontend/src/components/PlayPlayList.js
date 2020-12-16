@@ -23,6 +23,7 @@ const useStyles = makeStyles({
         marginTop: '12px',
     },
     card: {
+        marginTop: "10%",
         maxWidth: 350,
         height: 'auto',
         marginLeft: 'auto',
