@@ -68,6 +68,15 @@ const useStyles = makeStyles({
     buttonClass: {
         marginLeft: '40%',
     },
+    h3class: {
+        display: 'block',
+        fontSize: '1.17em',
+        marginTop: '1em',
+        marginBottom: '1em',
+        marginLeft: '0',
+        marginRight: '0',
+        fontWeight: 'bold',
+    },
 })
 
 const PlayAlbum = (props) => {
@@ -130,7 +139,7 @@ const PlayAlbum = (props) => {
                                 className={classes.titleHead}
                                 gutterBottom
                                 variant="h6"
-                                component="h3"
+                                component={classes.h3class}
                             >
                                 <span>{album.name}</span>
                                 <br />
