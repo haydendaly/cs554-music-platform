@@ -25,6 +25,7 @@ const useStyles = makeStyles({
         marginTop: '12px',
     },
     card: {
+        marginTop: '10%',
         maxWidth: 350,
         height: 'auto',
         marginLeft: 'auto',
@@ -70,8 +71,9 @@ const useStyles = makeStyles({
     },
 
     buttonClass: {
-        marginLeft: '5%',
-        textAlign: 'center',
+        justifyContent: 'center',
+        marginBottom: '5%',
+        marginTop: '5%',
     },
 
     h3class: {

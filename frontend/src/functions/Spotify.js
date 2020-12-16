@@ -179,8 +179,7 @@ export const SpotifyProvider = ({ children }) => {
         )
     } else if (
         !loadingSpotifyAuthCheck &&
-        !isSpotifyAuthed &&
-        refreshToken === ''
+        !isSpotifyAuthed
     ) {
         return <SpotifyAuth setAccessToken={setAccessToken} />
     } else if (
