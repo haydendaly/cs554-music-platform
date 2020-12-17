@@ -57,8 +57,6 @@ const usePlayMusic = () => {
 
     useEffect(() => {
         const value = search === '' ? 'A' : search
-        console.log(`searchtype = ${searchType}`)
-
         const url =
             baseUrl +
             value
@@ -184,7 +182,7 @@ const PlayMusic = () => {
     }
 
     return (
-        <div class="main">
+        <div className="main">
             <div
                 className="search"
                 style={{ width: '100%', marginTop: 30, marginBottom: 10 }}
@@ -229,7 +227,7 @@ const PlayMusic = () => {
                 </div>
             </div>
             {results && results.length > 0 ? (
-                <div class="main">
+                <div className="main">
                     {results.map((song) => (
                         <Grid container className={classes.grid} spacing={5}>
                             {buildCard(song)}

@@ -114,6 +114,7 @@ const PlayByTracks = (props) => {
                 setLoading(false)
             } catch (e) {
                 console.log(e)
+                setHasError(e)
             }
         }
         fetchData()
@@ -132,10 +133,9 @@ const PlayByTracks = (props) => {
 
     const buildCard = (album) => {
         return (
-            <div class="main">
+            <div className="main">
                 <Grid
                     className={classes.grid}
-                    spacing={5}
                     item
                     xs={12}
                     sm={12}

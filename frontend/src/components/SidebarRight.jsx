@@ -35,6 +35,7 @@ const useSidebarRight = () => {
             })
             .catch((err) => {
                 console.log(err)
+                setHasError(err)
             })
     }, [])
 
@@ -55,7 +56,6 @@ const useSidebarRight = () => {
             axios
                 .get(url)
                 .then(({ data }) => {
-                    console.log(data)
                     if (search.toLowerCase().includes('album')) {
                         setResults(data.albums.items)
                         setSearchType('album')

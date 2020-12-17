@@ -99,7 +99,6 @@ const PlayByPlayList = (props) => {
     const { currentUser } = useContext(AuthContext)
 
     useEffect(() => {
-        console.log('on load useeffect')
         async function fetchData() {
             try {
                 const { data } = await axios.get(
@@ -112,6 +111,7 @@ const PlayByPlayList = (props) => {
                 setLoading(false)
             } catch (e) {
                 console.log(e)
+                setHasError(e)
             }
         }
         fetchData()
@@ -130,10 +130,9 @@ const PlayByPlayList = (props) => {
 
     const buildCard = (album) => {
         return (
-            <div class="main">
+            <div className="main">
                 <Grid
                     className={classes.grid}
-                    spacing={5}
                     item
                     xs={12}
                     sm={12}
@@ -197,7 +196,6 @@ const PlayByPlayList = (props) => {
         )
     }
     if (playListData) {
-        console.log(playListData)
         card = playListData && playListData
         return buildCard(playListData)
     }
