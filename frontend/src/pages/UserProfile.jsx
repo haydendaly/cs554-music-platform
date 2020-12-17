@@ -236,10 +236,13 @@ function UserProfile(props) {
                                 />
                             </div>
                             <div className="img-upload">
+                                <label htmlFor="profile-photo" hidden>Photo</label>
                                 <input
                                     type="file"
+                                    accept="image/*"
                                     onChange={fileSelectHandler}
                                     className="input-file"
+                                    id="profile-photo"
                                 />
                                 <br />
                                 <button
