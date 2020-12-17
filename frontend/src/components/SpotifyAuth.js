@@ -46,17 +46,15 @@ const getLink = () => {
 
 const SpotifyAuth = () => {
     const [link, setLink] = useState('')
-
     const { currentUser } = useContext(AuthContext)
-
     const [user, setUser] = useState(null)
-
+    const [count, setCount] = useState(0)
     /* useEffect to obtain current user */
     useEffect(() => {
-        setUser(null)
-
+        console.log('useEffect fired in SpotifyAuth')
         const getUserData = async () => {
             try {
+                console.log(`get user data from DB`)
                 const { data } = await axios.get(
                     `http://${window.location.hostname}:3000/api/user/${currentUser.uid}`
                 )
@@ -64,12 +62,13 @@ const SpotifyAuth = () => {
                 setUser(data)
             } catch (e) {
                 console.log(`error found : ${e}`)
+                setCount(count + 1)
             }
         }
         if (currentUser) {
             getUserData()
         }
-    }, [currentUser])
+    }, [currentUser, count])
 
     useEffect(() => {
         const tempLink = getLink()

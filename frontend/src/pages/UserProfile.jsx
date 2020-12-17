@@ -55,12 +55,10 @@ function UserProfile(props) {
         const name = displayName.value
 
         const isValidName =
-            /^[A-Za-z .']+$/i.test(name) && /^[A-Za-z]/i.test(name)
+            name && typeof name === 'string' && name.trim().length > 0
 
         if (!isValidName) {
-            setError(
-                'Name need to start with letter and cannot contain special characters (space and . are allowed)'
-            )
+            setError('Name is empty')
             return false
         }
 
