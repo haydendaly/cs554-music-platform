@@ -208,7 +208,7 @@ const SideBarRight = () => {
                     </div>
                     <div>
                         {search !== '' && results && results.length > 0 ? (
-                            <div className="search-results shadow">
+                            <div className="search-results">
                                 {results.map((song) => (
                                     <Song
                                         data={song}
@@ -218,7 +218,7 @@ const SideBarRight = () => {
                                 ))}
                             </div>
                         ) : (
-                            <div className="search-results shadow">
+                            <div className="search-results">
                                 <p className="recommended-header">
                                     Recommended For You:
                                 </p>

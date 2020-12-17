@@ -9,6 +9,7 @@ import Nav from 'react-bootstrap/Nav'
 import { AuthContext } from '../firebase/Auth'
 import AddPostModal from './Modals/AddPostModal'
 import ShowErrorModal from './Modals/ShowErrorModal'
+import Loading from '../components/Loading'
 
 import {
     Card,
@@ -24,17 +25,22 @@ const types = ['album', 'artist', 'playlist', 'track']
 
 const useStyles = makeStyles({
     card: {
-        marginBottom: '5%',
-        width: '100%',
-        height: '100%',
-        borderRadius: 5,
-        border: '1px solid #1e8678',
+        background: '#191919',
+        marginTop: '10%',
+        maxWidth: 350,
+        padding: 30,
+        paddingBottom: 10,
+        height: 'auto',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        borderRadius: 30,
+        overflow: 'hidden',
         boxShadow:
             '0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);',
     },
     titleHead: {
         fontWeight: 'bold',
-        Color: 'black !important',
+        color: 'white !important',
     },
     grid: {
         flexGrow: 1,
@@ -42,14 +48,14 @@ const useStyles = makeStyles({
     },
 })
 
-const UsePlayMusic = () => {
+const usePlayMusic = () => {
     const { accessToken } = useContext(SpotifyContext)
     const classes = useStyles()
     const [search, setSearch] = useState('')
     const [results, setResults] = useState([])
     const { width } = useWindowDimensions()
     const [hasError, setHasError] = useState(null)
-    const [searchType, setSearchType] = useState(null)
+    const [searchType, setSearchType] = useState("track")
 
     const baseUrl = `http://${window.location.hostname}:3000/spotify-api/search?q=`
 
@@ -70,7 +76,6 @@ const UsePlayMusic = () => {
         axios
             .get(url)
             .then(({ data }) => {
-                console.log(data)
                 if (searchType === 'album') {
                     setResults(data.albums.items)
                 } else if (searchType === 'artist') {
@@ -110,20 +115,16 @@ const PlayMusic = () => {
         search,
         setSearch,
         results,
+        searchType,
         setSearchType,
         classes,
-    } = UsePlayMusic()
+    } = usePlayMusic()
     const [sharePost, setSharePost] = useState(null)
     const [showSharePostModal, setShowSharePostModal] = useState(null)
     const [errorModal, setErrorModal] = useState(false)
     const { currentUser } = useContext(AuthContext)
 
-    const handleSelect = (eventKey) => {
-        setSearchType(eventKey)
-    }
-
     const handleOpenshareModal = (album) => {
-        console.log(album)
         setShowSharePostModal(true)
         setSharePost(album)
         setErrorModal(true)
@@ -140,27 +141,9 @@ const PlayMusic = () => {
                 <CardActionArea>
                     <CardContent>
                         <Grid container justify="space-between">
-                            <Typography
-                                inline
-                                variant="body1"
-                                align="left"
-                                class={classes.titleHead}
-                            >
+                            <div className={classes.titleHead}>
                                 <span>{album.name}</span>
-                                <br />
-                                <span>Track Number: {album.track_number}</span>
-                            </Typography>
-                            <Typography inline variant="body1" align="right">
-                                <Button
-                                    variant="contained"
-                                    color="secondary"
-                                    onClick={() => {
-                                        handleOpenshareModal(album)
-                                    }}
-                                >
-                                    share
-                                </Button>
-                            </Typography>
+                            </div>
                         </Grid>
                     </CardContent>
                 </CardActionArea>
@@ -172,7 +155,15 @@ const PlayMusic = () => {
                     frameBorder="0"
                     allowtransparency="true"
                     allow="encrypted-media"
-                ></iframe>
+                />
+                <div
+                    onClick={() => {
+                        handleOpenshareModal(album)
+                    }}
+                    className="share-button shadow"
+                >
+                    Share
+                </div>
                 {currentUser
                     ? showSharePostModal && (
                           <AddPostModal
@@ -198,42 +189,30 @@ const PlayMusic = () => {
 
     return (
         <div class="main">
-            <Nav variant="light" onSelect={handleSelect}>
-                <Nav.Item>
-                    <Nav.Link eventKey="album" href="#album">
-                        Album{' '}
-                    </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link eventKey="artist" href="#artist">
-                        Artist{' '}
-                    </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link eventKey="track" href="#track">
-                        Track{' '}
-                    </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link eventKey="playlist" href="#playlist">
-                        {' '}
-                        Playlist{' '}
-                    </Nav.Link>
-                </Nav.Item>
-            </Nav>
-
-            <div className="search" style={{ width: '90%' }}>
+            <div className="search" style={{ width: '100%', marginTop: 30, marginBottom: 10 }}>
                 <Icon icon={faSearch} color="#444" />
                 <input
                     className="search-input"
                     placeholder="Search"
                     value={search}
+                    style={{ width: "100%" }}
                     onChange={(e) => setSearch(e.target.value)}
                 />
             </div>
-
-            <br />
-
+            <div className="select-type-header">
+                <div className="select-type-header-component shadow" style={searchType === "track" ? { color: "white" } : {}} onClick={() => setSearchType("track")}>
+                    Track
+                </div>
+                <div className="select-type-header-component shadow" style={searchType === "artist" ? { color: "white" } : {}} onClick={() => setSearchType("artist")}>
+                    Artist
+                </div>
+                <div className="select-type-header-component shadow" style={searchType === "album" ? { color: "white" } : {}} onClick={() => setSearchType("album")}>
+                    Album
+                </div>
+                <div className="select-type-header-component shadow" style={searchType === "playlist" ? { color: "white" } : {}} onClick={() => setSearchType("playlist")}>
+                    Playlist
+                </div>
+            </div>
             {results && results.length > 0 ? (
                 <div class="main">
                     {results.map((song) => (
@@ -244,9 +223,11 @@ const PlayMusic = () => {
                 </div>
             ) : (
                 <div>
-                    <p> Currently no songs available </p>
+                    <Loading/>
+                    {/* <p> Currently no songs available </p> */}
                 </div>
             )}
+
         </div>
     )
 }

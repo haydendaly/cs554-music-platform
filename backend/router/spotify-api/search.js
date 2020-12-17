@@ -9,6 +9,14 @@
 
 const express = require("express");
 const router = express.Router();
+const redis = require('redis');
+const client = process.env.REDIS_URL ? redis.createClient(process.env.REDIS_URL) : redis.createClient();
+const bluebird = require('bluebird')
+const flatten = require('flat');
+const unflatten = flatten.unflatten;
+
+bluebird.promisifyAll(redis.RedisClient.prototype);
+bluebird.promisifyAll(redis.Multi.prototype);
 
 // Pull spotifyApi from authorization.js file
 const spotifyApi = require('./authorization');
@@ -53,14 +61,23 @@ router.get('/', async (req, res) => {
     if (offset) optQueryParams.offset = offset;
     if (include_external) optQueryParams.include_external = include_external;
 
-    spotifyApi.search(q, typeList, optQueryParams).then(
-        (data) => {
-            res.json(data.body);
-        },
-        (err) => {
-            res.json(err);
-        }
-    );
+    const cacheKey = `spotify-api/search?${q}&${type}&${JSON.stringify(flatten(optQueryParams))}`
+    const isQueryCached = await client.existsAsync(cacheKey);
+
+    if (isQueryCached === 1) {
+        const cachedData = await client.getAsync(cacheKey);
+        const data = unflatten(JSON.parse(cachedData));
+        res.json(data);
+    } else {
+        spotifyApi.search(q, typeList, optQueryParams).then(
+            (data) => {
+                res.json(data.body);
+            },
+            (err) => {
+                res.json(err);
+            }
+        );
+    }
 });
 
 module.exports = router;

@@ -37,7 +37,6 @@ function App() {
                     <SidebarRight />
                     <Suspense fallback={<Loading />}>
                         <Switch>
-                            <Route path="/" exact component={Home} />
                             <Route path="/posts" exact component={PostInsert} />
                             <Route path="/signin" component={SignIn} />
                             <Route path="/signup" component={SignUp} />
@@ -82,7 +81,7 @@ function App() {
                                 )}
                             />
                             <Route path="/">
-                                <Redirect to="/" />
+                                <Redirect to="/posts" />
                             </Route>
                         </Switch>
                     </Suspense>

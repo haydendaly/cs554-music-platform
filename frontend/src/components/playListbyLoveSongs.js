@@ -141,17 +141,13 @@ const PlayListByLoveSongs = (props) => {
                         allowtransparency="true"
                         allow="encrypted-media"
                     ></iframe>
-                    <div className="e-card-actions e-card-vertical">
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            className={classes.buttonClass}
-                            onClick={() => {
-                                handleOpenshareModal(playList)
-                            }}
-                        >
-                            share
-                        </Button>
+                    <div
+                        onClick={() => {
+                            handleOpenshareModal(playList)
+                        }}
+                        className="share-button shadow"
+                    >
+                        Share
                     </div>
                     {showSharePostModal && (
                         <AddPostModal

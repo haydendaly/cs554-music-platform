@@ -15,7 +15,11 @@ import axios from 'axios'
 ReactModal.setAppElement('#root')
 
 const customStyles = {
+    overlay: {
+        backgroundColor: '#232323',
+    },
     content: {
+        textAlign: 'center',
         top: '50%',
         left: '50%',
         right: 'auto',
@@ -23,8 +27,10 @@ const customStyles = {
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
         width: '50%',
-        border: '1px solid #28547a',
-        borderRadius: '4px',
+        border: '0px solid #28547a',
+        borderRadius: '30px',
+        background: '#191919',
+        // boxShadow: '0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);'
     },
 }
 
@@ -33,19 +39,32 @@ const useStyles = makeStyles({
         marginleft: '.5%',
         marginRight: '.5%',
     },
+    postButtonStyle: {
+        marginleft: '.5%',
+        marginRight: '.5%',
+    },
+    cancelButtonStyle: {
+        marginleft: '.5%',
+        marginRight: '.5%',
+    },
     textFieldStyle: {
+        fontSize: '20px',
         left: '.5%',
         right: '.5%',
         top: '.5%',
         bottom: '25%',
         width: '90%',
-        margin: 'auto',
-        background: 'white',
+        margin: '5px',
+        background: '515151',
+        borderRadius: '5px',
+        paddingLeft: '8px',
+        paddingRight: '8px'
     },
     labelStyle: {
-        color: 'blue',
+        color: 'white',
         width: '100%',
         size: 'bold',
+        marginBottom: 10
     },
     songFieldStyle: {
         width: '100%',
@@ -56,6 +75,8 @@ const useStyles = makeStyles({
         height: '50%',
     },
     root: {
+        color: 'white',
+        background: '#191919',
         maxWidth: '100%',
         maxHeight: '50%',
     },
@@ -94,7 +115,7 @@ function AddPostModal(props) {
     const handleAddPost = async () => {
         if (props.currentUser) {
             try {
-                const { data } = await axios.post(
+                await axios.post(
                     `http://${window.location.hostname}:3000/api/post`,
                     {
                         userId: props.currentUser, // pass valid userid here
@@ -115,7 +136,7 @@ function AddPostModal(props) {
 
     const handleEditPost = async () => {
         try {
-            const { data } = await axios.patch(
+            await axios.patch(
                 `http://${window.location.hostname}:3000/api/post/${props.postId}`,
                 {
                     text: postData ? postData : props.data,
@@ -136,21 +157,8 @@ function AddPostModal(props) {
                 style={customStyles}
             >
                 <label className={classes.labelStyle}>{props.title}</label>
-
                 {props.songData ? (
-                    <Card className={classes.root}>
-                        <CardHeader
-                            avatar={
-                                <Avatar
-                                    aria-label="recipe"
-                                    className={classes.avatar}
-                                >
-                                    S
-                                </Avatar>
-                            }
-                            title={props.songData.name}
-                            subheader={props.songData.id}
-                        />
+                    <div className={classes.root}>
                         <iframe
                             id={props.songData.uri}
                             title={props.songData.uri}
@@ -163,34 +171,21 @@ function AddPostModal(props) {
                             frameBorder="0"
                             allowtransparency="true"
                             allow="encrypted-media"
-                        ></iframe>
-                        <CardContent>
-                            <Typography
-                                variant="body2"
-                                color="textSecondary"
-                                component="p"
-                            >
-                                <a href={props.songData.href}>
-                                    {props.songData.href}
-                                </a>
-                                <br />
-                                <br />
-                                <textarea
-                                    className={classes.textFieldStyle}
-                                    id="txtPost"
-                                    type="text"
-                                    placeholder="Enter Post here...."
-                                    defaultValue={props.data}
-                                    rows="2"
-                                    onChange={handleTextField}
-                                    autoFocus="autoFocus"
-                                />
-                            </Typography>
-                        </CardContent>
-                    </Card>
+                        />
+                        <textarea
+                            className="share-textarea shadow"
+                            id="txtPost"
+                            type="text"
+                            placeholder="Enter Post here...."
+                            defaultValue={props.data}
+                            rows="2"
+                            onChange={handleTextField}
+                            autoFocus="autoFocus"
+                        />
+                    </div>
                 ) : (
                     <textarea
-                        className={classes.textFieldStyle}
+                        className="share-textarea shadow"
                         id="txtPost"
                         type="text"
                         placeholder="Enter Post here...."
@@ -200,29 +195,23 @@ function AddPostModal(props) {
                         autoFocus="autoFocus"
                     />
                 )}
-
-                <Button
-                    variant="contained"
-                    color="secondary"
-                    size="medium"
-                    type="reset"
-                    defaultValue="Reset"
-                    onClick={() => {
-                        props.data ? handleEditPost() : handleAddPost()
-                    }}
-                >
-                    Enter
-                </Button>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    size="medium"
-                    type="reset"
-                    defaultValue="Reset"
-                    onClick={handleCloseAddModal}
-                >
-                    Cancel
-                </Button>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                    <div
+                        className="share-button shadow"
+                        onClick={() => {
+                            props.data ? handleEditPost() : handleAddPost()
+                        }}
+                    >
+                        Post
+                    </div>
+                    <div
+                        className="share-button shadow"
+                        style={{ backgroundColor: "#222" }}
+                        onClick={handleCloseAddModal}
+                    >
+                        Cancel
+                    </div>
+                </div>
             </ReactModal>
         </div>
     )

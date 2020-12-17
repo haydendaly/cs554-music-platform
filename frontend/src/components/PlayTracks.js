@@ -23,20 +23,20 @@ const useStyles = makeStyles({
         marginTop: '12px',
     },
     card: {
+        background: '#191919',
         marginTop: '10%',
         maxWidth: 350,
         height: 'auto',
         marginLeft: 'auto',
         marginRight: 'auto',
-        borderRadius: 5,
-        border: '1px solid #1e8678',
+        borderRadius: 30,
+        overflow: 'hidden',
         boxShadow:
             '0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);',
     },
     titleHead: {
-        borderBottom: '1px solid #1e8678',
         fontWeight: 'bold',
-        Color: 'black !important',
+        color: 'white !important',
     },
     grid: {
         marginTop: '2%',
@@ -104,10 +104,8 @@ const PlayByTracks = (props) => {
     const [state, setState] = useState({ data: null })
 
     useEffect(() => {
-        console.log('on load useeffect')
         async function fetchData() {
             try {
-                console.log(albumId)
                 const { data } = await axios.get(
                     baseUrl +
                         props.match.params.id +
@@ -115,7 +113,6 @@ const PlayByTracks = (props) => {
                         accessToken
                 )
                 setTrackData(data)
-                console.log(data)
                 setLoading(false)
             } catch (e) {
                 console.log(e)
@@ -152,18 +149,9 @@ const PlayByTracks = (props) => {
                     <Card className={classes.card} variant="outlined">
                         <CardActionArea>
                             <CardContent>
-                                <Typography
-                                    className={classes.titleHead}
-                                    gutterBottom
-                                    variant="h6"
-                                    component={classes.h3class}
-                                >
-                                    <span>{album.name}</span>
-                                    <br />
-                                    <span>
-                                        Track Number: {album.track_number}
-                                    </span>
-                                </Typography>
+                                <div className={classes.titleHead}>
+                                    {album.name}
+                                </div>
                             </CardContent>
                         </CardActionArea>
                         <iframe
@@ -177,18 +165,16 @@ const PlayByTracks = (props) => {
                             frameBorder="0"
                             allowtransparency="true"
                             allow="encrypted-media"
-                        ></iframe>
+                        />
                         <div className="e-card-actions e-card-vertical">
-                            <Button
-                                variant="contained"
-                                color="secondary"
-                                className={classes.buttonClass}
+                            <div
+                                className="share-button shadow"
                                 onClick={() => {
                                     handleOpenshareModal(album)
                                 }}
                             >
-                                share
-                            </Button>
+                                Share
+                            </div>
                             {currentUser
                                 ? showSharePostModal && (
                                       <AddPostModal
@@ -215,7 +201,6 @@ const PlayByTracks = (props) => {
         )
     }
     if (trackData) {
-        console.log(trackData)
         card = trackData && trackData
         return buildCard(trackData)
     }
