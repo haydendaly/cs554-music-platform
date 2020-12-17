@@ -56,7 +56,6 @@ const SpotifyAuth = () => {
                 const { data } = await axios.get(
                     `http://${window.location.hostname}:3000/api/user/${currentUser.uid}`
                 )
-
                 setUser(data)
             } catch (e) {
                 console.log(`error found : ${e}`)
