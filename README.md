@@ -46,7 +46,7 @@ If you are unable to run the application, we also have an EC2 deployment live at
 
 React will be used as our front-end framework to create a single page application and components that will be used on each page. 
 
-Home Page, Music, Search, Sign In, Signup, Sign-out and complete frontend UI is implemented using React hook. 
+Home Page, Music, Search, Sign In, Sign Up, Sign Out and complete frontend UI are implemented using React hook. 
 
 #### Firebase Auth: 
 
@@ -54,7 +54,7 @@ Allow users to sign in via email/password, as well as Google or Facebook.
 
 Sign-In, Sign-up and password changing are implemented and handled using firebase authentication. It also allows the user to login using social platforms like Google and Facebook.  
 
-User login is verified using firebase authentication. Error handling is done to allow only authenticate user into system. 
+User login is verified using firebase authentication. Error handling is done to allow only authenticated user into system. 
 
 #### Redis: 
 
@@ -66,7 +66,7 @@ Data such as playlist info is not cached since playlists are constantly updated 
 
 #### MongoDB: 
 
-MongoDB is used for database purpose. We stored all tweets (post) into mongoDB along with user’s information.  
+MongoDB is used for database purpose. We stored all tweets (posts) into mongoDB along with user’s information.  
 
 The schema is implemented in simple manner. Each object holds information about user(name, profile picture), tweets , liked tweets and comments. 
 
@@ -82,7 +82,7 @@ Express is a minimal and flexible Node.js web application framework that provide
 
 This project integrated Spotify API to use Spotify song data. The Spotify API are accessed using access token. Taken care of refreshing Access token periodically. 
 
-The Spotify API are used to get data such album, artist, playlist and tracks. It is also used to perform search queries. 
+The Spotify API are used to get data such as album, artist, playlist and tracks. It is also used to perform search queries. 
 
 User recommended songs are also populated using API. 
 
