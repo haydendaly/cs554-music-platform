@@ -73,7 +73,7 @@ function UserProfile(props) {
             biography: biography.value,
             country: country.value,
         }
-        console.log(updateData)
+
         try {
             const { data } = await axios.patch(
                 `http://${window.location.hostname}:3000/api/user/${user._id}`,
@@ -89,7 +89,6 @@ function UserProfile(props) {
     }
 
     const fileSelectHandler = (e) => {
-        console.log(e.target.files[0])
         setSelectedFile(e.target.files[0])
     }
 
@@ -106,7 +105,7 @@ function UserProfile(props) {
                     },
                 }
             )
-            console.log(success)
+
             alert('Profile Picture Updated!')
             setImgUrl(
                 `http://${window.location.hostname}:3000/api/user/photo/${
@@ -236,7 +235,9 @@ function UserProfile(props) {
                                 />
                             </div>
                             <div className="img-upload">
-                                <label htmlFor="profile-photo" hidden>Photo</label>
+                                <label htmlFor="profile-photo" hidden>
+                                    Photo
+                                </label>
                                 <input
                                     type="file"
                                     accept="image/*"

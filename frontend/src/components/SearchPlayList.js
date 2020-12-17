@@ -108,7 +108,7 @@ const SearchPlayList = (props) => {
     const handleOpenshareModal = (trackDetails) => {
         setShowSharePostModal(true)
         setSharePost(trackDetails)
-        console.log(trackDetails)
+
         setErrorModal(true)
     }
 
@@ -167,7 +167,6 @@ const SearchPlayList = (props) => {
         )
     }
     if (playListData) {
-        console.log(playListData)
         card =
             playListData &&
             playListData
