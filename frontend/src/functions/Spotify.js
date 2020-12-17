@@ -177,10 +177,7 @@ export const SpotifyProvider = ({ children }) => {
                 </Router>
             </div>
         )
-    } else if (
-        !loadingSpotifyAuthCheck &&
-        !isSpotifyAuthed
-    ) {
+    } else if (!loadingSpotifyAuthCheck && !isSpotifyAuthed) {
         return <SpotifyAuth setAccessToken={setAccessToken} />
     } else if (
         !loadingSpotifyAuthCheck &&

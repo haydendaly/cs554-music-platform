@@ -10,14 +10,14 @@ function Home(props) {
 
     const [user, setUser] = useState(null)
     const [spotifyAccessToken, setSpotifyAccessToken] = useState(null)
-    const [count, setCount]= useState(0)
+    const [count, setCount] = useState(0)
 
     /* useEffect to obtain current user */
     useEffect(() => {
         console.log('useEffect fired in Home')
-        const getUserData = async() =>{
-            try {                 
-                console.log(`get user data from DB`);
+        const getUserData = async () => {
+            try {
+                console.log(`get user data from DB`)
                 const { data } = await axios.get(
                     `http://${window.location.hostname}:3000/api/user/${currentUser.uid}`
                 )
@@ -25,12 +25,12 @@ function Home(props) {
                 setUser(data)
             } catch (e) {
                 console.log(`error found : ${e}`)
-                setCount( count + 1);              
+                setCount(count + 1)
             }
         }
-        if (currentUser ) {
-            getUserData();
-        };
+        if (currentUser) {
+            getUserData()
+        }
     }, [currentUser, count])
 
     /* useEffect to obtain current spotify user */

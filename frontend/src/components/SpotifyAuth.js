@@ -48,13 +48,13 @@ const SpotifyAuth = () => {
     const [link, setLink] = useState('')
     const { currentUser } = useContext(AuthContext)
     const [user, setUser] = useState(null)
-    const [count, setCount]= useState(0)
+    const [count, setCount] = useState(0)
     /* useEffect to obtain current user */
     useEffect(() => {
         console.log('useEffect fired in SpotifyAuth')
-        const getUserData = async() =>{
-            try {                 
-                console.log(`get user data from DB`);
+        const getUserData = async () => {
+            try {
+                console.log(`get user data from DB`)
                 const { data } = await axios.get(
                     `http://${window.location.hostname}:3000/api/user/${currentUser.uid}`
                 )
@@ -62,20 +62,18 @@ const SpotifyAuth = () => {
                 setUser(data)
             } catch (e) {
                 console.log(`error found : ${e}`)
-                setCount( count + 1);              
+                setCount(count + 1)
             }
         }
-        if (currentUser ) {
-            getUserData();
-        };
-             
+        if (currentUser) {
+            getUserData()
+        }
     }, [currentUser, count])
 
     useEffect(() => {
         const tempLink = getLink()
         setLink(tempLink)
     }, [])
-
 
     if (user) {
         return (
@@ -84,23 +82,27 @@ const SpotifyAuth = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    textAlign: 'center'
+                    textAlign: 'center',
                 }}
             >
                 <div>
                     <h1>Welcome, {user.displayName.split(' ')[0]}!</h1>
-                    <p>
-                        Connect with your Spotify account to get started.
-                    </p>
+                    <p>Connect with your Spotify account to get started.</p>
 
-                    <a type="button" href={link} className="btn btn-success spotify-btn">
-                        <img src='/imgs/social_media_icon/Spotify.png' width='25px' height='25px'></img> Login with Spotify
+                    <a
+                        type="button"
+                        href={link}
+                        className="btn btn-success spotify-btn"
+                    >
+                        <img
+                            src="/imgs/social_media_icon/Spotify.png"
+                            width="25px"
+                            height="25px"
+                        ></img>{' '}
+                        Login with Spotify
                     </a>
 
-
-                    <p>
-                        Or
-                    </p>
+                    <p>Or</p>
 
                     <div>
                         <SignOut />
