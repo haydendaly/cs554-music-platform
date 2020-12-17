@@ -3,9 +3,7 @@ import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 import { useWindowDimensions } from '../functions/dimensions'
-import { Link } from 'react-router-dom'
 import { SpotifyContext } from '../functions/Spotify'
-import Nav from 'react-bootstrap/Nav'
 import { AuthContext } from '../firebase/Auth'
 import AddPostModal from './Modals/AddPostModal'
 import ShowErrorModal from './Modals/ShowErrorModal'
@@ -16,9 +14,7 @@ import {
     CardActionArea,
     CardContent,
     Grid,
-    Typography,
     makeStyles,
-    Button,
 } from '@material-ui/core'
 
 const types = ['album', 'artist', 'playlist', 'track']
@@ -35,12 +31,12 @@ const useStyles = makeStyles({
         marginRight: 'auto',
         borderRadius: 30,
         overflow: 'hidden',
-        boxShadow:
-            '0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);',
+        boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.6);',
     },
     titleHead: {
         fontWeight: 'bold',
         color: 'white !important',
+        fontSize: 22,
     },
     grid: {
         flexGrow: 1,
@@ -151,7 +147,7 @@ const PlayMusic = () => {
                     id="playSong"
                     src={'https://open.spotify.com/embed?uri=' + album.uri}
                     width="100%"
-                    height="500"
+                    height="380"
                     frameBorder="0"
                     allowtransparency="true"
                     allow="encrypted-media"

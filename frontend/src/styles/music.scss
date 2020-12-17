@@ -41,9 +41,9 @@
 }
 
 .post-body-song:hover {
-    border-radius: 10px;
-    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.6);
-    color: #ff0000;
+    height: 152px;
+    width: 81%;
+    text-decoration: none;
 }
 
 .post-body-song-icon {
@@ -58,14 +58,14 @@
 }
 
 .post-body-song-title {
-    font-size: 24px;
+    font-size: 19px;
     font-weight: 600;
     margin-bottom: 0px;
     margin-top: 0px;
 }
 
 .post-body-song-artist {
-    font-size: 22px;
+    font-size: 17px;
     margin-top: 0px;
     color: #999;
 }
@@ -80,9 +80,9 @@
 
 .select-type-header-component {
     color: #999;
-    font-size: 24px;
+    font-size: 20px;
     background-color: #191919;
-    padding: 30px;
+    padding: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
     border-radius: 10px;

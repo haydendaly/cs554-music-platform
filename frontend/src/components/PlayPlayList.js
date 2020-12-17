@@ -4,9 +4,7 @@ import {
     CardActionArea,
     CardContent,
     Grid,
-    Typography,
     makeStyles,
-    Button,
 } from '@material-ui/core'
 
 import { AuthContext } from '../firebase/Auth'
@@ -31,12 +29,12 @@ const useStyles = makeStyles({
         marginRight: 'auto',
         borderRadius: 30,
         overflow: 'hidden',
-        boxShadow:
-            '0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);',
+        boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.6);',
     },
     titleHead: {
         fontWeight: 'bold',
         color: 'white !important',
+        fontSize: 22,
     },
     grid: {
         marginTop: '2%',
@@ -158,7 +156,7 @@ const PlayByPlayList = (props) => {
                                 'https://open.spotify.com/embed?uri=' +
                                 album.uri
                             }
-                            width="300"
+                            width="auto"
                             height="380"
                             frameBorder="0"
                             allowtransparency="true"

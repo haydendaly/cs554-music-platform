@@ -4,9 +4,7 @@ import {
     CardActionArea,
     CardContent,
     Grid,
-    Typography,
     makeStyles,
-    Button,
 } from '@material-ui/core'
 
 import { AuthContext } from '../firebase/Auth'
@@ -31,8 +29,7 @@ const useStyles = makeStyles({
         marginRight: 'auto',
         borderRadius: 30,
         overflow: 'hidden',
-        boxShadow:
-            '0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);',
+        boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.6);',
     },
     titleHead: {
         fontWeight: 'bold',
@@ -82,7 +79,7 @@ const useStyles = makeStyles({
     },
 })
 
-const PlayAlbum = (props) => {
+const PlayAlbums = (props) => {
     const { accessToken } = useContext(SpotifyContext)
     const [albumData, setAlbumtData] = useState(undefined)
     const classes = useStyles()
@@ -134,7 +131,7 @@ const PlayAlbum = (props) => {
 
     const buildCard = (album) => {
         return (
-            <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={album.id}>
+            <Grid item xs={32} sm={12} md={6} lg={6} xl={4} key={album.id}>
                 <Card className={classes.card} variant="outlined">
                     <CardActionArea>
                         <CardContent>
@@ -146,8 +143,8 @@ const PlayAlbum = (props) => {
                     <iframe
                         id="playSong"
                         src={'https://open.spotify.com/embed?uri=' + album.uri}
-                        width="300"
-                        height="380"
+                        width="auto"
+                        height="300"
                         frameBorder="0"
                         allowtransparency="true"
                         allow="encrypted-media"
@@ -209,4 +206,4 @@ const PlayAlbum = (props) => {
     }
 }
 
-export default PlayAlbum
+export default PlayAlbums

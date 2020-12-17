@@ -6,8 +6,6 @@ import {
     faMusic,
     faHome,
     faUser,
-    faList,
-    faSearch,
     faSignInAlt,
     faUserPlus,
     faSignOutAlt,
@@ -51,7 +49,7 @@ const SideBar = () => {
                 <Link
                     to="/profile"
                     className="menu-row"
-                    aria-label="User Profile"
+                    aria-label="Profile"
                     style={
                         location.pathname === '/profile'
                             ? { color: '#fff', marginLeft: 3 }
@@ -59,10 +57,10 @@ const SideBar = () => {
                     }
                 >
                     <Icon icon={faUser} className="menu-icon" />
-                    {width > 1400 && 'User Profile'}
+                    {width > 1400 && 'Profile'}
                 </Link>
                 <Link
-                    to="/music#playlist"
+                    to="/music"
                     className="menu-row"
                     aria-label="music"
                     style={

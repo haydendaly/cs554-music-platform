@@ -6,7 +6,6 @@ import {
     Grid,
     Typography,
     makeStyles,
-    Button,
 } from '@material-ui/core'
 import SpotifyWebApi from 'spotify-web-api-js'
 
@@ -28,13 +27,11 @@ const useStyles = makeStyles({
         marginRight: 'auto',
         borderRadius: 5,
         border: '1px solid #1e8678',
-        boxShadow:
-            '0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);',
+        boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.6);',
     },
     titleHead: {
         borderBottom: '1px solid #1e8678',
         fontWeight: 'bold',
-        Color: 'black !important',
     },
     grid: {
         flexGrow: 1,
@@ -70,7 +67,7 @@ const useStyles = makeStyles({
     },
 })
 
-const PlayListByLoveSongs = (props) => {
+const PlayLoveSongs = (props) => {
     const [playListData, setPlayListData] = useState(undefined)
     const classes = useStyles()
     const [hasError, setHasError] = useState(false)
@@ -189,4 +186,4 @@ const PlayListByLoveSongs = (props) => {
     }
 }
 
-export default PlayListByLoveSongs
+export default PlayLoveSongs
