@@ -40,8 +40,6 @@ services:
     logging:
       driver: none
     environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin-pass
       MONGO_INITDB_DATABASE: SpotifyTwitter
 
   nginx:
@@ -58,3 +56,13 @@ services:
     links:
       - backend
       - frontend
+
+  seed:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile.seed
+    links:
+      - mongo
+    environment:
+      - REDIS_URL=redis://cache
+      - MONGO_SERVER_URL=mongodb://mongo:27017/
