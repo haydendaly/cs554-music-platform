@@ -68,7 +68,7 @@ const Song = (props) => {
             <Holder
                 link={`/track/${data.id}`}
                 name={data.name}
-                images={data.album.images !== 0 ? data.album.images : []}
+                images={data.album && data.album.images && data.album.images !== 0 ? data.album.images : []}
                 artists={data.artists.map((o) => o.name).join(', ')}
             />
         )
