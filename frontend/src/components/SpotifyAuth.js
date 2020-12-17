@@ -83,23 +83,27 @@ const SpotifyAuth = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    textAlign: 'center'
+                    textAlign: 'center',
                 }}
             >
                 <div>
                     <h1>Welcome, {user.displayName.split(' ')[0]}!</h1>
-                    <p>
-                        Connect with your Spotify account to get started.
-                    </p>
+                    <p>Connect with your Spotify account to get started.</p>
 
-                    <a type="button" href={link} className="btn btn-success spotify-btn">
-                        <img src='/imgs/social_media_icon/Spotify.png' width='25px' height='25px'></img> Login with Spotify
+                    <a
+                        type="button"
+                        href={link}
+                        className="btn btn-success spotify-btn"
+                    >
+                        <img
+                            src="/imgs/social_media_icon/Spotify.png"
+                            width="25px"
+                            height="25px"
+                        ></img>{' '}
+                        Login with Spotify
                     </a>
 
-
-                    <p>
-                        Or
-                    </p>
+                    <p>Or</p>
 
                     <div>
                         <SignOut />

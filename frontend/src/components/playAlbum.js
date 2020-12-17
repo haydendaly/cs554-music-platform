@@ -107,9 +107,9 @@ const PlayAlbum = (props) => {
                 console.log(albumId)
                 const { data } = await axios.get(
                     baseUrl +
-                    props.match.params.id +
-                    '?access_token=' +
-                    accessToken
+                        props.match.params.id +
+                        '?access_token=' +
+                        accessToken
                 )
                 setAlbumtData(data.tracks.items)
                 console.log(data.tracks.items)
@@ -187,23 +187,23 @@ const PlayAlbum = (props) => {
                 </Grid>
                 {currentUser
                     ? showSharePostModal && (
-                        <AddPostModal
-                            isOpen={showSharePostModal}
-                            handleClose={handleCloseModals}
-                            title={'Share Post'}
-                            data={null}
-                            currentUser={currentUser.uid}
-                            songData={sharePost}
-                            postId={null}
-                        />
-                    )
+                          <AddPostModal
+                              isOpen={showSharePostModal}
+                              handleClose={handleCloseModals}
+                              title={'Share Post'}
+                              data={null}
+                              currentUser={currentUser.uid}
+                              songData={sharePost}
+                              postId={null}
+                          />
+                      )
                     : errorModal && (
-                        <ShowErrorModal
-                            isOpen={errorModal}
-                            handleClose={handleCloseModals}
-                            title={'Login Error'}
-                        />
-                    )}
+                          <ShowErrorModal
+                              isOpen={errorModal}
+                              handleClose={handleCloseModals}
+                              title={'Login Error'}
+                          />
+                      )}
             </div>
         )
     }

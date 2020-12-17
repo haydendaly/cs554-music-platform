@@ -55,7 +55,7 @@ const usePlayMusic = () => {
     const [results, setResults] = useState([])
     const { width } = useWindowDimensions()
     const [hasError, setHasError] = useState(null)
-    const [searchType, setSearchType] = useState("track")
+    const [searchType, setSearchType] = useState('track')
 
     const baseUrl = `http://${window.location.hostname}:3000/spotify-api/search?q=`
 
@@ -189,27 +189,46 @@ const PlayMusic = () => {
 
     return (
         <div class="main">
-            <div className="search" style={{ width: '100%', marginTop: 30, marginBottom: 10 }}>
+            <div
+                className="search"
+                style={{ width: '100%', marginTop: 30, marginBottom: 10 }}
+            >
                 <Icon icon={faSearch} color="#444" />
                 <input
                     className="search-input"
                     placeholder="Search"
                     value={search}
-                    style={{ width: "100%" }}
+                    style={{ width: '100%' }}
                     onChange={(e) => setSearch(e.target.value)}
                 />
             </div>
             <div className="select-type-header">
-                <div className="select-type-header-component shadow" style={searchType === "track" ? { color: "white" } : {}} onClick={() => setSearchType("track")}>
+                <div
+                    className="select-type-header-component shadow"
+                    style={searchType === 'track' ? { color: 'white' } : {}}
+                    onClick={() => setSearchType('track')}
+                >
                     Track
                 </div>
-                <div className="select-type-header-component shadow" style={searchType === "artist" ? { color: "white" } : {}} onClick={() => setSearchType("artist")}>
+                <div
+                    className="select-type-header-component shadow"
+                    style={searchType === 'artist' ? { color: 'white' } : {}}
+                    onClick={() => setSearchType('artist')}
+                >
                     Artist
                 </div>
-                <div className="select-type-header-component shadow" style={searchType === "album" ? { color: "white" } : {}} onClick={() => setSearchType("album")}>
+                <div
+                    className="select-type-header-component shadow"
+                    style={searchType === 'album' ? { color: 'white' } : {}}
+                    onClick={() => setSearchType('album')}
+                >
                     Album
                 </div>
-                <div className="select-type-header-component shadow" style={searchType === "playlist" ? { color: "white" } : {}} onClick={() => setSearchType("playlist")}>
+                <div
+                    className="select-type-header-component shadow"
+                    style={searchType === 'playlist' ? { color: 'white' } : {}}
+                    onClick={() => setSearchType('playlist')}
+                >
                     Playlist
                 </div>
             </div>
@@ -223,11 +242,10 @@ const PlayMusic = () => {
                 </div>
             ) : (
                 <div>
-                    <Loading/>
+                    <Loading />
                     {/* <p> Currently no songs available </p> */}
                 </div>
             )}
-
         </div>
     )
 }

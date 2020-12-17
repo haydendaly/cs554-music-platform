@@ -133,9 +133,9 @@ const PlayByArtist = (props) => {
                 setAristId(props.match.params.id)
                 const { data } = await axios.get(
                     albumUrl +
-                    artistAlbum +
-                    '/albums?country=US&access_token=' +
-                    accessToken
+                        artistAlbum +
+                        '/albums?country=US&access_token=' +
+                        accessToken
                 )
                 setTopTrack(data.items)
                 if (data.items.length > 0) {
@@ -203,7 +203,12 @@ const PlayByArtist = (props) => {
                             allow="encrypted-media"
                         />
                         <div className="e-card-actions e-card-vertical">
-                            <div style={{ display: "flex", flexDirection: "row " }}>
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'row ',
+                                }}
+                            >
                                 <div
                                     className="share-button"
                                     onClick={() => {
@@ -221,23 +226,23 @@ const PlayByArtist = (props) => {
                             </div>
                             {currentUser
                                 ? showSharePostModal && (
-                                    <AddPostModal
-                                        isOpen={showSharePostModal}
-                                        handleClose={handleCloseModals}
-                                        title={'Share Post'}
-                                        data={null}
-                                        currentUser={currentUser.uid}
-                                        songData={sharePost}
-                                        postId={null}
-                                    />
-                                )
+                                      <AddPostModal
+                                          isOpen={showSharePostModal}
+                                          handleClose={handleCloseModals}
+                                          title={'Share Post'}
+                                          data={null}
+                                          currentUser={currentUser.uid}
+                                          songData={sharePost}
+                                          postId={null}
+                                      />
+                                  )
                                 : errorModal && (
-                                    <ShowErrorModal
-                                        isOpen={errorModal}
-                                        handleClose={handleCloseModals}
-                                        title={'Login Error'}
-                                    />
-                                )}
+                                      <ShowErrorModal
+                                          isOpen={errorModal}
+                                          handleClose={handleCloseModals}
+                                          title={'Login Error'}
+                                      />
+                                  )}
                         </div>
                     </Card>
                 </Grid>
@@ -276,23 +281,23 @@ const PlayByArtist = (props) => {
                         </div>
                         {currentUser
                             ? showSharePostModal && (
-                                <AddPostModal
-                                    isOpen={showSharePostModal}
-                                    handleClose={handleCloseModals}
-                                    title={'Share Post'}
-                                    data={null}
-                                    currentUser={currentUser.uid}
-                                    songData={sharePost}
-                                    postId={null}
-                                />
-                            )
+                                  <AddPostModal
+                                      isOpen={showSharePostModal}
+                                      handleClose={handleCloseModals}
+                                      title={'Share Post'}
+                                      data={null}
+                                      currentUser={currentUser.uid}
+                                      songData={sharePost}
+                                      postId={null}
+                                  />
+                              )
                             : errorModal && (
-                                <ShowErrorModal
-                                    isOpen={errorModal}
-                                    handleClose={handleCloseModals}
-                                    title={'Login Error'}
-                                />
-                            )}
+                                  <ShowErrorModal
+                                      isOpen={errorModal}
+                                      handleClose={handleCloseModals}
+                                      title={'Login Error'}
+                                  />
+                              )}
                     </div>
                 </Card>
             </Grid>

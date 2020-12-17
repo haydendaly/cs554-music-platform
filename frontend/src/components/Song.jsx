@@ -1,5 +1,5 @@
-import React from "react"
-import { Link } from "react-router-dom"
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Holder = ({ link, name, images, artists }) => (
     <Link to={link} className="post-body-song shadow">
@@ -26,9 +26,9 @@ const Holder = ({ link, name, images, artists }) => (
 )
 
 const center = {
-    width: "100%",
-    display: "flex",
-    alignItems: "center"
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
 }
 
 const Song = (props) => {
@@ -74,4 +74,4 @@ const Song = (props) => {
     }
 }
 
-export default Song;
+export default Song

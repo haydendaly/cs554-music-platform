@@ -106,9 +106,9 @@ const PlayByPlayList = (props) => {
             try {
                 const { data } = await axios.get(
                     baseUrl +
-                    props.match.params.id +
-                    '?access_token=' +
-                    accessToken
+                        props.match.params.id +
+                        '?access_token=' +
+                        accessToken
                 )
                 setPlayListData(data)
                 setLoading(false)
@@ -144,7 +144,6 @@ const PlayByPlayList = (props) => {
                     xl={12}
                     key={album.id}
                 >
-
                     <Card className={classes.card} variant="outlined">
                         <CardActionArea>
                             <CardContent>
@@ -176,23 +175,23 @@ const PlayByPlayList = (props) => {
                             </div>
                             {currentUser
                                 ? showSharePostModal && (
-                                    <AddPostModal
-                                        isOpen={showSharePostModal}
-                                        handleClose={handleCloseModals}
-                                        title={'Share Post'}
-                                        data={null}
-                                        currentUser={currentUser.uid}
-                                        songData={sharePost}
-                                        postId={null}
-                                    />
-                                )
+                                      <AddPostModal
+                                          isOpen={showSharePostModal}
+                                          handleClose={handleCloseModals}
+                                          title={'Share Post'}
+                                          data={null}
+                                          currentUser={currentUser.uid}
+                                          songData={sharePost}
+                                          postId={null}
+                                      />
+                                  )
                                 : errorModal && (
-                                    <ShowErrorModal
-                                        isOpen={errorModal}
-                                        handleClose={handleCloseModals}
-                                        title={'Login Error'}
-                                    />
-                                )}
+                                      <ShowErrorModal
+                                          isOpen={errorModal}
+                                          handleClose={handleCloseModals}
+                                          title={'Login Error'}
+                                      />
+                                  )}
                         </div>
                     </Card>
                 </Grid>

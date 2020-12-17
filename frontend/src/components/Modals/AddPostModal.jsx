@@ -58,13 +58,13 @@ const useStyles = makeStyles({
         background: '515151',
         borderRadius: '5px',
         paddingLeft: '8px',
-        paddingRight: '8px'
+        paddingRight: '8px',
     },
     labelStyle: {
         color: 'white',
         width: '100%',
         size: 'bold',
-        marginBottom: 10
+        marginBottom: 10,
     },
     songFieldStyle: {
         width: '100%',
@@ -195,7 +195,7 @@ function AddPostModal(props) {
                         autoFocus="autoFocus"
                     />
                 )}
-                <div style={{ display: "flex", flexDirection: "row" }}>
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
                     <div
                         className="share-button shadow"
                         onClick={() => {
@@ -206,7 +206,7 @@ function AddPostModal(props) {
                     </div>
                     <div
                         className="share-button shadow"
-                        style={{ backgroundColor: "#222" }}
+                        style={{ backgroundColor: '#222' }}
                         onClick={handleCloseAddModal}
                     >
                         Cancel
