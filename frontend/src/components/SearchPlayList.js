@@ -29,8 +29,7 @@ const useStyles = makeStyles({
         marginRight: 'auto',
         borderRadius: 5,
         border: '1px solid #1e8678',
-        boxShadow:
-            '0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);',
+        boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.6);',
     },
     titleHead: {
         borderBottom: '1px solid #1e8678',

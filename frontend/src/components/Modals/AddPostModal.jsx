@@ -1,14 +1,6 @@
 import React, { useState } from 'react'
 import ReactModal from 'react-modal'
-import {
-    makeStyles,
-    Button,
-    Card,
-    CardHeader,
-    CardContent,
-    Typography,
-    Avatar,
-} from '@material-ui/core'
+import { makeStyles } from '@material-ui/core'
 import axios from 'axios'
 
 //For react-modal

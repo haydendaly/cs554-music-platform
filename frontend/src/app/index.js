@@ -16,14 +16,10 @@ import PlayMusic from '../components/PlayMusic'
 
 const SignIn = lazy(() => import('../components/SignIn'))
 const SignUp = lazy(() => import('../components/SignUp'))
-const PlayByAlbum = lazy(() => import('../components/PlayAlbum'))
+const PlayByAlbum = lazy(() => import('../components/PlayAlbums'))
 const PlayByArtist = lazy(() => import('../components/PlayArtist'))
 const PlayByTracks = lazy(() => import('../components/PlayTracks'))
 const PlayByPlayList = lazy(() => import('../components/PlayPlayList.js'))
-const PlayListByLoveSongs = lazy(() =>
-    import('../components/PlayListbyLoveSongs')
-)
-const Home = lazy(() => import('../pages/Home'))
 const PostInsert = lazy(() => import('../pages/PostInsert'))
 const UserProfile = lazy(() => import('../pages/UserProfile'))
 const ChangePassword = lazy(() => import('../components/ChangePassword'))

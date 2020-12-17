@@ -1,14 +1,6 @@
 import React, { useState } from 'react'
 import ReactModal from 'react-modal'
-import {
-    makeStyles,
-    Button,
-    Card,
-    CardHeader,
-    CardContent,
-    Typography,
-    Avatar,
-} from '@material-ui/core'
+import { makeStyles, Button, Card, CardContent } from '@material-ui/core'
 
 //For react-modal
 ReactModal.setAppElement('#root')
