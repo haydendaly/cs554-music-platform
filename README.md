@@ -88,7 +88,7 @@ User recommended songs are also populated using API.
 
 #### AWS EC2/ECS: 
 
-We will use a standard ECS or EC2, general-purpose instance which will allow us to deploy our application. 
+Used a standard ECS or EC2, general-purpose instance which will allow to deploy our application. 
 
 #### Docker: 
 
