@@ -60,7 +60,11 @@ const Song = (props) => {
                 link={`/album/${data.id}`}
                 name={data.name}
                 images={data.images ? data.images : []}
-                artists={data.artists.map((o) => o.name).join(', ')}
+                artists={
+                    data.artists
+                        ? data.artists.map((o) => o.name).join(', ')
+                        : 'Artist'
+                }
             />
         )
     } else if (data && data.type === 'track') {
@@ -68,8 +72,16 @@ const Song = (props) => {
             <Holder
                 link={`/track/${data.id}`}
                 name={data.name}
-                images={data.album.images !== 0 ? data.album.images : []}
-                artists={data.artists.map((o) => o.name).join(', ')}
+                images={
+                    data.album && data.album.images && data.album.images !== 0
+                        ? data.album.images
+                        : []
+                }
+                artists={
+                    data.artists
+                        ? data.artists.map((o) => o.name).join(', ')
+                        : 'Artist'
+                }
             />
         )
     } else if (data && data.type === 'playlist') {
@@ -78,7 +90,11 @@ const Song = (props) => {
                 link={`/playlist/${data.id}`}
                 name={data.name}
                 images={data.images ? data.images : []}
-                artists={data.owner.display_name}
+                artists={
+                    data.owner && data.owner.display_name
+                        ? data.owner.display_name
+                        : 'Artist'
+                }
             />
         )
     } else if (data && data.type === 'artist') {
