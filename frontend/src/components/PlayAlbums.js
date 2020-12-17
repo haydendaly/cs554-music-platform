@@ -98,10 +98,8 @@ const PlayAlbums = (props) => {
     const [state, setState] = useState({ data: null })
 
     useEffect(() => {
-        
         async function fetchData() {
             try {
-               
                 const { data } = await axios.get(
                     baseUrl +
                         props.match.params.id +
@@ -109,7 +107,7 @@ const PlayAlbums = (props) => {
                         accessToken
                 )
                 setAlbumtData(data.tracks.items)
-                
+
                 setLoading(false)
             } catch (e) {
                 console.log(e)

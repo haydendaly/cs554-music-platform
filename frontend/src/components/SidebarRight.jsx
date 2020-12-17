@@ -55,7 +55,6 @@ const useSidebarRight = () => {
             axios
                 .get(url)
                 .then(({ data }) => {
-                   
                     if (search.toLowerCase().includes('album')) {
                         setResults(data.albums.items)
                         setSearchType('album')
