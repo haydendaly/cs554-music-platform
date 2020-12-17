@@ -35,6 +35,7 @@ const useSidebarRight = () => {
             })
             .catch((err) => {
                 console.log(err)
+                setHasError(err)
             })
     }, [])
 

@@ -4,11 +4,7 @@ import {
     CardActionArea,
     CardContent,
     Grid,
-    Typography,
     makeStyles,
-    Button,
-    Link,
-    CardMedia,
 } from '@material-ui/core'
 
 import { AuthContext } from '../firebase/Auth'
@@ -120,6 +116,7 @@ const PlayByArtist = (props) => {
                 setLoading(false)
             } catch (e) {
                 console.log(e)
+                setHasError(e)
             }
         }
         fetchData()
@@ -137,12 +134,13 @@ const PlayByArtist = (props) => {
                         accessToken
                 )
                 setTopTrack(data.items)
-                if (data.items.length > 0) {
+                if (data && data.items && data.items.length > 0) {
                     setArtistDataa(null)
                 }
                 setLoading(false)
             } catch (e) {
                 console.log(e)
+                setHasError(e)
             }
         }
         fetchAlbumData()
@@ -169,10 +167,9 @@ const PlayByArtist = (props) => {
 
     const buildCard = (album) => {
         return (
-            <div class="main">
+            <div className="main">
                 <Grid
                     className={classes.grid}
-                    spacing={5}
                     item
                     xs={12}
                     sm={12}
@@ -265,7 +262,7 @@ const PlayByArtist = (props) => {
                         src={'https://open.spotify.com/embed?uri=' + album.uri}
                         width="300"
                         height="380"
-                        frameborder="0"
+                        frameBorder="0"
                         allowtransparency="true"
                         allow="encrypted-media"
                     />
@@ -320,7 +317,7 @@ const PlayByArtist = (props) => {
         return <div>{hasError}</div>
     } else {
         return (
-            <div class="main">
+            <div className="main">
                 <Grid container className={classes.grid} spacing={5}>
                     {card}
                 </Grid>
