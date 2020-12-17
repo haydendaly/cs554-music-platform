@@ -3,6 +3,7 @@
     display: flex;
     justify-content: center;
     overflow: hidden;
+    border-radius: 5px;
 }
 
 .post-list {
@@ -87,9 +88,12 @@
 }
 
 .post-song {
+    display: flex;
     height: 100%;
     width: 100%;
     overflow: auto;
+    justify-content: center;
+    align-items: center;
 }
 
 .post-footer {

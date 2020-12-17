@@ -62,7 +62,7 @@ const SideBar = () => {
                     {width > 1400 && 'User Profile'}
                 </Link>
                 <Link
-                    to="/music"
+                    to="/music#playlist"
                     className="menu-row"
                     aria-label="music"
                     style={

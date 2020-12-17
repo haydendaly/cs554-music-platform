@@ -12,6 +12,7 @@ import {
 import { AuthContext } from '../firebase/Auth'
 import AddPostModal from '../components/Modals/AddPostModal'
 import { useWindowDimensions } from '../functions/dimensions'
+import Song from '../components/Song'
 
 function PostInsert() {
     const { currentUser } = useContext(AuthContext)
@@ -78,6 +79,7 @@ function PostInsert() {
                     'commentField' + commentPost._id
                 )
                 field.value = ''
+                setCommentData(field.value)
             } catch (error) {
                 throw `${error}`
             }
@@ -301,18 +303,7 @@ function PostInsert() {
                             <p className="post-body">{postItem.text}</p>
                             {postItem.songData && (
                                 <div className="post-song">
-                                    {/* <a href={postItem.songData.href}>
-                                        {postItem.songData.name}
-                                    </a> */}
-                                    <iframe
-                                        title={postItem.songData.name}
-                                        id="playSong"
-                                        src={`https://open.spotify.com/embed?uri=${postItem.songData.uri}`}
-                                        width="300"
-                                        height="380"
-                                        frameBorder="0"
-                                        allowtransparency="true"
-                                    />
+                                    <Song data={postItem.songData} />
                                 </div>
                             )}
                             <div className="post-footer">

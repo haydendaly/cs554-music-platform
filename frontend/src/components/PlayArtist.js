@@ -25,20 +25,20 @@ const useStyles = makeStyles({
         marginTop: '12px',
     },
     card: {
+        background: '#191919',
         marginTop: '10%',
         maxWidth: 350,
         height: 'auto',
         marginLeft: 'auto',
         marginRight: 'auto',
-        borderRadius: 5,
-        border: '1px solid #1e8678',
+        borderRadius: 30,
+        overflow: 'hidden',
         boxShadow:
             '0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);',
     },
     titleHead: {
-        borderBottom: '1px solid #1e8678',
         fontWeight: 'bold',
-        Color: 'black !important',
+        color: 'white !important',
     },
     grid: {
         marginTop: '2%',
@@ -118,7 +118,6 @@ const PlayByArtist = (props) => {
                 setAristId(props.match.params.id)
                 setArtistDataa(data)
                 setTopTrack(null)
-                console.log(data)
                 setLoading(false)
             } catch (e) {
                 console.log(e)
@@ -186,18 +185,9 @@ const PlayByArtist = (props) => {
                     <Card className={classes.card} variant="outlined">
                         <CardActionArea>
                             <CardContent>
-                                <Typography
-                                    className={classes.titleHead}
-                                    gutterBottom
-                                    variant="h6"
-                                    component={classes.h3class}
-                                >
-                                    <span>{album.name}</span>
-                                    <br />
-                                    <span>
-                                        Track Number: {album.track_number}
-                                    </span>
-                                </Typography>
+                                <div className={classes.titleHead}>
+                                    {album.name}
+                                </div>
                             </CardContent>
                         </CardActionArea>
                         <iframe
@@ -211,27 +201,29 @@ const PlayByArtist = (props) => {
                             frameBorder="0"
                             allowtransparency="true"
                             allow="encrypted-media"
-                        ></iframe>
+                        />
                         <div className="e-card-actions e-card-vertical">
-                            <Button
-                                variant="contained"
-                                color="secondary"
-                                className={classes.buttonClass}
-                                onClick={() => {
-                                    handleOpenshareModal(album)
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'row ',
                                 }}
                             >
-                                share
-                            </Button>
-                            <Button
-                                variant="contained"
-                                color="secondary"
-                                className={classes.buttonClass}
-                                onClick={() => handleTopTracks(artistId)}
-                            >
-                                {' '}
-                                Artist Album{' '}
-                            </Button>
+                                <div
+                                    className="share-button"
+                                    onClick={() => {
+                                        handleOpenshareModal(album)
+                                    }}
+                                >
+                                    Share
+                                </div>
+                                <div
+                                    onClick={() => handleTopTracks(artistId)}
+                                    className="share-button shadow"
+                                >
+                                    More
+                                </div>
+                            </div>
                             {currentUser
                                 ? showSharePostModal && (
                                       <AddPostModal
@@ -264,16 +256,9 @@ const PlayByArtist = (props) => {
                 <Card className={classes.card} variant="outlined">
                     <CardActionArea>
                         <CardContent>
-                            <Typography
-                                className={classes.titleHead}
-                                gutterBottom
-                                variant="h6"
-                                component={classes.h3class}
-                            >
-                                <span>{album.name}</span>
-                                <br />
-                                <span>Track Number: {album.track_number}</span>
-                            </Typography>
+                            <div className={classes.titleHead}>
+                                {album.name}
+                            </div>
                         </CardContent>
                     </CardActionArea>
                     <iframe
@@ -284,18 +269,16 @@ const PlayByArtist = (props) => {
                         frameborder="0"
                         allowtransparency="true"
                         allow="encrypted-media"
-                    ></iframe>
+                    />
                     <div className="e-card-actions e-card-vertical">
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            className={classes.buttonClass}
+                        <div
+                            className="share-button"
                             onClick={() => {
                                 handleOpenshareModal(album)
                             }}
                         >
-                            share
-                        </Button>
+                            Share
+                        </div>
                         {currentUser
                             ? showSharePostModal && (
                                   <AddPostModal
@@ -321,11 +304,9 @@ const PlayByArtist = (props) => {
         )
     }
     if (artistData) {
-        console.log(artistData)
         card = artistData && artistData
         return buildCard(artistData)
     } else if (topTrack && topTrack.length > 0 && artistAlbum) {
-        console.log(topTrack)
         toptracksCard =
             topTrack &&
             topTrack.map((album) => {
