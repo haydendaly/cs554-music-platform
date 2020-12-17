@@ -3,14 +3,24 @@ import { Link } from 'react-router-dom'
 import { usePalette } from 'react-palette'
 
 const Holder = ({ link, name, images, artists }) => {
-    const { data, loading, error } = usePalette(                        images.length > 0
-        ? images[0].url
-        : 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/e7981d38-6ee3-496d-a6c0-8710745bdbfc/db6zlbs-68b8cd4f-bf6b-4d39-b9a7-7475cade812f.png')
-
-    console.log(data)
+    const { data, loading } = usePalette(
+        images.length > 0
+            ? images[0].url
+            : 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/e7981d38-6ee3-496d-a6c0-8710745bdbfc/db6zlbs-68b8cd4f-bf6b-4d39-b9a7-7475cade812f.png'
+    )
 
     return (
-        <Link to={link} className="post-body-song shadow" style={loading ? {} : { background: `linear-gradient(45deg, ${data.vibrant}, ${data.darkVibrant})` }}>
+        <Link
+            to={link}
+            className="post-body-song shadow"
+            style={
+                loading
+                    ? {}
+                    : {
+                          background: `linear-gradient(45deg, ${data.vibrant}, ${data.darkVibrant})`,
+                      }
+            }
+        >
             <div className="post-body-song-icon shadow">
                 <img
                     alt={`${name}`}
@@ -23,11 +33,19 @@ const Holder = ({ link, name, images, artists }) => {
                 />
             </div>
             <div className="post-body-song-info">
-                <p className="post-body-song-title" style={loading ? {} : { color: data.lightMuted }}>
+                <p
+                    className="post-body-song-title"
+                    style={loading ? {} : { color: data.lightMuted }}
+                >
                     {name.length > 35 ? name.slice(0, 35) + '...' : name}
                 </p>
-                <p className="post-body-song-artist" style={loading ? {} : { color: data.muted }}>
-                    {artists.length > 35 ? artists.slice(0, 35) + '...' : artists}
+                <p
+                    className="post-body-song-artist"
+                    style={loading ? {} : { color: data.muted }}
+                >
+                    {artists.length > 35
+                        ? artists.slice(0, 35) + '...'
+                        : artists}
                 </p>
             </div>
         </Link>
