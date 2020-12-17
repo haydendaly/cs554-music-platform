@@ -15,7 +15,7 @@ function Home(props) {
     useEffect(() => {
         setUser(null)
 
-        const getUserData = async () => {
+        function getUserData() {setTimeout( async () => {
             try {
                 const { data } = await axios.get(
                     `http://${window.location.hostname}:3000/api/user/${currentUser.uid}`
@@ -25,7 +25,7 @@ function Home(props) {
             } catch (e) {
                 console.log(`error found : ${e}`)
             }
-        }
+        }, 2000 ) };
         if (currentUser) {
             getUserData()
         }
