@@ -190,6 +190,7 @@ const PlayMusic = () => {
                 <Icon icon={faSearch} color="#444" />
                 <input
                     className="search-input"
+                    aria-labelledby="searchLabel"
                     placeholder="Search"
                     value={search}
                     style={{ width: '100%' }}
