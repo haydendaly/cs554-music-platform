@@ -41,7 +41,7 @@ const Holder = ({ link, name, images, artists }) => {
                 </p>
                 <p
                     className="post-body-song-artist"
-                    style={loading ? {} : { color: data.muted }}
+                    style={loading ? {} : { color: data.lightMuted }}
                 >
                     {artists.length > 35
                         ? artists.slice(0, 35) + '...'
