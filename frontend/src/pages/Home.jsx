@@ -14,14 +14,14 @@ function Home(props) {
 
     /* useEffect to obtain current user */
     useEffect(() => {
-        console.log('useEffect fired in Home')
+        
         const getUserData = async () => {
             try {
-                console.log(`get user data from DB`)
+                
                 const { data } = await axios.get(
                     `http://${window.location.hostname}:3000/api/user/${currentUser.uid}`
                 )
-                console.log(data)
+                
                 setUser(data)
             } catch (e) {
                 console.log(`error found : ${e}`)
@@ -37,21 +37,6 @@ function Home(props) {
     useEffect(() => {
         setSpotifyAccessToken(accessToken)
 
-        // const getUserData = async () => {
-        //     try {
-        //         const { data } = await axios.get(
-        //             `http://${window.location.hostname}:3000/api/user/${currentUser.uid}`
-        //         )
-        //         console.log(data)
-        //         setUser(data)
-        //     } catch (e) {
-        //         console.log(`error found : ${e}`)
-        //     }
-        // }
-        // console.log(currentUser)
-        // if (currentSpotifyUser) {
-        //     getUserData()
-        // }
     }, [accessToken])
 
     if (user) {

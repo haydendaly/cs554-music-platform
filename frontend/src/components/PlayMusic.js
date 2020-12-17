@@ -57,8 +57,6 @@ const usePlayMusic = () => {
 
     useEffect(() => {
         const value = search === '' ? 'A' : search
-        console.log(`searchtype = ${searchType}`)
-
         const url =
             baseUrl +
             value

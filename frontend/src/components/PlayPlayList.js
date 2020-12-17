@@ -99,7 +99,7 @@ const PlayByPlayList = (props) => {
     const { currentUser } = useContext(AuthContext)
 
     useEffect(() => {
-        console.log('on load useeffect')
+        
         async function fetchData() {
             try {
                 const { data } = await axios.get(
@@ -197,7 +197,7 @@ const PlayByPlayList = (props) => {
         )
     }
     if (playListData) {
-        console.log(playListData)
+       
         card = playListData && playListData
         return buildCard(playListData)
     }
