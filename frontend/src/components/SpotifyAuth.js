@@ -51,7 +51,6 @@ const SpotifyAuth = () => {
     const [count, setCount] = useState(0)
     /* useEffect to obtain current user */
     useEffect(() => {
-        console.log('useEffect fired in SpotifyAuth')
         const getUserData = async () => {
             try {
                 const { data } = await axios.get(
