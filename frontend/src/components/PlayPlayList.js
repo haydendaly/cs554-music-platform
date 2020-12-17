@@ -94,7 +94,7 @@ const PlayByPlayList = (props) => {
     const [errorModal, setErrorModal] = useState(false)
 
     let card = null
-    const baseUrl = 'http://localhost:3000/spotify-api/playlists/'
+    const baseUrl = `http://${window.location.hostname}:3000/spotify-api/playlists/`
 
     const { currentUser } = useContext(AuthContext)
 

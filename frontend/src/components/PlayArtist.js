@@ -101,7 +101,7 @@ const PlayByArtist = (props) => {
 
     let card = null
     let toptracksCard = null
-    const baseUrl = 'http://localhost:3000/spotify-api/artists/'
+    const baseUrl = `http://${window.location.hostname}:3000/spotify-api/artists/`
 
     const { currentUser } = useContext(AuthContext)
     // setAristId(props.match.params.id);
@@ -125,7 +125,7 @@ const PlayByArtist = (props) => {
         fetchData()
     }, [props.match.params.id])
 
-    const albumUrl = 'http://localhost:3000/spotify-api/artists/'
+    const albumUrl = `http://${window.location.hostname}:3000/spotify-api/artists/`
     useEffect(() => {
         async function fetchAlbumData() {
             try {
