@@ -78,7 +78,7 @@ const Song = (props) => {
                         : []
                 }
                 artists={
-                    data.artist
+                    data.artists
                         ? data.artists.map((o) => o.name).join(', ')
                         : 'Artist'
                 }
