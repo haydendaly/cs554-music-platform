@@ -182,7 +182,7 @@ const SearchPlayList = (props) => {
         return <Loading />
     } else if (searchTerm && playListData.length <= 0) {
         return (
-            <div class="main">
+            <div className="main">
                 <div>
                     <SearchComponent
                         searchValue={searchValue}
@@ -197,7 +197,7 @@ const SearchPlayList = (props) => {
         )
     } else {
         return (
-            <div class="main">
+            <div className="main">
                 <br />
                 <div>
                     <SearchComponent
