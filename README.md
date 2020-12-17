@@ -64,7 +64,7 @@ Cached data includes: Artists, Albums, Tracks, and Search queries.
 
 Data such as playlist info is not cached since playlists are constantly updated by users and those changes should be reflected on the website. 
 
-####MongoDB: 
+#### MongoDB: 
 
 MongoDB is used for database purpose. We stored all tweets (post) into mongoDB along with user’s information.  
 
@@ -72,7 +72,7 @@ The schema is implemented in simple manner. Each object holds information about 
 
 Used timestamp to display recent tweets and comments at top. 
 
-####Express: 
+#### Express: 
 
 Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web applications. Used Node.js to route data and communicate between backend and frontend. With a myriad of HTTP utility methods and middleware, created a robust API. 
 
