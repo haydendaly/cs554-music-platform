@@ -236,7 +236,9 @@ function UserProfile(props) {
                                 />
                             </div>
                             <div className="img-upload">
-                                <label htmlFor="profile-photo" hidden>Photo</label>
+                                <label htmlFor="profile-photo" hidden>
+                                    Photo
+                                </label>
                                 <input
                                     type="file"
                                     accept="image/*"
