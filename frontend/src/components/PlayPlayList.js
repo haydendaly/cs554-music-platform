@@ -146,7 +146,6 @@ const PlayByPlayList = (props) => {
                     xl={12}
                     key={album.id}
                 >
-
                     <Card className={classes.card} variant="outlined">
                         <CardActionArea>
                             <CardContent>

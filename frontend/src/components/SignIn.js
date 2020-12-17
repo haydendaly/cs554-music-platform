@@ -43,7 +43,7 @@ function SignIn() {
                     <div className="form-group row">
                         <label
                             className="col-sm-2 col-form-label"
-                            htmlfor="email"
+                            htmlFor="email"
                         >
                             Email
                         </label>
