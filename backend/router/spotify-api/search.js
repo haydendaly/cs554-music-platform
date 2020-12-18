@@ -70,10 +70,14 @@ router.get('/', async (req, res) => {
         res.json(data);
     } else {
         spotifyApi.search(q, typeList, optQueryParams).then(
-            (data) => {
+            async (data) => {
+                await client.setAsync(cacheKey,
+                    JSON.stringify(flatten(data.body)),
+                    "EX",
+                    60 * 30);
                 res.json(data.body);
             },
-            (err) => {
+            async (err) => {
                 res.json(err);
             }
         );

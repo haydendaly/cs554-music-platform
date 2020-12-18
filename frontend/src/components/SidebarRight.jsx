@@ -249,7 +249,8 @@ const SideBarRight = () => {
                                 ) : (
                                     <p className="recommended-no">
                                         {' '}
-                                        This feature is only available to premium Spotify users.
+                                        This feature is only available to
+                                        premium Spotify users.
                                     </p>
                                 )}
                             </div>
