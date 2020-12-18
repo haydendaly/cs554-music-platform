@@ -16,7 +16,6 @@ const useSidebarRight = () => {
     const [recommended, setRecommended] = useState([])
     const [open, setOpen] = useState(false)
     const { width } = useWindowDimensions()
-    const [hasError, setHasError] = useState(null)
     const [searchType, setSearchType] = useState(null)
 
     // const url = 'http://localhost:3000/spotify-api/search?q=king%10gizzard&type=album&market=US'
@@ -35,7 +34,6 @@ const useSidebarRight = () => {
             })
             .catch((err) => {
                 console.log(err)
-                setHasError(err)
             })
     }, [])
 
@@ -79,7 +77,6 @@ const useSidebarRight = () => {
                 })
                 .catch((err) => {
                     console.log(err)
-                    setHasError(err)
                 })
         }
     }, [search])
@@ -195,7 +192,6 @@ const SideBarRight = () => {
         setOpen,
         width,
         searchType,
-        hasError,
     } = useSidebarRight()
 
     return (
