@@ -211,7 +211,7 @@ const SideBarRight = () => {
                         <input
                             id="seachInput"
                             className="search-input"
-                            aria-labelledby="searchLabel"
+                            aria-label="searchLabel"
                             type="text"
                             placeholder="Search"
                             value={search}

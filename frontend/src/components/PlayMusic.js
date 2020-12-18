@@ -9,13 +9,7 @@ import AddPostModal from './Modals/AddPostModal'
 import ShowErrorModal from './Modals/ShowErrorModal'
 import Loading from '../components/Loading'
 
-import {
-    Card,
-    CardActionArea,
-    CardContent,
-    Grid,
-    makeStyles,
-} from '@material-ui/core'
+import { Card, CardContent, Grid, makeStyles } from '@material-ui/core'
 
 const types = ['album', 'artist', 'playlist', 'track']
 
@@ -130,24 +124,20 @@ const PlayMusic = () => {
     const buildCard = (album) => {
         return (
             <Card className={classes.card} variant="outlined">
-                <CardActionArea>
-                    <CardContent>
-                        <Grid container justify="space-between">
-                            <div className={classes.titleHead}>
-                                <span>{album.name}</span>
-                            </div>
-                        </Grid>
-                    </CardContent>
-                </CardActionArea>
+                <CardContent>
+                    <Grid container justify="space-between">
+                        <div className={classes.titleHead}>
+                            <span>{album.name}</span>
+                        </div>
+                    </Grid>
+                </CardContent>
+
                 <iframe
-                    id="playSong"
+                    id={'play' + album.id}
                     src={'https://open.spotify.com/embed?uri=' + album.uri}
                     title={album.id}
-                    width="100%"
-                    height="380"
-                    frameBorder="0"
-                    allowtransparency="true"
                     allow="encrypted-media"
+                    className="song-frame"
                 />
                 <div
                     onClick={() => {
@@ -189,7 +179,7 @@ const PlayMusic = () => {
                 <Icon icon={faSearch} color="#444" />
                 <input
                     className="search-input"
-                    aria-labelledby="searchLabel"
+                    aria-label="searchLabel"
                     placeholder="Search"
                     value={search}
                     style={{ width: '100%' }}

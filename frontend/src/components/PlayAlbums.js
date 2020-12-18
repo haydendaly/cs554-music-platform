@@ -1,11 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import {
-    Card,
-    CardActionArea,
-    CardContent,
-    Grid,
-    makeStyles,
-} from '@material-ui/core'
+import { Card, CardContent, Grid, makeStyles } from '@material-ui/core'
 
 import { AuthContext } from '../firebase/Auth'
 import Loading from './Loading'
@@ -127,22 +121,16 @@ const PlayAlbums = (props) => {
         return (
             <Grid item xs={12} sm={12} md={6} lg={6} xl={4} key={album.id}>
                 <Card className={classes.card} variant="outlined">
-                    <CardActionArea>
-                        <CardContent>
-                            <div className={classes.titleHead}>
-                                {album.name}
-                            </div>
-                        </CardContent>
-                    </CardActionArea>
+                    <CardContent>
+                        <div className={classes.titleHead}>{album.name}</div>
+                    </CardContent>
+
                     <iframe
-                        id="playSong"
+                        id={'play' + album.id}
                         src={'https://open.spotify.com/embed?uri=' + album.uri}
                         title={album.id}
-                        width="auto"
-                        height="300"
-                        frameBorder="0"
-                        allowtransparency="true"
                         allow="encrypted-media"
+                        className="song-frame-album"
                     />
                     <div className="e-card-actions e-card-vertical">
                         <div

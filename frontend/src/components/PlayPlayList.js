@@ -155,10 +155,7 @@ const PlayByPlayList = (props) => {
                                 album.uri
                             }
                             title={album.id}
-                            width="auto"
-                            height="380"
-                            frameBorder="0"
-                            allowtransparency="true"
+                            className="song-frame"
                             allow="encrypted-media"
                         ></iframe>
                         <div className="e-card-actions e-card-vertical">

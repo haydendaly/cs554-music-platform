@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import {
     Card,
-    CardActionArea,
     CardContent,
     Grid,
     Typography,
@@ -125,29 +124,25 @@ const SearchPlayList = (props) => {
         return (
             <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={playList.id}>
                 <Card className={classes.card} variant="outlined">
-                    <CardActionArea>
-                        <CardContent>
-                            <Typography
-                                className={classes.titleHead}
-                                gutterBottom
-                                variant="h6"
-                                component="h3"
-                            >
-                                <span>{playList.name}</span>
-                                <br />
-                                <span>Popularity: {playList.popularity}</span>
-                            </Typography>
-                        </CardContent>
-                    </CardActionArea>
+                    <CardContent>
+                        <Typography
+                            className={classes.titleHead}
+                            gutterBottom
+                            variant="h6"
+                            component="h3"
+                        >
+                            <span>{playList.name}</span>
+                            <br />
+                            <span>Popularity: {playList.popularity}</span>
+                        </Typography>
+                    </CardContent>
+
                     <iframe
-                        id="playSong"
+                        id={'play' + playList.id}
                         src={
                             'https://open.spotify.com/embed?uri=' + playList.uri
                         }
-                        width="300"
-                        height="380"
-                        frameBorder="0"
-                        allowtransparency="true"
+                        className="song-frame-artist"
                         allow="encrypted-media"
                     ></iframe>
                     <div className="e-card-actions e-card-vertical">
