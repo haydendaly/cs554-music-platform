@@ -358,7 +358,14 @@ function PostInsert() {
                             <div className="post-list">
                                 {openComment && openComment === postItem._id && (
                                     <div className="post-comment-holder">
-                                        <label htmlFor={'commentField' + postItem._id} hidden>Comment</label>
+                                        <label
+                                            htmlFor={
+                                                'commentField' + postItem._id
+                                            }
+                                            hidden
+                                        >
+                                            Comment
+                                        </label>
                                         <textarea
                                             className="post-comments shadow"
                                             id={'commentField' + postItem._id}
