@@ -177,7 +177,7 @@ const PlayLoveSongs = (props) => {
         return <Loading />
     } else {
         return (
-            <div class="main">
+            <div className="main">
                 <Grid container className={classes.grid} spacing={5}>
                     {card}
                 </Grid>

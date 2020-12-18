@@ -133,8 +133,12 @@ const Song = (props) => {
             <Holder
                 link={`/album/${data.id}`}
                 name={data.name}
-                images={data.images}
-                artists={data.artists.map((o) => o.name).join(', ')}
+                images={data.images ? data.images : []}
+                artists={
+                    data.artists
+                        ? data.artists.map((o) => o.name).join(', ')
+                        : 'Artist'
+                }
             />
         )
     } else if (data && data.type === 'track') {
@@ -142,8 +146,16 @@ const Song = (props) => {
             <Holder
                 link={`/track/${data.id}`}
                 name={data.name}
-                images={data.album.images}
-                artists={data.artists.map((o) => o.name).join(', ')}
+                images={
+                    data.album && data.album.images && data.album.images !== 0
+                        ? data.album.images
+                        : []
+                }
+                artists={
+                    data.artists
+                        ? data.artists.map((o) => o.name).join(', ')
+                        : 'Artist'
+                }
             />
         )
     } else if (data && data.type === 'playlist') {
@@ -151,8 +163,12 @@ const Song = (props) => {
             <Holder
                 link={`/playlist/${data.id}`}
                 name={data.name}
-                images={data.images}
-                artists={data.owner.display_name}
+                images={data.images ? data.images : []}
+                artists={
+                    data.owner && data.owner.display_name
+                        ? data.owner.display_name
+                        : 'Artist'
+                }
             />
         )
     } else if (data && data.type === 'artist') {
@@ -160,7 +176,7 @@ const Song = (props) => {
             <Holder
                 link={`/artist/${data.id}`}
                 name={data.name}
-                images={data.images}
+                images={data.images ? data.images : []}
                 artists={'Artist'}
             />
         )
@@ -233,8 +249,8 @@ const SideBarRight = () => {
                                 ) : (
                                     <p className="recommended-no">
                                         {' '}
-                                        Please login with Spotify account to get
-                                        recommedations
+                                        This feature is only available to
+                                        premium Spotify users.
                                     </p>
                                 )}
                             </div>

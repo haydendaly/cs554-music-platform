@@ -210,7 +210,7 @@ const PlayByTracks = (props) => {
         return <div>{hasError}</div>
     } else {
         return (
-            <div class="main">
+            <div className="main">
                 <Grid container className={classes.grid} spacing={5}>
                     {card}
                 </Grid>
