@@ -50,7 +50,6 @@ const usePlayMusic = () => {
     const [search, setSearch] = useState('')
     const [results, setResults] = useState([])
     const { width } = useWindowDimensions()
-    const [hasError, setHasError] = useState(null)
     const [searchType, setSearchType] = useState('track')
 
     const baseUrl = `http://${window.location.hostname}:3000/spotify-api/search?q=`
@@ -89,7 +88,6 @@ const usePlayMusic = () => {
             })
             .catch((err) => {
                 console.log(err)
-                setHasError(err)
             })
     }, [search, searchType])
 
@@ -144,6 +142,7 @@ const PlayMusic = () => {
                 <iframe
                     id="playSong"
                     src={'https://open.spotify.com/embed?uri=' + album.uri}
+                    title={album.id}
                     width="100%"
                     height="380"
                     frameBorder="0"
@@ -230,7 +229,12 @@ const PlayMusic = () => {
             {results && results.length > 0 ? (
                 <div className="main">
                     {results.map((song) => (
-                        <Grid container className={classes.grid} spacing={5}>
+                        <Grid
+                            container
+                            className={classes.grid}
+                            spacing={5}
+                            key={song.id}
+                        >
                             {buildCard(song)}
                         </Grid>
                     ))}
