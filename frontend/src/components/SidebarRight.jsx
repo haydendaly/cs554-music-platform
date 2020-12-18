@@ -35,7 +35,7 @@ const useSidebarRight = () => {
             .catch((err) => {
                 console.log(err)
             })
-    }, [])
+    })
 
     useEffect(() => {
         const url =
