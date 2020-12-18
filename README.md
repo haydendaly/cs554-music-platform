@@ -32,6 +32,8 @@ Supported Browser: Chrome, Firefox, Safari
 
 `docker-compose up` 
 
+The application should be ready at `localhost` after the above two commands.
+
 To use the application, you need to have a Spotify account, if you don’t have one, you can create one or we could provide a login for you. 
 
 (Will share Spotify account credential at email phill@stevens.edu) 
