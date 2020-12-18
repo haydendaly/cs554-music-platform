@@ -231,7 +231,7 @@ function UserProfile(props) {
                                     src={imgUrl}
                                     alt="avatar"
                                     className="avatar img-circle avatar-lg"
-                                    width="150px"
+                                    width="150"
                                 />
                             </div>
                             <div className="img-upload">
@@ -358,7 +358,6 @@ function UserProfile(props) {
                                                 className="form-control"
                                                 name="biography"
                                                 id="biography"
-                                                type="text"
                                                 rows="3"
                                                 defaultValue={user.biography}
                                             />
