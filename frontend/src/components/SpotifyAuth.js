@@ -95,6 +95,7 @@ const SpotifyAuth = () => {
                             src="/imgs/social_media_icon/Spotify.png"
                             width="25px"
                             height="25px"
+                            alt="Spotify"
                         ></img>{' '}
                         Login with Spotify
                     </a>

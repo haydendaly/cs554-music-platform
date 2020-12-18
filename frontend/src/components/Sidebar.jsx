@@ -31,6 +31,7 @@ const SideBar = () => {
                     to="/"
                     className="menu-row"
                     style={{ fontSize: 26, color: '#fff' }}
+                    aria-label="SongShare"
                 >
                     <Icon icon={faMusic} className="menu-icon" />
                     {width > 1400 && 'SongShare'}

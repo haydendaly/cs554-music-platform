@@ -19,11 +19,9 @@ function PostInsert() {
     const { width } = useWindowDimensions()
 
     const [post, setPost] = useState(null)
-    const [loading, setLoading] = useState(true)
 
     const [comment, setCommentData] = useState(undefined)
     const [openComment, setOpenComment] = useState(undefined)
-    const [commentArray, setCommentArray] = useState(null)
     const [postData, setPostData] = useState(null)
     const [editPostData, seteditPostData] = useState(false)
     const [postId, setPostId] = useState(null)
@@ -48,7 +46,6 @@ function PostInsert() {
                 return new Date(item2.timeStamp) - new Date(item1.timeStamp)
             })
             setPost(data)
-            setLoading(false)
         } catch (e) {
             console.log(`error found : ${e}`)
         }
@@ -67,7 +64,7 @@ function PostInsert() {
     const saveComment = async (commentPost) => {
         if (currentUser && currentUser.uid) {
             try {
-                const { commentData } = await axios.post(
+                await axios.post(
                     `http://${window.location.hostname}:3000/api/post/${commentPost._id}/comment`,
                     {
                         userId: currentUser.uid,
@@ -81,7 +78,7 @@ function PostInsert() {
                 field.value = ''
                 setCommentData(field.value)
             } catch (error) {
-                throw `${error}`
+                console.log(error)
             }
         } else {
             let field = document.getElementById(
@@ -103,7 +100,7 @@ function PostInsert() {
             currentUser.uid === argComment.userId
         ) {
             try {
-                const { data } = await axios.delete(
+                await axios.delete(
                     `http://${window.location.hostname}:3000/api/post/${argPost._id}/comment/${argComment._id}`
                 )
                 getAllPost()
@@ -130,14 +127,14 @@ function PostInsert() {
                 let data = isLikedByUser(likedpost)
 
                 if (!data) {
-                    const { likeData } = await axios.post(
+                    await axios.post(
                         `http://${window.location.hostname}:3000/api/post/${likedpost._id}/likes`,
                         {
                             userId: currentUser.uid,
                         }
                     )
                 } else {
-                    const { likeData } = await axios.delete(
+                    await axios.delete(
                         `http://${window.location.hostname}:3000/api/post/${likedpost._id}/likes/${data._id}`
                     )
                 }
@@ -193,7 +190,7 @@ function PostInsert() {
             currentUser.uid === argPost.userId
         ) {
             try {
-                const { data } = await axios.delete(
+                await axios.delete(
                     `http://${window.location.hostname}:3000/api/post/${argPost._id}`
                 )
                 getAllPost()
@@ -361,6 +358,14 @@ function PostInsert() {
                             <div className="post-list">
                                 {openComment && openComment === postItem._id && (
                                     <div className="post-comment-holder">
+                                        <label
+                                            htmlFor={
+                                                'commentField' + postItem._id
+                                            }
+                                            hidden
+                                        >
+                                            Comment
+                                        </label>
                                         <textarea
                                             className="post-comments shadow"
                                             id={'commentField' + postItem._id}

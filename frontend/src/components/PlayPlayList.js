@@ -90,7 +90,6 @@ const PlayByPlayList = (props) => {
     const [loading, setLoading] = useState(true)
     const [sharePost, setSharePost] = useState(null)
     const [showSharePostModal, setShowSharePostModal] = useState(null)
-    const [albumId, setAlbumId] = useState(props.match.params.id)
     const [errorModal, setErrorModal] = useState(false)
 
     let card = null
@@ -155,6 +154,7 @@ const PlayByPlayList = (props) => {
                                 'https://open.spotify.com/embed?uri=' +
                                 album.uri
                             }
+                            title={album.id}
                             width="auto"
                             height="380"
                             frameBorder="0"

@@ -96,7 +96,7 @@ function UserProfile(props) {
         try {
             let formData = new FormData()
             formData.append('image', selectedFile, selectedFile.name)
-            const success = await axios.post(
+            await axios.post(
                 `http://${window.location.hostname}:3000/api/user/photo/${currentUser.uid}`,
                 formData,
                 {

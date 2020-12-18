@@ -100,9 +100,6 @@ const PlayByArtist = (props) => {
     const baseUrl = `http://${window.location.hostname}:3000/spotify-api/artists/`
 
     const { currentUser } = useContext(AuthContext)
-    // setAristId(props.match.params.id);
-
-    let artist = props.match.params.id
 
     useEffect(() => {
         async function fetchData() {
@@ -161,10 +158,6 @@ const PlayByArtist = (props) => {
         setArtistAlbum(id)
     }
 
-    const backtoArtist = (id) => {
-        setAristId(id)
-    }
-
     const buildCard = (album) => {
         return (
             <div className="main">
@@ -192,6 +185,7 @@ const PlayByArtist = (props) => {
                                 'https://open.spotify.com/embed?uri=' +
                                 album.uri
                             }
+                            title={album.id}
                             width="300"
                             height="380"
                             frameBorder="0"
@@ -260,6 +254,7 @@ const PlayByArtist = (props) => {
                     <iframe
                         id="playSong"
                         src={'https://open.spotify.com/embed?uri=' + album.uri}
+                        title={album.id}
                         width="300"
                         height="380"
                         frameBorder="0"
