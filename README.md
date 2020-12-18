@@ -52,7 +52,7 @@ Home Page, Music, Search, Sign In, Sign Up, Sign Out and complete frontend UI ar
 
 #### Firebase Auth: 
 
-Allow users to sign in via email/password, as well as Google or Facebook. 
+Allow users to sign in via email/password, as well as Google or Facebook. Please note that Facebook sign in is in development mode. If you would like to login via facebook, please provide us with your facebook username and we will add you as a tester.
 
 Sign-In, Sign-up and password changing are implemented and handled using firebase authentication. It also allows the user to login using social platforms like Google and Facebook.  
 
