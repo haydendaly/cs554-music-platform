@@ -89,7 +89,7 @@ const usePlayMusic = () => {
             .catch((err) => {
                 console.log(err)
             })
-    }, [search, searchType])
+    }, [search, searchType, baseUrl, accessToken])
 
     return {
         search,

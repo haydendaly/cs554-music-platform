@@ -115,7 +115,7 @@ const PlayByTracks = (props) => {
             }
         }
         fetchData()
-    }, [props.match.params.id])
+    }, [props.match.params.id, baseUrl, accessToken])
 
     const handleOpenshareModal = (trackDetails) => {
         setShowSharePostModal(true)
