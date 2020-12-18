@@ -117,13 +117,12 @@ const PlayByArtist = (props) => {
             }
         }
         fetchData()
-    }, [props.match.params.id])
+    }, [props.match.params.id, baseUrl, accessToken, artistId])
 
     const albumUrl = `http://${window.location.hostname}:3000/spotify-api/artists/`
     useEffect(() => {
         async function fetchAlbumData() {
             try {
-                setAristId(props.match.params.id)
                 const { data } = await axios.get(
                     albumUrl +
                         artistAlbum +
@@ -141,7 +140,7 @@ const PlayByArtist = (props) => {
             }
         }
         fetchAlbumData()
-    }, [artistAlbum])
+    }, [artistAlbum, albumUrl, accessToken])
 
     const handleOpenshareModal = (trackDetails) => {
         setShowSharePostModal(true)
