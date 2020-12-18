@@ -60,7 +60,7 @@ const main = async () => {
 
     const kyle = await userData.createUser(user5);
     const kylePhoto = {
-      data: await fs.readFileAsync(path.join(userPhotoDir, 'kyle.jpg')),
+      data: await fs.readFileAsync(path.join(userPhotoDir, 'kyle.JPG')),
       type: 'image/jpeg'
     }
 
