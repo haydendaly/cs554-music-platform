@@ -15,6 +15,7 @@ import {
     CardContent,
     Grid,
     makeStyles,
+    Button
 } from '@material-ui/core'
 
 const types = ['album', 'artist', 'playlist', 'track']
@@ -140,23 +141,24 @@ const PlayMusic = () => {
                     </CardContent>
                 </CardActionArea>
                 <iframe
-                    id="playSong"
+                    id={`playSong` + album.uri}
                     src={'https://open.spotify.com/embed?uri=' + album.uri}
                     title={album.id}
-                    width="100%"
+                    style={{ width: '100%' }}
                     height="380"
-                    frameBorder="0"
-                    allowtransparency="true"
+                    // frameBorder="0"
+                    // allowtransparency="true"
                     allow="encrypted-media"
                 />
-                <div
+               
+                <div className="share-button shadow"
                     onClick={() => {
                         handleOpenshareModal(album)
                     }}
-                    className="share-button shadow"
                 >
                     Share
                 </div>
+                
                 {currentUser
                     ? showSharePostModal && (
                           <AddPostModal
@@ -188,8 +190,9 @@ const PlayMusic = () => {
             >
                 <Icon icon={faSearch} color="#444" />
                 <input
+                    id ="musicsearchinput"
                     className="search-input"
-                    aria-labelledby="searchLabel"
+                    aria-labelledby="musicsearchinput"
                     placeholder="Search"
                     value={search}
                     style={{ width: '100%' }}
