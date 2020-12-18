@@ -39,7 +39,6 @@ const useStyles = makeStyles({
         flexGrow: 1,
         flexDirection: 'row',
         textAlign: 'center',
-        textAlign: 'center',
     },
     modal: {
         top: '50%',
@@ -87,15 +86,12 @@ const PlayAlbums = (props) => {
     const [loading, setLoading] = useState(true)
     const [sharePost, setSharePost] = useState(null)
     const [showSharePostModal, setShowSharePostModal] = useState(null)
-    const [albumId, setAlbumId] = useState(props.match.params.id)
     const [errorModal, setErrorModal] = useState(false)
 
     let card = null
     const baseUrl = `http://${window.location.hostname}:3000/spotify-api/albums/`
 
     const { currentUser } = useContext(AuthContext)
-
-    const [state, setState] = useState({ data: null })
 
     useEffect(() => {
         async function fetchData() {
@@ -141,6 +137,7 @@ const PlayAlbums = (props) => {
                     <iframe
                         id="playSong"
                         src={'https://open.spotify.com/embed?uri=' + album.uri}
+                        title={album.id}
                         width="auto"
                         height="300"
                         frameBorder="0"
