@@ -35,7 +35,7 @@ const useSidebarRight = () => {
             .catch((err) => {
                 console.log(err)
             })
-    })
+    }, [baseUrl, accessToken])
 
     useEffect(() => {
         const url =
@@ -79,7 +79,7 @@ const useSidebarRight = () => {
                     console.log(err)
                 })
         }
-    }, [search])
+    }, [search, baseUrl, accessToken])
 
     useEffect(() => {
         if (width >= 1400) {
