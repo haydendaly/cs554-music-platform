@@ -40,6 +40,8 @@ To use the application, you need to have a Spotify account, if you don’t have 
 
 If you are unable to run the application, we also have an EC2 deployment live at http://13.58.15.179/ 
 
+Please note that Facebook sign in is in development mode. If you would like to login via facebook, please provide us with your facebook username and we will add you as a tester.
+
 ## Description: 
 
 ### Course Technologies: 
