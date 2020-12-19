@@ -107,6 +107,11 @@ function AddPostModal(props) {
     const handleAddPost = async () => {
         if (props.currentUser) {
             try {
+                if(!postData || postData.trim().length === 0){
+                    alert("Please enter Post description.")
+                    return
+                }
+
                 await axios.post(
                     `http://${window.location.hostname}:3000/api/post`,
                     {
@@ -128,10 +133,17 @@ function AddPostModal(props) {
 
     const handleEditPost = async () => {
         try {
+            let value = postData ? postData : props.data
+
+            if(!value || value.trim().length === 0){
+                alert("Please enter Post description.")
+                return
+            }
+
             await axios.patch(
                 `http://${window.location.hostname}:3000/api/post/${props.postId}`,
                 {
-                    text: postData ? postData : props.data,
+                    text: value,
                 }
             )
             handleCloseAddModal() // close modal
