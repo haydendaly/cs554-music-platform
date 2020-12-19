@@ -20,6 +20,7 @@ const PlayByAlbum = lazy(() => import('../components/PlayAlbums'))
 const PlayByArtist = lazy(() => import('../components/PlayArtist'))
 const PlayByTracks = lazy(() => import('../components/PlayTracks'))
 const PlayByPlayList = lazy(() => import('../components/PlayPlayList.js'))
+const SingleUser = lazy(() => import('../components/SingleUser'))
 const PostInsert = lazy(() => import('../pages/PostInsert'))
 const UserProfile = lazy(() => import('../pages/UserProfile'))
 const ChangePassword = lazy(() => import('../components/ChangePassword'))
@@ -76,6 +77,12 @@ function App() {
                                     <UserProfile page="ShowProfile" />
                                 )}
                             />
+                            <Route
+                                path="/user/:id"
+                                exact
+                                component={SingleUser}
+                            />
+
                             <Route path="/">
                                 <Redirect to="/posts" />
                             </Route>

@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import {
     faThumbsUp,
@@ -64,8 +65,8 @@ function PostInsert() {
     const saveComment = async (commentPost) => {
         if (currentUser && currentUser.uid) {
             try {
-                if(!comment || comment.trim().length === 0){
-                    alert("Please enter Comment.")
+                if (!comment || comment.trim().length === 0) {
+                    alert('Please enter Comment.')
                     return
                 }
 
@@ -270,9 +271,12 @@ function PostInsert() {
                                         alt={`User: ${postItem.userId}`}
                                     />
                                     <div className="post-header-text">
-                                        <p className="post-user-name">
+                                        <Link
+                                            to={`/user/${postItem.userId}`}
+                                            className="post-user-name"
+                                        >
                                             {postItem.displayName}
-                                        </p>
+                                        </Link>
                                         <p className="post-header-date">
                                             {postItem.timeStamp}
                                         </p>

@@ -107,8 +107,8 @@ function AddPostModal(props) {
     const handleAddPost = async () => {
         if (props.currentUser) {
             try {
-                if(!postData || postData.trim().length === 0){
-                    alert("Please enter Post description.")
+                if (!postData || postData.trim().length === 0) {
+                    alert('Please enter Post description.')
                     return
                 }
 
@@ -135,8 +135,8 @@ function AddPostModal(props) {
         try {
             let value = postData ? postData : props.data
 
-            if(!value || value.trim().length === 0){
-                alert("Please enter Post description.")
+            if (!value || value.trim().length === 0) {
+                alert('Please enter Post description.')
                 return
             }
 

@@ -76,6 +76,12 @@
 .post-user-name {
     font-weight: 600;
     margin-bottom: 0px;
+    text-decoration: none !important;
+    color: white;
+}
+
+.post-user-name:hover {
+    color: #c4c4c4;
 }
 
 .post-header-date {
