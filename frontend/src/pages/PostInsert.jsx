@@ -64,6 +64,11 @@ function PostInsert() {
     const saveComment = async (commentPost) => {
         if (currentUser && currentUser.uid) {
             try {
+                if(!comment || comment.trim().length === 0){
+                    alert("Please enter Comment.")
+                    return
+                }
+
                 await axios.post(
                     `http://${window.location.hostname}:3000/api/post/${commentPost._id}/comment`,
                     {
