@@ -8,7 +8,11 @@
 - Xianqing Zou
 - Priya Gupta
 
-## Github link : https://github.com/haydendaly/cs554-music-platform 
+### GitHub link: 
+https://github.com/haydendaly/cs554-music-platform 
+
+### Demo Link:
+https://stevens.zoom.us/rec/play/hviUSBaybz3ZN7yUFg7OW7DRO3YqfykV-Ls0Ena_3247S6agPRsSrCx-HLskligG9C61BL19DdlxElG6.5OeSutshUMR5K2Et?autoplay=true&startTime=1608261829000
 
 ## Summary: 
 
@@ -28,7 +32,11 @@ Supported Browser: Chrome, Firefox, Safari
 
 ## Installation and Running: 
 
+To initially build Docker. run:
+
 `docker-compose build --no-cache` 
+
+Whenever you want to run the application, run:
 
 `docker-compose up` 
 
